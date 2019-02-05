@@ -1,4 +1,4 @@
-package com.zero211.tmdbtest;
+package com.zero211.moviemaestro;
 
 import com.jayway.jsonpath.DocumentContext;
 

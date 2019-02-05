@@ -1,4 +1,4 @@
-package com.zero211.tmdbtest;
+package com.zero211.moviemaestro;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import androidx.fragment.app.Fragment;
-import at.blogc.android.views.ExpandableTextView;
 
 
 /**

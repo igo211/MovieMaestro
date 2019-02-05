@@ -1,22 +1,14 @@
-package com.zero211.tmdbtest;
-
-import android.annotation.SuppressLint;
+package com.zero211.moviemaestro;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
-
-import com.google.android.material.appbar.AppBarLayout;
-
-import static com.zero211.tmdbtest.MovieDetailFragment.ARG_MOVIE_TITLE;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

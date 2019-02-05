@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.zero211.tmdbtest">
+          package="com.zero211.moviemaestro">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -13,14 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".MoviePlayerActivity"
+            android:name="com.zero211.moviemaestro.MoviePlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_movie_player"
             android:theme="@style/FullscreenTheme">
         </activity>
-        <activity android:name=".MovieDetailActivity">
+        <activity android:name="com.zero211.moviemaestro.MovieDetailActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.zero211.moviemaestro.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

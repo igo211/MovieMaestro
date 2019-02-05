@@ -1,4 +1,4 @@
-package com.zero211.tmdbtest;
+package com.zero211.moviemaestro;
 
 // TODO: flesh out names and member values
 public enum YouTubeFormat

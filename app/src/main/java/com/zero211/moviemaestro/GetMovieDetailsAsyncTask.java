@@ -1,26 +1,17 @@
-package com.zero211.tmdbtest;
+package com.zero211.moviemaestro;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jayway.jsonpath.DocumentContext;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import at.huber.youtubeExtractor.VideoMeta;
-import at.huber.youtubeExtractor.YouTubeExtractor;
-import at.huber.youtubeExtractor.YtFile;
 
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 

@@ -1,11 +1,10 @@
-package com.zero211.tmdbtest;
+package com.zero211.moviemaestro;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
