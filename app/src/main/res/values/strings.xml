@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">MovieMaestro</string>
+    <string name="movie_overview_label">Overview:</string>
+    <string name="movie_release_date_label">Release Date:</string>
+    <string name="movie_backdrop_label">Backdrop:</string>
+    <string name="movie_title_label">Title:</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">@string/app_name</string>
+    <string name="nav_header_subtitle">Do we need a subtitle?</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="lorum_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra magna ac placerat vestibulum lectus mauris. Mollis aliquam ut porttitor leo a diam sollicitudin. Velit egestas dui iTag ornare arcu odio. In hendrerit gravida rutrum quisque non tellus orci ac. Etiam erat velit scelerisque in. Sit amet cursus sit amet dictum sit amet justo donec. Vel elit scelerisque mauris pellentesque. Arcu cursus euismod quis viverra nibh cras pulvinar mattis. Donec et odio pellentesque diam volutpat commodo sed egestas egestas. Amet aliquam iTag diam maecenas ultricies mi eget mauris pharetra. Felis bibendum ut tristique et egestas quis. Tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra. Diam maecenas sed enim ut sem viverra aliquet eget. Suspendisse faucibus interdum posuere lorem ipsum. Ornare quam viverra orci sagittis eu volutpat odio facilisis mauris. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. Egestas sed tempus urna et pharetra pharetra. Cras sed felis eget velit aliquet. Dolor sit amet consectetur adipiscing.
+
+Scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Mollis aliquam ut porttitor leo a. Magna eget est lorem ipsum dolor sit amet consectetur adipiscing. Sit amet purus gravida quis blandit turpis cursus in. Dolor sit amet consectetur adipiscing elit ut. Malesuada fames ac turpis egestas integer eget aliquet nibh praesent. Urna molestie at elementum eu facilisis. Vitae elementum curabitur vitae nunc. Ultricies lacus sed turpis tincidunt iTag aliquet risus feugiat in. Sit amet porttitor eget dolor morbi non arcu risus quis. Molestie nunc non blandit massa enim nec dui. Nisl tincidunt eget nullam non nisi est.
+
+Felis eget nunc lobortis mattis aliquam. Donec et odio pellentesque diam volutpat commodo sed. Quisque non tellus orci ac auctor augue. Augue ut lectus arcu bibendum at varius vel pharetra vel. Sapien pellentesque habitant morbi tristique senectus et netus. Lorem dolor sed viverra ipsum nunc aliquet bibendum enim. Turpis egestas sed tempus urna et pharetra pharetra. Sit amet venenatis urna cursus eget nunc scelerisque. Dolor sit amet consectetur adipiscing elit ut aliquam. Arcu non sodales neque sodales. Et leo duis ut diam quam nulla porttitor. Commodo elit at imperdiet dui accumsan sit amet nulla. Egestas maecenas pharetra convallis posuere morbi. Vitae tortor condimentum lacinia quis vel eros donec ac. Cras pulvinar mattis nunc sed blandit.
+
+Lacus sed viverra tellus in hac. Iaculis urna iTag volutpat lacus laoreet non. Odio eu feugiat pretium nibh ipsum consequat. Vestibulum lectus mauris ultrices eros in cursus. Integer quis auctor elit sed vulputate. Velit egestas dui iTag ornare. Egestas sed sed risus pretium. Pretium lectus quam iTag leo in vitae. Volutpat commodo sed egestas egestas fringilla phasellus. Id cursus metus aliquam eleifend. Diam phasellus vestibulum lorem sed risus ultricies tristique. Sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper eget.
+
+Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque vitae tempus quam pellentesque. Sollicitudin ac orci phasellus egestas tellus rutrum. Enim tortor at auctor urna nunc iTag cursus. Pulvinar pellentesque habitant morbi tristique senectus et netus et. Urna duis convallis convallis tellus iTag. Enim praesent elementum facilisis leo vel fringilla est. Egestas maecenas pharetra convallis posuere morbi leo urna molestie. Nunc faucibus a pellentesque sit amet porttitor eget. Urna molestie at elementum eu facilisis sed odio morbi. Ultricies leo integer malesuada nunc. Massa vitae tortor condimentum lacinia quis vel. Volutpat odio facilisis mauris sit amet massa vitae. Velit egestas dui iTag ornare arcu odio ut. Cras semper auctor neque vitae tempus quam pellentesque. Dolor magna eget est lorem ipsum dolor sit. Ac turpis egestas sed tempus urna et pharetra pharetra massa. Commodo sed egestas egestas fringilla phasellus faucibus.</string>
+    <string name="unknown_movie_title">Unknown Movie Title</string>
+    <string name="unknown_movie_release_date">Unknown Movie Release Date</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="temporary_placeholder">Temporary Placeholder</string>
+
+    <string name="release_date">Release Date:</string>
+    <string name="tagline">Tagline:</string>
+    <string name="overview">Overview:</string>
+    <string name="unknown_tagline">Unknown Tagline</string>
+    <string name="unknown_release_date">Unknown Release Date</string>
+    <string name="unknown_overview">Unknown Overview</string>
+    <string name="homepage">Homepage:</string>
+    <string name="unknown_homepage">Unknown Homepage</string>
+    <string name="budget">Budget:</string>
+    <string name="unknown_budget">Unknown Budget</string>
+    <string name="revenue">Revenue:</string>
+    <string name="unknown_revenue">Unknown Revenue</string>
+    <string name="runtime">Runtime:</string>
+    <string name="unknown_runtime">Unknown Runtime</string>
+
+    <string name="title_activity_movie_player">MoviePlayerActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>
