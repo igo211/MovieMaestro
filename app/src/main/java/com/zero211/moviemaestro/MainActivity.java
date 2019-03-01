@@ -26,17 +26,22 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.listener.RequestListener;
 import com.facebook.imagepipeline.listener.RequestLoggingListener;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import at.blogc.android.views.ExpandableTextView;
 
+import static com.zero211.moviemaestro.AbstractTMDBJSONResultFromURLTask.TMDB_DATE_FORMAT;
+
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener
 {
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private MoviesAdapter moviesAdapter;
+
+    private MoviesAdapter upcomingMoviesAdapter;
+    private MoviesAdapter inTheatresMovieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,19 +75,26 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        RecyclerView movieCardList = findViewById(R.id.movieCardList);
-        movieCardList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(RecyclerView.VERTICAL);
-        movieCardList.setLayoutManager(llm);
-
         Configuration deviceConfig = getResources().getConfiguration();
-        moviesAdapter = new MoviesAdapter(deviceConfig, swipeRefreshLayout);
-        movieCardList.setAdapter(moviesAdapter);
+
+        RecyclerView upcomingMovieCardList = findViewById(R.id.rvUpcomingMovieCardList);
+        upcomingMovieCardList.setHasFixedSize(true);
+        LinearLayoutManager upcomingLLM = new LinearLayoutManager(this);
+        upcomingLLM.setOrientation(RecyclerView.HORIZONTAL);
+        upcomingMovieCardList.setLayoutManager(upcomingLLM);
+        upcomingMoviesAdapter = new MoviesAdapter(deviceConfig, null, true);
+        upcomingMovieCardList.setAdapter(upcomingMoviesAdapter);
+
+        RecyclerView inTheatresMovieCardList = findViewById(R.id.rvInTheatresMovieCardList);
+        inTheatresMovieCardList.setHasFixedSize(true);
+        LinearLayoutManager inTheatresLLM = new LinearLayoutManager(this);
+        inTheatresLLM.setOrientation(RecyclerView.HORIZONTAL);
+        inTheatresMovieCardList.setLayoutManager(inTheatresLLM);
+        inTheatresMovieAdapter = new MoviesAdapter(deviceConfig, swipeRefreshLayout, false);
+        inTheatresMovieCardList.setAdapter(inTheatresMovieAdapter);
 
         swipeRefreshLayout.setRefreshing(true);
-        GetMoviesByReleaseDateRangeAsyncTask getMoviesByReleaseDateRangeAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(moviesAdapter);
-        getMoviesByReleaseDateRangeAsyncTask.execute();
+        this.onRefresh();
     }
 
     public void overviewToggle(View v)
@@ -116,12 +128,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Map<String,Object> itemData = (Map<String, Object>) view.getTag();
         //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("title") + "' with movie id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
 
-
         Context context = view.getContext();
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, (Integer)(itemData.get("id")));
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE, (String) itemData.get("release_date"));
 
         context.startActivity(intent);
     }
@@ -143,8 +155,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh()
     {
-        GetMoviesByReleaseDateRangeAsyncTask getMoviesByReleaseDateRangeAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(moviesAdapter);
-        getMoviesByReleaseDateRangeAsyncTask.execute();
+        Calendar cal;
+
+        cal = Calendar.getInstance();
+        // for Upcoming movies, start with tomorrow's date
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        String upcomingStartDateStr = TMDB_DATE_FORMAT.format(cal.getTime());
+
+        // for Upcoming movies, end with a date six months from tomorrow
+        cal.add(Calendar.MONTH, 6);
+        String upcomingEndDateStr = TMDB_DATE_FORMAT.format(cal.getTime());
+
+        GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(upcomingMoviesAdapter, upcomingStartDateStr, upcomingEndDateStr);
+        getUpcomingMoviesAsyncTask.execute();
+
+        GetInTheatresMoviesAsyncTask getInTheatresMoviesAsyncTask = new GetInTheatresMoviesAsyncTask(inTheatresMovieAdapter);
+        getInTheatresMoviesAsyncTask.execute();
     }
 
     @Override

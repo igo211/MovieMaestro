@@ -39,6 +39,8 @@ public class MovieDetailActivity extends AppCompatActivity
                     getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, 0));
             arguments.putString(MovieDetailFragment.ARG_MOVIE_TITLE,
                     getIntent().getStringExtra(MovieDetailFragment.ARG_MOVIE_TITLE));
+            arguments.putString(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE,
+                    getIntent().getStringExtra(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE));
             arguments.putString(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL,
                     getIntent().getStringExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL));
             MovieDetailFragment fragment = new MovieDetailFragment();

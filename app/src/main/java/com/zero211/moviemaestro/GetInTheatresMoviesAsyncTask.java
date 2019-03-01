@@ -7,21 +7,17 @@ import java.util.Map;
 
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
-public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResultFromURLTask
+public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
-    private static final String MOVIES_URL_PATT_STR = "https://api.themoviedb.org/3/discover/movie?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&region=" + REGION_STR + "&sort_by=popularity.desc&include_adult=false&include_video=false&release_date.gte=" + START_DATE_PLACEHOLDER + "&release_date.lte=" + END_DATE_PLACEHOLDER + "&with_release_type=2|3&page=" + PAGE_PLACEHOLDER;
+    private static final String MOVIES_URL_PATT_STR = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&region=" + REGION_STR  + "&page=" + PAGE_PLACEHOLDER;
 
     private MoviesAdapter moviesAdapter;
     private String startPageParam;
     private String endPageParam;
-    private String startDateStr;
-    private String endDateStr;
 
-    public GetMoviesByReleaseDateRangeAsyncTask(MoviesAdapter moviesAdapter, String startDateStr, String endDateStr)
+    public GetInTheatresMoviesAsyncTask(MoviesAdapter moviesAdapter)
     {
         this.moviesAdapter = moviesAdapter;
-        this.startDateStr = startDateStr;
-        this.endDateStr = endDateStr;
     }
 
     @Override
@@ -31,13 +27,7 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
         startPageParam = this.getStartPageFromParams(0, params);
         endPageParam = this.getEndPageFromParams(1, params);
 
-        String urlStr = MOVIES_URL_PATT_STR
-                .replace(START_DATE_PLACEHOLDER, startDateStr)
-                .replace(END_DATE_PLACEHOLDER, endDateStr);
-
-
-
-        DocumentContext mergedDoc = super.doInBackground(urlStr, startPageParam, endPageParam);
+        DocumentContext mergedDoc = super.doInBackground(MOVIES_URL_PATT_STR, startPageParam, endPageParam);
 
         return mergedDoc;
     }

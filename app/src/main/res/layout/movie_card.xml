@@ -5,7 +5,7 @@
                                    xmlns:tools="http://schemas.android.com/tools"
                                    android:id="@+id/movieCard"
                                    android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
+                                   android:layout_height="match_parent"
                                    android:background="@color/colorCardBackground"
                                    android:visibility="visible"
                                    app:cardBackgroundColor="@color/colorCardBackground"
@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/imgMovieBackdrop"
+            android:id="@+id/imgMoviePoster"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -27,80 +27,34 @@
             android:contentDescription="@string/movie_backdrop_label"
             android:onClick="movieDetails"
             android:scaleType="fitXY"
-            fresco:fadeDuration="1000"
-            fresco:failureImage="@drawable/error_during_download"
-            fresco:placeholderImage="@color/colorFrescoPlaceholder"
-            app:layout_constraintDimensionRatio="H, 16:9"
+            app:layout_constraintDimensionRatio="H,2:3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1.0"
+            fresco:fadeDuration="1000"
 
-            />
-
-        <TextView
-            android:id="@+id/lblMovieTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/movie_title_label"
-            android:textColor="@color/colorLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop"/>
+            fresco:failureImage="@drawable/error_during_download"
+            fresco:placeholderImage="@color/colorFrescoPlaceholder"/>
 
         <TextView
             android:id="@+id/txtMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:lines="3"
+            android:maxLines="3"
+            android:minLines="3"
+            android:singleLine="false"
             android:text="@string/unknown_movie_title"
             android:textColor="@color/colorText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/lblMovieTitle"
-            app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop"/>
-
-        <TextView
-            android:id="@+id/lblOverview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:labelFor="@+id/txtMovieOverview"
-            android:onClick="overviewToggle"
-            android:text="@string/movie_overview_label"
-            android:textColor="@color/colorLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMovieTitle"/>
-
-        <at.blogc.android.views.ExpandableTextView
-            android:id="@+id/txtMovieOverview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:onClick="overviewToggle"
-            android:text="@string/lorum_ipsum"
-            android:textColor="@color/colorText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/lblOverview"
-            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"/>
-
-        <TextView
-            android:id="@+id/lblMovieReleaseDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/movie_release_date_label"
-            android:textColor="@color/colorLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMovieOverview"/>
+            app:layout_constraintTop_toBottomOf="@+id/imgMoviePoster"
+            app:layout_constraintVertical_chainStyle="spread_inside"/>
 
         <TextView
             android:id="@+id/txtMovieReleaseDate"
@@ -109,11 +63,13 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/unknown_movie_release_date"
             android:textColor="@color/colorText"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/lblMovieReleaseDate"
-            app:layout_constraintTop_toBottomOf="@+id/txtMovieOverview"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

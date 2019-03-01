@@ -50,7 +50,8 @@ public class MoviePlayerActivity extends AppCompatActivity
         videoView.setMediaController(mediaController);
 
         videoView.setOnCompletionListener(mp -> {
-            showSystemUI();
+            //showSystemUI();
+            super.onBackPressed();
         });
 
         videoView.start();
@@ -110,7 +111,9 @@ public class MoviePlayerActivity extends AppCompatActivity
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        );
+
         toolbar.setVisibility(View.GONE);
     }
 
@@ -118,11 +121,14 @@ public class MoviePlayerActivity extends AppCompatActivity
 // except for the ones that make the content appear under the system bars.
     private void showSystemUI()
     {
-//        View decorView = getWindow().getDecorView();
-//        decorView.setSystemUiVisibility(
-//                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         toolbar.setVisibility(View.VISIBLE);
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        );
+
     }
 }

@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +14,33 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static com.zero211.moviemaestro.AbstractTMDBJSONResultFromURLTask.TMDB_DATE_FORMAT;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>
 {
     private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean showReleaseDate;
+
+    private String posterImageWidthStr = "w780";
     private String backdropImageWidthStr = "w1280";
+
     private int total_pages;
     private int total_results;
 
+
     private ArrayList<Map<String,Object>> moviesList = new ArrayList<Map<String, Object>>();
 
-    public MoviesAdapter(Configuration deviceConfig, SwipeRefreshLayout swipeRefreshLayout)
+    public MoviesAdapter(Configuration deviceConfig, SwipeRefreshLayout swipeRefreshLayout, boolean showReleaseDate)
     {
         this.swipeRefreshLayout = swipeRefreshLayout;
+        this.showReleaseDate = showReleaseDate;
+
         // TODO: Optimize the image size specification based on the device screen density/resolution.
         //
         // For now, we ask for the largest size (the Fresco drawee will scale it no matter what, but the download size
@@ -35,15 +48,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
 //        if (displaySize.x <= 300)
 //        {
-//            backdropImageWidthStr = "w300";
+//            posterImageWidthStr = "w300";
 //        }
 //        else if (displaySize.x <=780)
 //        {
-//            backdropImageWidthStr = "w780";
+//            posterImageWidthStr = "w780";
 //        }
 //        else
 //        {
-//            backdropImageWidthStr = "w1280";
+//            posterImageWidthStr = "w1280";
 //        }
     }
 
@@ -62,7 +75,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         moviesList.clear();
         moviesList.addAll(moviesToAdd);
         this.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout != null)
+        {
+            swipeRefreshLayout.setRefreshing(false);
+
+            TextView lblInTheatres = swipeRefreshLayout.findViewById(R.id.lblInTheatresNow);
+            lblInTheatres.setVisibility(View.VISIBLE);
+
+            TextView lblComingSoon = swipeRefreshLayout.findViewById(R.id.lblUpcomingMovies);
+            lblComingSoon.setVisibility(View.VISIBLE);
+        }
     }
 
     public void addMovies(List<Map<String,Object>> moviesToAdd)
@@ -80,6 +102,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                 .from(viewGroup.getContext())
                 .inflate(R.layout.movie_card, viewGroup, false);
 
+        ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
+        layoutParams.width = (int) (viewGroup.getWidth() * 0.4);
+        itemView.setLayoutParams(layoutParams);
+
         return new MovieViewHolder(itemView);
     }
 
@@ -88,32 +114,66 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     {
         Map<String, Object> itemData = moviesList.get(i);
 
-        String backdropImgRelPath = (String)(itemData.get("backdrop_path"));
+        String backDropImgRelPath = (String)(itemData.get("backdrop_path"));
 
-        String fullPathImageURI;
-        if (backdropImgRelPath != null)
+        String backdropFullPathImageURI;
+        if (backDropImgRelPath != null)
         {
-            fullPathImageURI = "https://image.tmdb.org/t/p/" + backdropImageWidthStr + backdropImgRelPath;
+            backdropFullPathImageURI = "https://image.tmdb.org/t/p/" + backdropImageWidthStr + backDropImgRelPath;
 
         }
         else
         {
-            fullPathImageURI = "res:///" + R.drawable.no_image_available;
+            backdropFullPathImageURI = "res:///" + R.drawable.no_image_available;
         }
 
-        itemData.put("backdrop_img_full_path", fullPathImageURI);
-        movieViewHolder.imgMovieBackdrop.setImageURI(fullPathImageURI);
+        itemData.put("backdrop_img_full_path", backdropFullPathImageURI);
 
-        movieViewHolder.imgMovieBackdrop.setTag(itemData);
+        String posterImgRelPath = (String)(itemData.get("poster_path"));
+
+        String posterFullPathImageURI;
+        if (posterImgRelPath != null)
+        {
+            posterFullPathImageURI = "https://image.tmdb.org/t/p/" + posterImageWidthStr + posterImgRelPath;
+
+        }
+        else
+        {
+            posterFullPathImageURI = "res:///" + R.drawable.no_image_available;
+        }
+
+        itemData.put("poster_img_full_path", posterFullPathImageURI);
+
+
+        movieViewHolder.imgMoviePoster.setImageURI(posterFullPathImageURI);
+
+        movieViewHolder.imgMoviePoster.setTag(itemData);
 
         String title = (String)(itemData.get("title"));
         movieViewHolder.txtMovieTitle.setText(title);
 
-        String descr = (String)(itemData.get("overview"));
-        movieViewHolder.txtMovieDescr.setText(descr);
+        if (this.showReleaseDate)
+        {
+            String releaseDate = (String) (itemData.get("release_date"));
+            try
+            {
+                Date releaseDateDate = TMDB_DATE_FORMAT.parse(releaseDate);
 
-        String releaseDate = (String)(itemData.get("release_date"));
-        movieViewHolder.txtMovieReleaseDate.setText(releaseDate);
+                String dateStr = (String) DateFormat.format("MMM d", releaseDateDate);
+                movieViewHolder.txtMovieReleaseDate.setText(dateStr);
+                movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override
@@ -125,17 +185,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder
     {
-        protected SimpleDraweeView imgMovieBackdrop;
+        protected SimpleDraweeView imgMoviePoster;
         protected TextView txtMovieTitle;
-        protected TextView txtMovieDescr;
         protected TextView txtMovieReleaseDate;
 
         public MovieViewHolder(View v)
         {
             super(v);
-            imgMovieBackdrop = v.findViewById(R.id.imgMovieBackdrop);
+            imgMoviePoster = v.findViewById(R.id.imgMoviePoster);
             txtMovieTitle = v.findViewById(R.id.txtMovieTitle);
-            txtMovieDescr = v.findViewById(R.id.txtMovieOverview);
             txtMovieReleaseDate = v.findViewById(R.id.txtMovieReleaseDate);
         }
     }

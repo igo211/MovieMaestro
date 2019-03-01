@@ -23,7 +23,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
     protected static final Locale DEFAULT_LOCALE = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0);
     protected static final String LOCALE_STR = DEFAULT_LOCALE.toString();
     protected static final String REGION_STR = DEFAULT_LOCALE.getCountry();
-    protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    protected static final DateFormat TMDB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     protected static final String START_DATE_PLACEHOLDER = "<START_DATE>";
     protected static final String END_DATE_PLACEHOLDER = "<END_DATE>";
@@ -50,8 +50,8 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
             urlStr = params[0];
         }
 
-        String startPageParam = this.getStartDateFromParams(1, params);
-        String endPageParam = this.getEndDateFromParams(2, params);
+        String startPageParam = this.getStartPageFromParams(1, params);
+        String endPageParam = this.getEndPageFromParams(2, params);
 
         int startPage = Integer.parseInt(startPageParam);
         int endPage = Integer.parseInt(endPageParam);
@@ -125,7 +125,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         return mergedDoc;
     }
 
-    protected String getStartDateFromParams(int expectedPos, String... params)
+    protected String getStartPageFromParams(int expectedPos, String... params)
     {
         String startPageParam = String.valueOf(1);
 
@@ -137,7 +137,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         return startPageParam;
     }
 
-    protected String getEndDateFromParams(int expectedPos, String... params)
+    protected String getEndPageFromParams(int expectedPos, String... params)
     {
         String endPageParam = String.valueOf(Integer.MAX_VALUE);
 

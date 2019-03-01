@@ -20,7 +20,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String MOVIE_DETAILS_URL_PATT_STR = "https://api.themoviedb.org/3/movie/" + MOVIE_ID_PLACEHOLDER + "?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&append_to_response=videos%2Ccredits%2Cexternal_ids";
 
     private static final String OVERVIEW_PATH = "$.overview";
-    private static final String RELEASE_DATE_PATH = "$.release_date";
     private static final String BUDGET_PATH = "$.budget";
     private static final String REVENUE_PATH = "$.revenue";
     private static final String RUNTIME_PATH = "$.runtime";
@@ -67,7 +66,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         TextView txtTagline = fragmentView.findViewById(R.id.txtTagline);
         TextView txtOverview = fragmentView.findViewById(R.id.txtMovieOverview);
-        TextView txtReleaseDate = fragmentView.findViewById(R.id.txtReleaseDate);
         TextView txtHomepage = fragmentView.findViewById(R.id.txtHomepage);
         TextView txtRuntime = fragmentView.findViewById(R.id.txtRuntime);
         TextView txtBudget = fragmentView.findViewById(R.id.txtBudget);
@@ -78,7 +76,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         Integer TMDB_status_code = mergedDoc.read(STATUS_CODE_PATH);
         String TMDB_status_msg = mergedDoc.read(STATUS_MESSAGE_PATH);
 
-        // TODO: Handle the various error cases
+        // TODO: Handle the various error cases... push error handling code up to parent class?
 
         // Set the various views with their values
 
@@ -89,7 +87,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         String tagline = mergedDoc.read(TAGLINE_PATH);
         String homepage = mergedDoc.read(HOMEPAGE_PATH);
         String overview = mergedDoc.read(OVERVIEW_PATH);
-        String release_date = mergedDoc.read(RELEASE_DATE_PATH);
         Integer runtime = mergedDoc.read(RUNTIME_PATH);
         Integer budget = mergedDoc.read(BUDGET_PATH);
         Integer revenue = mergedDoc.read(REVENUE_PATH);
@@ -101,7 +98,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         txtTagline.setText(tagline);
         txtOverview.setText(overview);
-        txtReleaseDate.setText(release_date);
         txtHomepage.setText(homepage);
 
         if ((runtime != null) && (runtime >0))

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -21,14 +22,17 @@ public class MovieDetailFragment extends Fragment
 {
     public static final String ARG_MOVIE_ID = "movieID";
     public static final String ARG_MOVIE_TITLE = "movieTitle";
+    public static final String ARG_MOVIE_RELEASE_DATE = "movieReleaseDate";
     public static final String ARG_MOVIE_BACKDROP_URL = "movieBackdropUrl";
 
     private Integer movieID;
     private String movieTitle;
+    private String movieReleaseDate;
     private String movieBackdropUrl;
 
     private CollapsingToolbarLayout appBarLayout;
     private SimpleDraweeView imgMovieBackdrop;
+    private TextView txtReleaseDate;
 
 
     public MovieDetailFragment()
@@ -72,20 +76,16 @@ public class MovieDetailFragment extends Fragment
             movieTitle = getArguments().getString(ARG_MOVIE_TITLE);
 
             appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.movie_detail_toolbar_layout);
-            if (appBarLayout != null)
-            {
-                appBarLayout.setTitle(movieTitle);
-            }
+
         }
+
+
 
         if (getArguments().containsKey(ARG_MOVIE_BACKDROP_URL))
         {
             movieBackdropUrl = getArguments().getString(ARG_MOVIE_BACKDROP_URL);
-            imgMovieBackdrop = (SimpleDraweeView) activity.findViewById(R.id.imgMovieBackdrop);
-            if (imgMovieBackdrop != null)
-            {
-                imgMovieBackdrop.setImageURI(movieBackdropUrl);
-            }
+            imgMovieBackdrop = (SimpleDraweeView) activity.findViewById(R.id.imgMoviePoster);
+
         }
 
         GetMovieDetailsAsyncTask getMovieDetailsAsyncTask = new GetMovieDetailsAsyncTask(this);
@@ -99,7 +99,36 @@ public class MovieDetailFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+
+        if (getArguments().containsKey(ARG_MOVIE_RELEASE_DATE))
+        {
+            movieReleaseDate = getArguments().getString(ARG_MOVIE_RELEASE_DATE);
+            txtReleaseDate = (TextView) fragmentView.findViewById(R.id.txtReleaseDate);
+
+            if (txtReleaseDate != null)
+            {
+                txtReleaseDate.setText(movieReleaseDate);
+            }
+        }
+
+        return fragmentView;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (appBarLayout != null)
+        {
+            appBarLayout.setTitle(movieTitle);
+        }
+
+        if (imgMovieBackdrop != null)
+        {
+            imgMovieBackdrop.setImageURI(movieBackdropUrl);
+        }
+
     }
 
     public Integer getMovieID()
