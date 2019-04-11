@@ -11,13 +11,13 @@ public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLT
 {
     private static final String MOVIES_URL_PATT_STR = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&region=" + REGION_STR  + "&page=" + PAGE_PLACEHOLDER;
 
-    private MoviesAdapter moviesAdapter;
+    private MovieListAdapter movieListAdapter;
     private String startPageParam;
     private String endPageParam;
 
-    public GetInTheatresMoviesAsyncTask(MoviesAdapter moviesAdapter)
+    public GetInTheatresMoviesAsyncTask(MovieListAdapter movieListAdapter)
     {
-        this.moviesAdapter = moviesAdapter;
+        this.movieListAdapter = movieListAdapter;
     }
 
     @Override
@@ -48,16 +48,16 @@ public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLT
 
         if ((moviesList != null) && (moviesList.size() > 0))
         {
-            moviesAdapter.setTotal_pages(TMDB_total_pages);
-            moviesAdapter.setTotal_results(TMDB_total_results);
+            movieListAdapter.setTotal_pages(TMDB_total_pages);
+            movieListAdapter.setTotal_results(TMDB_total_results);
 
             if (startPageParam.trim().equals("1"))
             {
-                moviesAdapter.clearAndAddMovies(moviesList);
+                movieListAdapter.clearAndAddMovies(moviesList);
             }
             else
             {
-                moviesAdapter.addMovies(moviesList);
+                movieListAdapter.addMovies(moviesList);
             }
         }
 

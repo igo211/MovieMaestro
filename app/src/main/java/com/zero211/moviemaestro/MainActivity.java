@@ -1,10 +1,13 @@
 package com.zero211.moviemaestro;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -15,6 +18,8 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +45,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private MoviesAdapter upcomingMoviesAdapter;
-    private MoviesAdapter inTheatresMovieAdapter;
+    private NavigationView navigationView;
+
+    private MovieListAdapter upcomingMovieListAdapter;
+    private MovieListAdapter inTheatresMovieAdapter;
+
+    private CastContext mCastContext;
+    private MenuItem mediaRouteMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        // Setup the Cast context
+        mCastContext = CastContext.getSharedInstance(this);
+
+
 
         // Set up Facebook's Fresco lib for simplified image downloading, processing, and cache management...
         Set<RequestListener> requestListeners = new HashSet<>();
@@ -63,13 +79,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ActionBar actionBar = this.getActionBar();
+
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
@@ -82,15 +102,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         LinearLayoutManager upcomingLLM = new LinearLayoutManager(this);
         upcomingLLM.setOrientation(RecyclerView.HORIZONTAL);
         upcomingMovieCardList.setLayoutManager(upcomingLLM);
-        upcomingMoviesAdapter = new MoviesAdapter(deviceConfig, null, true);
-        upcomingMovieCardList.setAdapter(upcomingMoviesAdapter);
+        upcomingMovieListAdapter = new MovieListAdapter(deviceConfig, null, true);
+        upcomingMovieCardList.setAdapter(upcomingMovieListAdapter);
 
         RecyclerView inTheatresMovieCardList = findViewById(R.id.rvInTheatresMovieCardList);
         inTheatresMovieCardList.setHasFixedSize(true);
         LinearLayoutManager inTheatresLLM = new LinearLayoutManager(this);
         inTheatresLLM.setOrientation(RecyclerView.HORIZONTAL);
         inTheatresMovieCardList.setLayoutManager(inTheatresLLM);
-        inTheatresMovieAdapter = new MoviesAdapter(deviceConfig, swipeRefreshLayout, false);
+        inTheatresMovieAdapter = new MovieListAdapter(deviceConfig, swipeRefreshLayout, false);
         inTheatresMovieCardList.setAdapter(inTheatresMovieAdapter);
 
         swipeRefreshLayout.setRefreshing(true);
@@ -129,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("title") + "' with movie id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
 
         Context context = view.getContext();
+
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, (Integer)(itemData.get("id")));
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
@@ -166,11 +187,25 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cal.add(Calendar.MONTH, 6);
         String upcomingEndDateStr = TMDB_DATE_FORMAT.format(cal.getTime());
 
-        GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(upcomingMoviesAdapter, upcomingStartDateStr, upcomingEndDateStr);
+        GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(upcomingMovieListAdapter, upcomingStartDateStr, upcomingEndDateStr);
         getUpcomingMoviesAsyncTask.execute();
 
         GetInTheatresMoviesAsyncTask getInTheatresMoviesAsyncTask = new GetInTheatresMoviesAsyncTask(inTheatresMovieAdapter);
         getInTheatresMoviesAsyncTask.execute();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.activity_main_actionbar, menu);
+        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(), menu, R.id.media_route_menu_item);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -178,12 +213,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     {
         switch(menuItem.getItemId())
         {
+            case R.id.nav_about:
+                Context context = this.getApplicationContext();
+                Intent aboutIntent = new Intent(context, AboutActivity.class);
+                context.startActivity(aboutIntent);
+                break;
+            case R.id.nav_settings:
             default:
                 Toast.makeText(this, "Unhandled menu item: " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }

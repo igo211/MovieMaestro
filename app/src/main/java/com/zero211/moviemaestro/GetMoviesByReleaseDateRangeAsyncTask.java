@@ -11,15 +11,15 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
 {
     private static final String MOVIES_URL_PATT_STR = "https://api.themoviedb.org/3/discover/movie?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&region=" + REGION_STR + "&sort_by=popularity.desc&include_adult=false&include_video=false&release_date.gte=" + START_DATE_PLACEHOLDER + "&release_date.lte=" + END_DATE_PLACEHOLDER + "&with_release_type=2|3&page=" + PAGE_PLACEHOLDER;
 
-    private MoviesAdapter moviesAdapter;
+    private MovieListAdapter movieListAdapter;
     private String startPageParam;
     private String endPageParam;
     private String startDateStr;
     private String endDateStr;
 
-    public GetMoviesByReleaseDateRangeAsyncTask(MoviesAdapter moviesAdapter, String startDateStr, String endDateStr)
+    public GetMoviesByReleaseDateRangeAsyncTask(MovieListAdapter movieListAdapter, String startDateStr, String endDateStr)
     {
-        this.moviesAdapter = moviesAdapter;
+        this.movieListAdapter = movieListAdapter;
         this.startDateStr = startDateStr;
         this.endDateStr = endDateStr;
     }
@@ -58,16 +58,16 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
 
         if ((moviesList != null) && (moviesList.size() > 0))
         {
-            moviesAdapter.setTotal_pages(TMDB_total_pages);
-            moviesAdapter.setTotal_results(TMDB_total_results);
+            movieListAdapter.setTotal_pages(TMDB_total_pages);
+            movieListAdapter.setTotal_results(TMDB_total_results);
 
             if (startPageParam.trim().equals("1"))
             {
-                moviesAdapter.clearAndAddMovies(moviesList);
+                movieListAdapter.clearAndAddMovies(moviesList);
             }
             else
             {
-                moviesAdapter.addMovies(moviesList);
+                movieListAdapter.addMovies(moviesList);
             }
         }
 

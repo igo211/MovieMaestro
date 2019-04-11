@@ -50,7 +50,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:maxLines="3"
         android:onClick="overviewToggle"
         android:text="@string/unknown_overview"
         android:textColor="@color/colorText"
@@ -82,29 +82,6 @@
         app:layout_constraintStart_toEndOf="@+id/lblReleaseDate"
         app:layout_constraintTop_toBottomOf="@id/txtMovieOverview"/>
 
-    <TextView
-        android:id="@+id/lblHomepage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/homepage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtReleaseDate"/>
-
-    <TextView
-        android:id="@+id/txtHomepage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:autoLink="web"
-        android:text="@string/unknown_homepage"
-        android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblHomepage"
-        app:layout_constraintTop_toBottomOf="@+id/txtReleaseDate"/>
 
     <TextView
         android:id="@+id/lblBudget"
@@ -114,7 +91,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/budget"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtHomepage"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblReleaseDate"/>
 
     <TextView
         android:id="@+id/txtBudget"
@@ -126,8 +103,9 @@
         android:text="@string/unknown_budget"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/lblBudget"
-        app:layout_constraintTop_toBottomOf="@+id/txtHomepage"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtReleaseDate"/>
 
     <TextView
         android:id="@+id/lblRevenue"
@@ -149,6 +127,7 @@
         android:text="@string/unknown_revenue"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/lblRevenue"
         app:layout_constraintTop_toBottomOf="@+id/txtBudget"/>
 
@@ -172,8 +151,210 @@
         android:text="@string/unknown_runtime"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/lblRuntime"
         app:layout_constraintTop_toBottomOf="@+id/txtRevenue"/>
 
+    <TextView
+        android:id="@+id/lblDirectors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/directors"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblRuntime"/>
+
+    <TextView
+        android:id="@+id/txtDirector"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/unknown_directors"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblDirectors"
+        app:layout_constraintTop_toBottomOf="@+id/txtRuntime"/>
+
+    <TextView
+        android:id="@+id/txtProducers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/unknown_producers"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblProducers"
+        app:layout_constraintTop_toBottomOf="@+id/txtDirector"/>
+
+    <TextView
+        android:id="@+id/lblProducers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/producers"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDirectors"/>
+
+    <TextView
+        android:id="@+id/lblDOP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProducers"/>
+
+    <TextView
+        android:id="@+id/txtDOP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/unknown_dp"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblDOP"
+        app:layout_constraintTop_toBottomOf="@+id/txtProducers"/>
+
+    <TextView
+        android:id="@+id/lblWriters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/screenplay_writers"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDOP"/>
+
+    <TextView
+        android:id="@+id/txtWriters"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/unknown_screenplay_writers"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblWriters"
+        app:layout_constraintTop_toBottomOf="@+id/txtDOP"/>
+
+    <TextView
+        android:id="@+id/lblProductionCos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/production_companies"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtWriters"/>
+
+    <TextView
+        android:id="@+id/txtProductionCos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/unknown_production_companies"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblProductionCos"
+        app:layout_constraintTop_toBottomOf="@+id/txtWriters"/>
+
+
+    <TextView
+        android:id="@+id/lblHomepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/homepage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductionCos"/>
+
+    <TextView
+        android:id="@+id/txtHomepage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:autoLink="web"
+        android:text="@string/unknown_homepage"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblHomepage"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductionCos"/>
+
+    <TextView
+        android:id="@+id/lblCast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/cast"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHomepage"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCastCardList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorContainerBackground"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblCast"/>
+
+    <TextView
+        android:id="@+id/lblCrew"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/crew"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCastCardList"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCrewCardList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorContainerBackground"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblCrew"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

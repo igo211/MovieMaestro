@@ -1,9 +1,16 @@
 package com.zero211.moviemaestro;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.cast.framework.CastContext;
+
+import java.util.Map;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +19,7 @@ import at.blogc.android.views.ExpandableTextView;
 
 public class MovieDetailActivity extends AppCompatActivity
 {
+    private CastContext mCastContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,9 +27,11 @@ public class MovieDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+        // Setup the Cast context
+        mCastContext = CastContext.getSharedInstance(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
         setSupportActionBar(toolbar);
-
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -53,6 +63,23 @@ public class MovieDetailActivity extends AppCompatActivity
         }
 
 
+    }
+
+
+    public void personDetails(View view)
+    {
+        Map<String,Object> itemData = (Map<String, Object>) view.getTag();
+        Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("name") + "' with id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
+
+        Context context = view.getContext();
+
+//        Intent intent = new Intent(context, MovieDetailActivity.class);
+//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, (Integer)(itemData.get("id")));
+//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
+//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
+//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE, (String) itemData.get("release_date"));
+//
+//        context.startActivity(intent);
     }
 
     public void overviewToggle(View v)

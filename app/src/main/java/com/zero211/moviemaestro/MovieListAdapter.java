@@ -22,13 +22,13 @@ import java.util.Map;
 
 import static com.zero211.moviemaestro.AbstractTMDBJSONResultFromURLTask.TMDB_DATE_FORMAT;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>
+public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>
 {
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean showReleaseDate;
 
-    private String posterImageWidthStr = "w780";
-    private String backdropImageWidthStr = "w1280";
+    private static final String POSTER_IMAGE_SIZE = "w780";
+    private static final String BACKDROP_IMAGE_SIZE = "w1280";
 
     private int total_pages;
     private int total_results;
@@ -36,7 +36,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     private ArrayList<Map<String,Object>> moviesList = new ArrayList<Map<String, Object>>();
 
-    public MoviesAdapter(Configuration deviceConfig, SwipeRefreshLayout swipeRefreshLayout, boolean showReleaseDate)
+    public MovieListAdapter(Configuration deviceConfig, SwipeRefreshLayout swipeRefreshLayout, boolean showReleaseDate)
     {
         this.swipeRefreshLayout = swipeRefreshLayout;
         this.showReleaseDate = showReleaseDate;
@@ -48,15 +48,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
 //        if (displaySize.x <= 300)
 //        {
-//            posterImageWidthStr = "w300";
+//            POSTER_IMAGE_SIZE = "w300";
 //        }
 //        else if (displaySize.x <=780)
 //        {
-//            posterImageWidthStr = "w780";
+//            POSTER_IMAGE_SIZE = "w780";
 //        }
 //        else
 //        {
-//            posterImageWidthStr = "w1280";
+//            POSTER_IMAGE_SIZE = "w1280";
 //        }
     }
 
@@ -119,7 +119,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         String backdropFullPathImageURI;
         if (backDropImgRelPath != null)
         {
-            backdropFullPathImageURI = "https://image.tmdb.org/t/p/" + backdropImageWidthStr + backDropImgRelPath;
+            backdropFullPathImageURI = "https://image.tmdb.org/t/p/" + BACKDROP_IMAGE_SIZE + backDropImgRelPath;
 
         }
         else
@@ -134,7 +134,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         String posterFullPathImageURI;
         if (posterImgRelPath != null)
         {
-            posterFullPathImageURI = "https://image.tmdb.org/t/p/" + posterImageWidthStr + posterImgRelPath;
+            posterFullPathImageURI = "https://image.tmdb.org/t/p/" + POSTER_IMAGE_SIZE + posterImgRelPath;
 
         }
         else

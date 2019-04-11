@@ -18,7 +18,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
 {
     private static final String LOGTAG = AbstractTMDBJSONResultFromURLTask.class.getSimpleName();
 
-    protected static final String API_KEY = "YOUR_API_KEY_GOES_HERE!";
+    protected static final String API_KEY = "31b8c19722869d7b93f169a091c01671";
 
     protected static final Locale DEFAULT_LOCALE = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0);
     protected static final String LOCALE_STR = DEFAULT_LOCALE.toString();
