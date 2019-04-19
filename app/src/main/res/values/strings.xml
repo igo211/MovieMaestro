@@ -71,4 +71,7 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="third_party_licenses">Third Party Licenses</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="about">About</string>
+    <string name="born_label">Born:</string>
+    <string name="died_label">Died:</string>
+    <string name="unknown_biography">Unknown Biography</string>
 </resources>

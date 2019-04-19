@@ -14,6 +14,8 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.zero211.moviemaestro.PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH;
+
 
 public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.PersonViewHolder>
 {
@@ -81,7 +83,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
             profileFullPathImageURI = "res:///" + R.drawable.no_image_available;
         }
 
-        itemData.put("profile_img_full_path", profileFullPathImageURI);
+        itemData.put(ARG_PROFILE_IMG_FULL_PATH, profileFullPathImageURI);
 
 
         personViewholder.imgPersonProfile.setImageURI(profileFullPathImageURI);

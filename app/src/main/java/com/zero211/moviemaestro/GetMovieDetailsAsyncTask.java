@@ -43,6 +43,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String EDITORS_PATH = "$.credits.crew[?(@.job == 'Editor')]";
     private static final String COMPOSERS_PATH = "$.credits.crew[?(@.job == 'Original Music Composer')]";
     private static final String MUSIC_SUPERS_PATH = "$.credits.crew[?(@.job == 'Music Supervisor')]";
+    private static final String WRITERS_PATH = "$.credits.crew[?(@.department == 'Writing')]";
     private static final String SCREENPLAY_WRITERS_PATH = "$.credits.crew[?(@.job == 'Screenplay')]";
     private static final String STORY_WRITERS_PATH = "$.credits.crew[?(@.job == 'Story')]";
 
@@ -60,7 +61,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         int movieID = movieDetailFragment.getMovieID();
         String movieIDStr = String.valueOf(movieID);
         urlStr = MOVIE_DETAILS_URL_PATT_STR.replace(MOVIE_ID_PLACEHOLDER, movieIDStr);
-
     }
 
     @Override
@@ -76,6 +76,13 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     @Override
     protected void onPostExecute(DocumentContext mergedDoc)
     {
+        String internal_err_msg = mergedDoc.read(INTERNAL_ERROR_PATH);
+        List<String> TMDB_err_msgs = mergedDoc.read(ERRORS_PATH);
+        Integer TMDB_status_code = mergedDoc.read(STATUS_CODE_PATH);
+        String TMDB_status_msg = mergedDoc.read(STATUS_MESSAGE_PATH);
+
+        // TODO: Handle the various error cases... push error handling code up to parent class?
+
         // Process the results and update the UI
 
         Activity activity = movieDetailFragment.getActivity();
@@ -97,12 +104,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView txtDOPs = fragmentView.findViewById(R.id.txtDOP);
         TextView txtWriters = fragmentView.findViewById(R.id.txtWriters);
 
-        String internal_err_msg = mergedDoc.read(INTERNAL_ERROR_PATH);
-        List<String> TMDB_err_msgs = mergedDoc.read(ERRORS_PATH);
-        Integer TMDB_status_code = mergedDoc.read(STATUS_CODE_PATH);
-        String TMDB_status_msg = mergedDoc.read(STATUS_MESSAGE_PATH);
-
-        // TODO: Handle the various error cases... push error handling code up to parent class?
 
         // Set the various views with their values
 
@@ -296,26 +297,4 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
     }
 
-    private String getCDLStringFromListWithNames(List<Map<String,Object>> items)
-    {
-        StringBuffer sb = new StringBuffer();
-
-        if ((items == null) || (items.size() == 0))
-        {
-            return "Unknown";
-        }
-
-        for(Map<String,Object> item : items)
-        {
-            String name = (String)(item.get("name"));
-            if (sb.length() > 0)
-            {
-                sb.append(", ");
-            }
-            sb.append(name);
-        }
-
-        String result = sb.toString();
-        return result;
-    }
 }

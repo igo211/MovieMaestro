@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,11 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.zero211.moviemaestro.AbstractTMDBJSONResultFromURLTask.TMDB_DATE_FORMAT;
+import static com.zero211.moviemaestro.DateFormatUtils.*;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>
 {
@@ -154,19 +151,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         if (this.showReleaseDate)
         {
-            String releaseDate = (String) (itemData.get("release_date"));
-            try
-            {
-                Date releaseDateDate = TMDB_DATE_FORMAT.parse(releaseDate);
-
-                String dateStr = (String) DateFormat.format("MMM d", releaseDateDate);
-                movieViewHolder.txtMovieReleaseDate.setText(dateStr);
-                movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
-            }
-            catch (ParseException e)
-            {
-                e.printStackTrace();
-            }
+            String releaseDateStr = (String) (itemData.get("release_date"));
+            String formattedReleaseDateStr = getShortThisYearDateFromTMDBDateStr(releaseDateStr);
+            movieViewHolder.txtMovieReleaseDate.setText(formattedReleaseDateStr);
+            movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
         }
         else
         {

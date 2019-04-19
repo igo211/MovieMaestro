@@ -69,17 +69,18 @@ public class MovieDetailActivity extends AppCompatActivity
     public void personDetails(View view)
     {
         Map<String,Object> itemData = (Map<String, Object>) view.getTag();
-        Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("name") + "' with id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("name") + "' with id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
 
         Context context = view.getContext();
 
-//        Intent intent = new Intent(context, MovieDetailActivity.class);
-//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, (Integer)(itemData.get("id")));
+        Intent intent = new Intent(context, PersonDetailActivity.class);
+        intent.putExtra(PersonDetailActivity.ARG_PERSON_ID, (Integer)(itemData.get("id")));
+        intent.putExtra(PersonDetailActivity.ARG_NAME, (String) itemData.get("name"));
+        intent.putExtra(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH, (String) itemData.get(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH));
 //        intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
 //        intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
-//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE, (String) itemData.get("release_date"));
-//
-//        context.startActivity(intent);
+
+        context.startActivity(intent);
     }
 
     public void overviewToggle(View v)

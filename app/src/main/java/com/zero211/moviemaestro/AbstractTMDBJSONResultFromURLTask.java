@@ -1,6 +1,10 @@
 package com.zero211.moviemaestro;
 
 import android.content.res.Resources;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.core.os.ConfigurationCompat;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -12,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.zero211.moviemaestro.StringUtils.isNullOrEmpty;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResultFromURLAsyncTask
@@ -23,12 +28,12 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
     protected static final Locale DEFAULT_LOCALE = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0);
     protected static final String LOCALE_STR = DEFAULT_LOCALE.toString();
     protected static final String REGION_STR = DEFAULT_LOCALE.getCountry();
-    protected static final DateFormat TMDB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     protected static final String START_DATE_PLACEHOLDER = "<START_DATE>";
     protected static final String END_DATE_PLACEHOLDER = "<END_DATE>";
     protected static final String PAGE_PLACEHOLDER = "<PAGE>";
     protected static final String MOVIE_ID_PLACEHOLDER = "<MOVIE_ID>";
+    protected static final String PERSON_ID_PLACEHOLDER = "<PERSON_ID>";
 
     protected static final String ERRORS_PATH = "$.errors";
     protected static final String STATUS_CODE_PATH = "$.status_code";
@@ -147,5 +152,74 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         }
 
         return endPageParam;
+    }
+
+
+    public String getCDLStringFromListWithNames(List<Map<String,Object>> items)
+    {
+        StringBuffer sb = new StringBuffer();
+
+        if ((items == null) || (items.size() == 0))
+        {
+            return "Unknown";
+        }
+
+        for(Map<String,Object> item : items)
+        {
+            String name = (String)(item.get("name"));
+            if (sb.length() > 0)
+            {
+                sb.append(", ");
+            }
+            sb.append(name);
+        }
+
+        String result = sb.toString();
+        return result;
+    }
+
+
+
+    public static void setTextIfNotNullorEmpty(@NonNull TextView textView, String str)
+    {
+        setTextIfNotNullorEmpty(null, textView, str);
+    }
+
+    public static void setTextIfNotNullorEmpty(TextView labelView, @NonNull TextView textView, String str)
+    {
+        if (isNullOrEmpty(str))
+        {
+            if (labelView != null)
+            {
+                labelView.setVisibility(View.INVISIBLE);
+            }
+            textView.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            if (labelView != null)
+            {
+                labelView.setVisibility(View.VISIBLE);
+            }
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(str);
+        }
+    }
+
+    public static void setLabelVisibilityBasedOnValues(TextView labelView, String... strs)
+    {
+        if (labelView != null)
+        {
+            for (String str : strs)
+            {
+                if (isNullOrEmpty(str))
+                {
+                    labelView.setVisibility(View.INVISIBLE);
+                    return;
+                }
+            }
+
+            labelView.setVisibility(View.VISIBLE);
+        }
     }
 }

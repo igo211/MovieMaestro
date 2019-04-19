@@ -27,7 +27,7 @@ public class MovieDetailFragment extends Fragment
 
     private Integer movieID;
     private String movieTitle;
-    private String movieReleaseDate;
+    private String movieReleaseDateStr;
     private String movieBackdropUrl;
 
     private CollapsingToolbarLayout appBarLayout;
@@ -103,12 +103,13 @@ public class MovieDetailFragment extends Fragment
 
         if (getArguments().containsKey(ARG_MOVIE_RELEASE_DATE))
         {
-            movieReleaseDate = getArguments().getString(ARG_MOVIE_RELEASE_DATE);
+            movieReleaseDateStr = getArguments().getString(ARG_MOVIE_RELEASE_DATE);
             txtReleaseDate = (TextView) fragmentView.findViewById(R.id.txtReleaseDate);
 
             if (txtReleaseDate != null)
             {
-                txtReleaseDate.setText(movieReleaseDate);
+                String formattedMovieReleaseDateStr = DateFormatUtils.getShortDateFromTMDBDateStr(movieReleaseDateStr);
+                txtReleaseDate.setText(formattedMovieReleaseDateStr);
             }
         }
 

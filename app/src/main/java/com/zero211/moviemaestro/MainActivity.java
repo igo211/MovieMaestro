@@ -38,7 +38,7 @@ import java.util.Set;
 
 import at.blogc.android.views.ExpandableTextView;
 
-import static com.zero211.moviemaestro.AbstractTMDBJSONResultFromURLTask.TMDB_DATE_FORMAT;
+import static com.zero211.moviemaestro.DateFormatUtils.TMDB_API_DATE_FORMAT;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener
 {
@@ -181,11 +181,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cal = Calendar.getInstance();
         // for Upcoming movies, start with tomorrow's date
         cal.add(Calendar.DAY_OF_MONTH, 1);
-        String upcomingStartDateStr = TMDB_DATE_FORMAT.format(cal.getTime());
+        String upcomingStartDateStr = TMDB_API_DATE_FORMAT.format(cal.getTime());
 
         // for Upcoming movies, end with a date six months from tomorrow
         cal.add(Calendar.MONTH, 6);
-        String upcomingEndDateStr = TMDB_DATE_FORMAT.format(cal.getTime());
+        String upcomingEndDateStr = TMDB_API_DATE_FORMAT.format(cal.getTime());
 
         GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(upcomingMovieListAdapter, upcomingStartDateStr, upcomingEndDateStr);
         getUpcomingMoviesAsyncTask.execute();
