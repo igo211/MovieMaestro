@@ -187,10 +187,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cal.add(Calendar.MONTH, 6);
         String upcomingEndDateStr = TMDB_API_DATE_FORMAT.format(cal.getTime());
 
-        GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(upcomingMovieListAdapter, upcomingStartDateStr, upcomingEndDateStr);
+        GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(this, 1, Integer.MAX_VALUE, upcomingMovieListAdapter, upcomingStartDateStr, upcomingEndDateStr);
         getUpcomingMoviesAsyncTask.execute();
 
-        GetInTheatresMoviesAsyncTask getInTheatresMoviesAsyncTask = new GetInTheatresMoviesAsyncTask(inTheatresMovieAdapter);
+        GetInTheatresMoviesAsyncTask getInTheatresMoviesAsyncTask = new GetInTheatresMoviesAsyncTask(this, 1, Integer.MAX_VALUE, inTheatresMovieAdapter);
         getInTheatresMoviesAsyncTask.execute();
     }
 

@@ -108,7 +108,7 @@ public class MovieDetailFragment extends Fragment
 
             if (txtReleaseDate != null)
             {
-                String formattedMovieReleaseDateStr = DateFormatUtils.getShortDateFromTMDBDateStr(movieReleaseDateStr);
+                String formattedMovieReleaseDateStr = DateFormatUtils.getShortDateStrFromTMDBDateStr(movieReleaseDateStr);
                 txtReleaseDate.setText(formattedMovieReleaseDateStr);
             }
         }

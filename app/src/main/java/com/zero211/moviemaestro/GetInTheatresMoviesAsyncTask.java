@@ -1,5 +1,7 @@
 package com.zero211.moviemaestro;
 
+import android.content.Context;
+
 import com.jayway.jsonpath.DocumentContext;
 
 import java.util.List;
@@ -9,27 +11,16 @@ import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
-    private static final String MOVIES_URL_PATT_STR = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&region=" + REGION_STR  + "&page=" + PAGE_PLACEHOLDER;
+    private static final String MOVIES_URL_PATT_STR = "movie/now_playing?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&region=" + REGION_STR  + "&page=" + PAGE_PLACEHOLDER;
 
     private MovieListAdapter movieListAdapter;
-    private String startPageParam;
-    private String endPageParam;
+    private int startPage;
 
-    public GetInTheatresMoviesAsyncTask(MovieListAdapter movieListAdapter)
+    public GetInTheatresMoviesAsyncTask(Context context, int startPage, int endPage, MovieListAdapter movieListAdapter)
     {
+        super(context, startPage, endPage, MOVIES_URL_PATT_STR);
         this.movieListAdapter = movieListAdapter;
-    }
-
-    @Override
-    protected DocumentContext doInBackground(String... params)
-    {
-        // start and end page default to 0 and Integer.MAX_VALUE respectively
-        startPageParam = this.getStartPageFromParams(0, params);
-        endPageParam = this.getEndPageFromParams(1, params);
-
-        DocumentContext mergedDoc = super.doInBackground(MOVIES_URL_PATT_STR, startPageParam, endPageParam);
-
-        return mergedDoc;
+        this.startPage = startPage;
     }
 
     @Override
@@ -51,7 +42,7 @@ public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLT
             movieListAdapter.setTotal_pages(TMDB_total_pages);
             movieListAdapter.setTotal_results(TMDB_total_results);
 
-            if (startPageParam.trim().equals("1"))
+            if (startPage == 1)
             {
                 movieListAdapter.clearAndAddMovies(moviesList);
             }

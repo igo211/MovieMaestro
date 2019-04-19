@@ -152,7 +152,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         if (this.showReleaseDate)
         {
             String releaseDateStr = (String) (itemData.get("release_date"));
-            String formattedReleaseDateStr = getShortThisYearDateFromTMDBDateStr(releaseDateStr);
+            String formattedReleaseDateStr = getShortThisYearDateStrFromTMDBDateStr(releaseDateStr);
             movieViewHolder.txtMovieReleaseDate.setText(formattedReleaseDateStr);
             movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
         }

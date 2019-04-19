@@ -1,17 +1,21 @@
 package com.zero211.moviemaestro;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.jayway.jsonpath.DocumentContext;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.zero211.moviemaestro.DateFormatUtils.*;
-import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
+import static com.zero211.moviemaestro.StringUtils.*;
+
+import static com.zero211.utils.http.HttpUtils.*;
 
 public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
-    private static final String PERSON_DETAILS_URL_PATT_STR = "https://api.themoviedb.org/3/person/" + PERSON_ID_PLACEHOLDER + "?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&append_to_response=images%2Ccombined_credits%2Cexternal_ids%2Ctagged_images";
+    private static final String PERSON_DETAILS_URL_PATT_STR = "person/" + PERSON_ID_PLACEHOLDER + "?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&append_to_response=images%2Ccombined_credits%2Cexternal_ids%2Ctagged_images";
 
     private static final String BIRTHDAY_PATH = "$.birthday";
     private static final String BIRTHPLACE_PATH = "$.place_of_birth";
@@ -26,33 +30,12 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String INSTA_ID_PATH = "$.external_ids.instagram_id";
     private static final String TWITTER_ID_PATH = "$.external_ids.twitter_id";
 
-    private int personID;
-    private String name;
-    private String profile_img_full_path;
-
-    private String urlStr;
     private PersonDetailActivity personDetailActivity;
 
     public GetPersonDetailsAsyncTask(PersonDetailActivity personDetailActivity)
     {
+        super(personDetailActivity, PERSON_DETAILS_URL_PATT_STR.replace(PERSON_ID_PLACEHOLDER, String.valueOf(personDetailActivity.getPersonID())));
         this.personDetailActivity = personDetailActivity;
-
-        this.personID = personDetailActivity.getPersonID();
-        this.name = personDetailActivity.getName();
-        this.profile_img_full_path = personDetailActivity.getProfile_img_full_path();
-
-        String personIDStr = String.valueOf(personID);
-        urlStr = PERSON_DETAILS_URL_PATT_STR.replace(PERSON_ID_PLACEHOLDER, personIDStr);
-    }
-
-    @Override
-    protected DocumentContext doInBackground(String... params)
-    {
-        // No execute-time params, since all are required in the constructor.
-
-        DocumentContext result = super.doInBackground(urlStr,"1","1");
-
-        return result;
     }
 
     @Override
@@ -66,6 +49,30 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         // TODO: Handle the various error cases... push error handling code up to parent class?
 
+        String birthDateStr = mergedDoc.read(BIRTHDAY_PATH);
+        Date birthDate = getDateFromTMDBDateStr(birthDateStr);
+        String formattedBirthDateStr = getShortDateStrFromDate(birthDate);
+
+        String birthplace = mergedDoc.read(BIRTHPLACE_PATH);
+
+        String deathDateStr = mergedDoc.read(DEATHDAY_PATH);
+        Date deathDate = getDateFromTMDBDateStr(deathDateStr);
+        String formattedDeathDate = getShortDateStrFromDate(deathDate);
+
+        String ageStr = null;
+        if (birthDate != null)
+        {
+            int age = getAge(birthDate, deathDate);
+            ageStr = String.valueOf(age);
+        }
+
+        String biography = mergedDoc.read(BIOGRAPHY_PATH);
+
+        String homepage = mergedDoc.read(HOMEPAGE_PATH);
+        String fb_id = mergedDoc.read(FACEBOOK_ID_PATH);
+        String insta_id = mergedDoc.read(INSTA_ID_PATH);
+        String twitter_id = mergedDoc.read(TWITTER_ID_PATH);
+        String imdb_id = mergedDoc.read(IMDB_ID_PATH);
 
         TextView lblBirth = personDetailActivity.findViewById(R.id.lblBorn);
         TextView txtBirthdate = personDetailActivity.findViewById(R.id.txtBirthDate);
@@ -74,22 +81,48 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView lblDeath = personDetailActivity.findViewById(R.id.lblDeath);
         TextView txtDeathdate = personDetailActivity.findViewById(R.id.txtDeathDate);
 
+        TextView lblAge = personDetailActivity.findViewById(R.id.lblAge);
+        TextView txtAge = personDetailActivity.findViewById(R.id.txtAge);
+
+        TextView lblHomepage = personDetailActivity.findViewById(R.id.lblHomepage);
+        TextView txtHomepage = personDetailActivity.findViewById(R.id.txtHomepage);
+
+        TextView lblFB = personDetailActivity.findViewById(R.id.lblFB);
+        TextView txtFB = personDetailActivity.findViewById(R.id.txtFB);
+
+        TextView lblInsta = personDetailActivity.findViewById(R.id.lblInsta);
+        TextView txtInsta = personDetailActivity.findViewById(R.id.txtInsta);
+
+        TextView lblTwitter = personDetailActivity.findViewById(R.id.lblTwitter);
+        TextView txtTwitter = personDetailActivity.findViewById(R.id.txtTwitter);
+
+        TextView lblIMDB = personDetailActivity.findViewById(R.id.lblIMDB);
+        TextView txtIMDB = personDetailActivity.findViewById(R.id.txtIMDB);
+
+        TextView lblBiography = personDetailActivity.findViewById(R.id.lblBiography);
         TextView txtBiography = personDetailActivity.findViewById(R.id.txtBiography);
 
-//        TextView txtHomePage = personDetailActivity.findViewById(R.id.txtBudget);
+        setTextIfNotNullAndNotEmpty(txtBirthdate, formattedBirthDateStr);
+        setTextIfNotNullAndNotEmpty(txtPlaceOfBirth, birthplace);
+        setLabelVisibilityBasedOnStringValues(lblBirth, false, formattedBirthDateStr, birthplace);
 
+        setTextIfNotNullAndNotEmpty(lblDeath, txtDeathdate, formattedDeathDate);
 
-        String formattedBirthDate = getShortDateFromTMDBDateStr(mergedDoc.read(BIRTHDAY_PATH));
-        String birthplace = mergedDoc.read(BIRTHPLACE_PATH);
-        String formattedDeathDate = getShortDateFromTMDBDateStr(mergedDoc.read(DEATHDAY_PATH));
-        String biography = mergedDoc.read(BIOGRAPHY_PATH);
+        if (lblDeath.getVisibility() == View.VISIBLE)
+        {
+            lblAge.setText(R.string.age_at_death_label);
+        }
 
-        setTextIfNotNullorEmpty(txtBirthdate, formattedBirthDate);
-        setTextIfNotNullorEmpty(txtPlaceOfBirth, birthplace);
-        setLabelVisibilityBasedOnValues(lblBirth, formattedBirthDate, birthplace);
+        setTextIfNotNullAndNotEmpty(lblAge, txtAge, ageStr);
 
-        setTextIfNotNullorEmpty(lblDeath, txtDeathdate, formattedDeathDate);
-        setTextIfNotNullorEmpty(txtBiography, biography);
+        setTextIfNotNullAndNotEmpty(lblHomepage, txtHomepage, homepage);
+
+        setTextIfNotNullAndNotEmpty(lblFB, txtFB, getFBURLFromID(fb_id));
+        setTextIfNotNullAndNotEmpty(lblInsta, txtInsta, getInstaURLFromID(insta_id));
+        setTextIfNotNullAndNotEmpty(lblTwitter, txtTwitter, getTwitterURLFromID(twitter_id));
+        setTextIfNotNullAndNotEmpty(lblIMDB, txtIMDB, getIMDBURLFromID(imdb_id));
+
+        setTextIfNotNullAndNotEmpty(lblBiography, txtBiography, biography);
 
     }
 }

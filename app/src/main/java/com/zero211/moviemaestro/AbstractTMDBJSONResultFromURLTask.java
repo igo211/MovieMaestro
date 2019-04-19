@@ -1,5 +1,6 @@
 package com.zero211.moviemaestro;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.TextView;
@@ -10,8 +11,6 @@ import androidx.core.os.ConfigurationCompat;
 import com.jayway.jsonpath.DocumentContext;
 import com.zero211.utils.http.AbstractJSONResultFromURLAsyncTask;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,12 +22,12 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
 {
     private static final String LOGTAG = AbstractTMDBJSONResultFromURLTask.class.getSimpleName();
 
-    protected static final String API_KEY = "31b8c19722869d7b93f169a091c01671";
-
     protected static final Locale DEFAULT_LOCALE = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0);
     protected static final String LOCALE_STR = DEFAULT_LOCALE.toString();
     protected static final String REGION_STR = DEFAULT_LOCALE.getCountry();
 
+    protected static final String API_PREFIX = "https://api.themoviedb.org/3/";
+    protected static final String API_KEY_PLACEHOLDER = "<API_KEY>";
     protected static final String START_DATE_PLACEHOLDER = "<START_DATE>";
     protected static final String END_DATE_PLACEHOLDER = "<END_DATE>";
     protected static final String PAGE_PLACEHOLDER = "<PAGE>";
@@ -43,24 +42,27 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
     protected static final String TOTAL_PAGES_PATH = "$.total_pages";
     protected static final String RESULTS_PATH = "$.results";
 
+    private String urlWithAPIKeyTemplateStr;
+    private int startPage = 1;
+    private int endPage = Integer.MAX_VALUE;
+
+    public AbstractTMDBJSONResultFromURLTask(@NonNull Context context, @NonNull String urlTemplateStr)
+    {
+        this(context, 1, 1, urlTemplateStr);
+    }
+
+    public AbstractTMDBJSONResultFromURLTask(@NonNull Context context, int startPage, int endPage, @NonNull String urlTemplateStr)
+    {
+        String api_key = StringUtils.rawTextFileToString(context, R.raw.tmdb_api_key);
+        String trimmed_api_key = api_key.trim();
+        this.urlWithAPIKeyTemplateStr = API_PREFIX + urlTemplateStr.replace(API_KEY_PLACEHOLDER, trimmed_api_key);
+        this.startPage = startPage;
+        this.endPage = endPage;
+    }
+
     @Override
     protected DocumentContext doInBackground(String... params)
     {
-        // TODO: Add check for params length and actual expected types (String, int, int) ?
-
-        String urlStr = null;
-
-        if ((params != null) && (params.length != 0))
-        {
-            urlStr = params[0];
-        }
-
-        String startPageParam = this.getStartPageFromParams(1, params);
-        String endPageParam = this.getEndPageFromParams(2, params);
-
-        int startPage = Integer.parseInt(startPageParam);
-        int endPage = Integer.parseInt(endPageParam);
-
         int currentPage = startPage - 1;
 
         Integer TMDB_total_results = 0;
@@ -79,10 +81,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
 
             String pageURLStr = null;
 
-            if (urlStr != null)
-            {
-                pageURLStr = urlStr.replace(PAGE_PLACEHOLDER, String.valueOf(currentPage));
-            }
+            pageURLStr = urlWithAPIKeyTemplateStr.replace(PAGE_PLACEHOLDER, String.valueOf(currentPage));
 
             DocumentContext pageDoc = super.doInBackground(pageURLStr);
 
@@ -120,7 +119,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
             // We need to potentially re-adjust the endPage after every API query response,
             // since query responses are not cursors/cached on the server and therefore the total_pages value could change.
             // Integer.MAX_VALUE represents a special value that means "whatever the total pages reported for the query is".
-            if ((endPageParam.equals(String.valueOf(Integer.MAX_VALUE))) || ((TMDB_total_pages != null) && (endPage > TMDB_total_pages)))
+            if ((endPage  == Integer.MAX_VALUE) || ((TMDB_total_pages != null) && (endPage > TMDB_total_pages)))
             {
                 endPage = TMDB_total_pages;
             }
@@ -178,22 +177,42 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         return result;
     }
 
-
-
-    public static void setTextIfNotNullorEmpty(@NonNull TextView textView, String str)
+    public static void setTextIfNotNullAndNotEmpty(@NonNull TextView textView, String str)
     {
-        setTextIfNotNullorEmpty(null, textView, str);
+        setTextIfNotNullAndNotEmpty(textView, true, str);
     }
 
-    public static void setTextIfNotNullorEmpty(TextView labelView, @NonNull TextView textView, String str)
+    public static void setTextIfNotNullAndNotEmpty(@NonNull TextView textView, boolean collapseIfNullorEmpty, String str)
     {
+        setTextIfNotNullAndNotEmpty(null, collapseIfNullorEmpty, textView, str);
+    }
+
+    public static void setTextIfNotNullAndNotEmpty(TextView labelView, @NonNull TextView textView, String str)
+    {
+        setTextIfNotNullAndNotEmpty(labelView, true, textView, str);
+    }
+
+    public static void setTextIfNotNullAndNotEmpty(TextView labelView, boolean collapseIfNullorEmpty, @NonNull TextView textView, String str)
+    {
+        int collapseIfNullorEmptyVal;
+
+        if (collapseIfNullorEmpty)
+        {
+            collapseIfNullorEmptyVal = View.GONE;
+        }
+        else
+        {
+            collapseIfNullorEmptyVal = View.INVISIBLE;
+        }
+
+
         if (isNullOrEmpty(str))
         {
             if (labelView != null)
             {
-                labelView.setVisibility(View.INVISIBLE);
+                labelView.setVisibility(collapseIfNullorEmptyVal);
             }
-            textView.setVisibility(View.INVISIBLE);
+            textView.setVisibility(collapseIfNullorEmptyVal);
         }
         else
         {
@@ -206,20 +225,39 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         }
     }
 
-    public static void setLabelVisibilityBasedOnValues(TextView labelView, String... strs)
+    public static void setLabelVisibilityBasedOnStringValues(TextView labelView, String... strs)
     {
+        setLabelVisibilityBasedOnStringValues(labelView, true, strs);
+    }
+
+    public static void setLabelVisibilityBasedOnStringValues(TextView labelView, boolean collapseIfNullorEmpty, String... strs)
+    {
+        int collapseIfNullorEmptyVal = View.GONE;
+
+        if (collapseIfNullorEmpty)
+        {
+            collapseIfNullorEmptyVal = View.GONE;
+        }
+        else
+        {
+            collapseIfNullorEmptyVal = View.INVISIBLE;
+        }
+
         if (labelView != null)
         {
+
+            int visibilty = View.VISIBLE;
             for (String str : strs)
             {
                 if (isNullOrEmpty(str))
                 {
-                    labelView.setVisibility(View.INVISIBLE);
-                    return;
+                    visibilty = collapseIfNullorEmptyVal;
+
                 }
             }
 
-            labelView.setVisibility(View.VISIBLE);
+            labelView.setVisibility(visibilty);
         }
+
     }
 }

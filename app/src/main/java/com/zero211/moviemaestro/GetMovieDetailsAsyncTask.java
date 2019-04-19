@@ -1,6 +1,7 @@
 package com.zero211.moviemaestro;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
-    private static final String MOVIE_DETAILS_URL_PATT_STR = "https://api.themoviedb.org/3/movie/" + MOVIE_ID_PLACEHOLDER + "?api_key=" + API_KEY + "&language=" + LOCALE_STR + "&append_to_response=videos%2Ccredits%2Cexternal_ids";
+    private static final String MOVIE_DETAILS_URL_PATT_STR = "movie/" + MOVIE_ID_PLACEHOLDER + "?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&append_to_response=videos%2Ccredits%2Cexternal_ids";
 
     private static final String OVERVIEW_PATH = "$.overview";
     private static final String BUDGET_PATH = "$.budget";
@@ -53,24 +54,11 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String TWITTER_ID_PATH = "$.external_ids.twitter_id";
 
     private MovieDetailFragment movieDetailFragment;
-    private String urlStr;
 
     public GetMovieDetailsAsyncTask(MovieDetailFragment movieDetailFragment)
     {
+        super(movieDetailFragment.getActivity(), MOVIE_DETAILS_URL_PATT_STR.replace(MOVIE_ID_PLACEHOLDER, String.valueOf(movieDetailFragment.getMovieID())));
         this.movieDetailFragment = movieDetailFragment;
-        int movieID = movieDetailFragment.getMovieID();
-        String movieIDStr = String.valueOf(movieID);
-        urlStr = MOVIE_DETAILS_URL_PATT_STR.replace(MOVIE_ID_PLACEHOLDER, movieIDStr);
-    }
-
-    @Override
-    protected DocumentContext doInBackground(String... params)
-    {
-        // No execute-time params, since all are required in the constructor.
-
-        DocumentContext result = super.doInBackground(urlStr,"1","1");
-
-        return result;
     }
 
     @Override

@@ -74,4 +74,15 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="born_label">Born:</string>
     <string name="died_label">Died:</string>
     <string name="unknown_biography">Unknown Biography</string>
+    <string name="age_label">Age:</string>
+    <string name="age_at_death_label">Age at death:</string>
+    <string name="biography_label">Biography:</string>
+    <string name="imdb_label">IMDB:</string>
+    <string name="unknown_imdb_id">Unknown IMDB id</string>
+    <string name="facebook_label">Facebook:</string>
+    <string name="unknown_facebook_id">Unknown Facebook id</string>
+    <string name="instagram_label">Instagram:</string>
+    <string name="unknown_instagram_id">Unknown Instagram id</string>
+    <string name="twitter_label">Twitter:</string>
+    <string name="unknown_twitter_id">Unknown Twitter id</string>
 </resources>

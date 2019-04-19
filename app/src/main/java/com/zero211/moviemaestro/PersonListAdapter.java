@@ -72,6 +72,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
 
         String profileImgRelPath = (String)(itemData.get("profile_path"));
 
+
         String profileFullPathImageURI;
         if (profileImgRelPath != null)
         {
@@ -80,7 +81,20 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         }
         else
         {
-            profileFullPathImageURI = "res:///" + R.drawable.no_image_available;
+            int gender = (Integer)(itemData.get("gender"));
+            switch (gender)
+            {
+                case 1:
+                    profileFullPathImageURI = "res:///" + R.drawable.unknown_female;
+                    break;
+                case 2:
+                    profileFullPathImageURI = "res:///" + R.drawable.unknown_male;
+                    break;
+                case 0:
+                default:
+                    profileFullPathImageURI = "res:///" + R.drawable.unknown_person;
+            }
+
         }
 
         itemData.put(ARG_PROFILE_IMG_FULL_PATH, profileFullPathImageURI);

@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
+import static com.zero211.moviemaestro.DateFormatUtils.BUILD_DATE_FORMAT;
+
 public class AboutActivity extends AppCompatActivity
 {
     private static final String ELLIPSES = "…";
@@ -30,7 +32,7 @@ public class AboutActivity extends AppCompatActivity
         this.setContentView(R.layout.activity_about);
         this.setTitle(R.string.about);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
@@ -125,9 +127,7 @@ public class AboutActivity extends AppCompatActivity
     private String getVersionStr()
     {
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
-        SimpleDateFormat buildDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        String buildDateStr = buildDateFormat.format(buildDate);
-
+        String buildDateStr = BUILD_DATE_FORMAT.format(buildDate);
         return buildDateStr;
     }
 
