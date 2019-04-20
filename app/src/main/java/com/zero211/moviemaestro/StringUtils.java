@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,11 @@ public class StringUtils
     public static boolean isNullOrEmpty(@Nullable String str)
     {
         return ((str == null) || (str.trim().length() == 0));
+    }
+
+    public static boolean isPureAscii(String v)
+    {
+        return StandardCharsets.US_ASCII.newEncoder().canEncode(v);
     }
 
     public static String rawTextFileToString(@NonNull Context ctx, @NonNull int resId)
@@ -48,7 +55,7 @@ public class StringUtils
 
     private static String getURLFromID(@NonNull String urlPatternStr,@NonNull String id)
     {
-        if (id == null)
+        if (isNullOrEmpty(id))
         {
             return null;
         }

@@ -15,6 +15,7 @@ public class DateFormatUtils
     private static final DateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
     private static final DateFormat SHORT_THIS_YEAR_DATE_FORMAT = new SimpleDateFormat("MMM d");
     private static final DateFormat LONG_DATE_THIS_YEAR_FORMAT = new SimpleDateFormat("MMMM d, yyyy");
+    private static final DateFormat JUST_YEAR_FORMAT = new SimpleDateFormat("yyyy");
 
     private static String getFormattedDateStrFromTMDBDateStr(DateFormat formater, String tmdb_date_str)
     {
@@ -89,6 +90,11 @@ public class DateFormatUtils
     public static String getShortThisYearDateStrFromTMDBDateStr(String tmdb_date_str)
     {
         return getFormattedDateStrFromTMDBDateStr(SHORT_THIS_YEAR_DATE_FORMAT, tmdb_date_str);
+    }
+
+    public static String getJustYearDateStrFromTMDBDateStr(String tmdb_date_str)
+    {
+        return getFormattedDateStrFromTMDBDateStr(JUST_YEAR_FORMAT, tmdb_date_str);
     }
 
 

@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:lines="3"
             android:maxLines="3"
@@ -57,11 +57,25 @@
             app:layout_constraintVertical_chainStyle="spread_inside"/>
 
         <TextView
-            android:id="@+id/txtMovieReleaseDate"
+            android:id="@+id/txtCharacterOrJob"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/unknown_character_or_job"
+            android:textColor="@color/colorText"
+            app:layout_constraintBottom_toTopOf="@+id/txtMovieReleaseDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"/>
+
+        <TextView
+            android:id="@+id/txtMovieReleaseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/unknown_movie_release_date"
@@ -69,7 +83,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"/>
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,5 @@
 package com.zero211.moviemaestro;
 
-import android.content.res.Configuration;
-
 import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -21,40 +20,29 @@ import static com.zero211.moviemaestro.DateFormatUtils.*;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>
 {
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private boolean showReleaseDate;
-
     private static final String POSTER_IMAGE_SIZE = "w780";
     private static final String BACKDROP_IMAGE_SIZE = "w1280";
 
+    public enum MOVIE_TYPE
+    {
+        IN_THEATRES,
+        COMING_SOON,
+        AS_CAST,
+        AS_CREW
+    }
+
+    private MOVIE_TYPE movieType;
+    private ArrayList<Map<String,Object>> moviesList = new ArrayList<Map<String, Object>>();
     private int total_pages;
     private int total_results;
+    private Object loadingIndicator;
+    private View[] viewsToMakeVisibleWhenDone;
 
-
-    private ArrayList<Map<String,Object>> moviesList = new ArrayList<Map<String, Object>>();
-
-    public MovieListAdapter(Configuration deviceConfig, SwipeRefreshLayout swipeRefreshLayout, boolean showReleaseDate)
+    public MovieListAdapter(MOVIE_TYPE movieType, Object loadingIndicator, View... viewsToMakeVisibleWhenDone)
     {
-        this.swipeRefreshLayout = swipeRefreshLayout;
-        this.showReleaseDate = showReleaseDate;
-
-        // TODO: Optimize the image size specification based on the device screen density/resolution.
-        //
-        // For now, we ask for the largest size (the Fresco drawee will scale it no matter what, but the download size
-        // can be optimized based on the expected minimum size needed based on the device screen size/density/resolution)..
-
-//        if (displaySize.x <= 300)
-//        {
-//            POSTER_IMAGE_SIZE = "w300";
-//        }
-//        else if (displaySize.x <=780)
-//        {
-//            POSTER_IMAGE_SIZE = "w780";
-//        }
-//        else
-//        {
-//            POSTER_IMAGE_SIZE = "w1280";
-//        }
+        this.movieType = movieType;
+        this.loadingIndicator = loadingIndicator;
+        this.viewsToMakeVisibleWhenDone = viewsToMakeVisibleWhenDone;
     }
 
     public void setTotal_pages(int total_pages)
@@ -72,15 +60,27 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         moviesList.clear();
         moviesList.addAll(moviesToAdd);
         this.notifyDataSetChanged();
-        if (swipeRefreshLayout != null)
+
+        if (loadingIndicator != null)
         {
-            swipeRefreshLayout.setRefreshing(false);
+            if (loadingIndicator instanceof SwipeRefreshLayout)
+            {
+                SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) loadingIndicator;
+                swipeRefreshLayout.setRefreshing(false);
+            }
+            else if (loadingIndicator instanceof ProgressBar)
+            {
+                ProgressBar progressBar = (ProgressBar)loadingIndicator;
+                progressBar.setVisibility(View.GONE);
+            }
+        }
 
-            TextView lblInTheatres = swipeRefreshLayout.findViewById(R.id.lblInTheatresNow);
-            lblInTheatres.setVisibility(View.VISIBLE);
-
-            TextView lblComingSoon = swipeRefreshLayout.findViewById(R.id.lblUpcomingMovies);
-            lblComingSoon.setVisibility(View.VISIBLE);
+        if (viewsToMakeVisibleWhenDone != null)
+        {
+            for (View viewToMakeVisibleWhenDone : viewsToMakeVisibleWhenDone)
+            {
+                viewToMakeVisibleWhenDone.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -149,19 +149,41 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         String title = (String)(itemData.get("title"));
         movieViewHolder.txtMovieTitle.setText(title);
 
-        if (this.showReleaseDate)
-        {
-            String releaseDateStr = (String) (itemData.get("release_date"));
-            String formattedReleaseDateStr = getShortThisYearDateStrFromTMDBDateStr(releaseDateStr);
-            movieViewHolder.txtMovieReleaseDate.setText(formattedReleaseDateStr);
-            movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
-        }
 
 
+        String releaseDateStr = (String) (itemData.get("release_date"));
+        String shortThisYearReleaseDateStr = getShortThisYearDateStrFromTMDBDateStr(releaseDateStr);
+        String justYearReleaseDateStr = getJustYearDateStrFromTMDBDateStr(releaseDateStr);
+
+
+        switch (this.movieType)
+        {
+            case AS_CAST:
+                String character = (String)(itemData.get("character"));
+                movieViewHolder.txtCharacterOrJob.setText(character);
+                movieViewHolder.txtCharacterOrJob.setVisibility(View.VISIBLE);
+
+                movieViewHolder.txtMovieReleaseDate.setText(justYearReleaseDateStr);
+                movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
+                break;
+            case AS_CREW:
+                String job = (String)(itemData.get("job"));
+                movieViewHolder.txtCharacterOrJob.setText(job);
+                movieViewHolder.txtCharacterOrJob.setVisibility(View.VISIBLE);
+
+                movieViewHolder.txtMovieReleaseDate.setText(justYearReleaseDateStr);
+                movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
+                break;
+            case COMING_SOON:
+                movieViewHolder.txtMovieReleaseDate.setText(shortThisYearReleaseDateStr);
+                movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
+                movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
+                break;
+            case IN_THEATRES:
+            default:
+                movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
+                movieViewHolder.txtCharacterOrJob.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -176,6 +198,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         protected SimpleDraweeView imgMoviePoster;
         protected TextView txtMovieTitle;
         protected TextView txtMovieReleaseDate;
+        protected TextView txtCharacterOrJob;
 
         public MovieViewHolder(View v)
         {
@@ -183,6 +206,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             imgMoviePoster = v.findViewById(R.id.imgMoviePoster);
             txtMovieTitle = v.findViewById(R.id.txtMovieTitle);
             txtMovieReleaseDate = v.findViewById(R.id.txtMovieReleaseDate);
+            txtCharacterOrJob = v.findViewById(R.id.txtCharacterOrJob);
         }
     }
 }

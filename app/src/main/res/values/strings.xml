@@ -85,4 +85,8 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="unknown_instagram_id">Unknown Instagram id</string>
     <string name="twitter_label">Twitter:</string>
     <string name="unknown_twitter_id">Unknown Twitter id</string>
+    <string name="as_cast_label">As Cast</string>
+    <string name="as_crew_label">As Crew</string>
+    <string name="also_known_as_label">Also Known As:</string>
+    <string name="unknown_character_or_job">Unknown Character or Job</string>
 </resources>

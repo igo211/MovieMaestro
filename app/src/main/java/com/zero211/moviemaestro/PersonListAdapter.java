@@ -3,6 +3,7 @@ package com.zero211.moviemaestro;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static com.zero211.moviemaestro.PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH;
 
@@ -27,13 +29,19 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         CREW
     }
 
+
     private PERSON_TYPE personType;
-
     private ArrayList<Map<String,Object>> peopleList = new ArrayList<Map<String, Object>>();
+    private int total_pages;
+    private int total_results;
+    private Object loadingIndicator;
+    private View[] viewsToMakeVisibleWhenDone;
 
-    public PersonListAdapter(PERSON_TYPE personType)
+    public PersonListAdapter(PERSON_TYPE personType, Object loadingIndicator, View... viewsToMakeVisibleWhenDone)
     {
         this.personType = personType;
+        this.loadingIndicator = loadingIndicator;
+        this.viewsToMakeVisibleWhenDone = viewsToMakeVisibleWhenDone;
     }
 
     public void clearAndAddPeople(List<Map<String,Object>> peopleToAdd)
@@ -41,6 +49,28 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         peopleList.clear();
         peopleList.addAll(peopleToAdd);
         this.notifyDataSetChanged();
+
+        if (loadingIndicator != null)
+        {
+            if (loadingIndicator instanceof SwipeRefreshLayout)
+            {
+                SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) loadingIndicator;
+                swipeRefreshLayout.setRefreshing(false);
+            }
+            else if (loadingIndicator instanceof ProgressBar)
+            {
+                ProgressBar progressBar = (ProgressBar)loadingIndicator;
+                progressBar.setVisibility(View.GONE);
+            }
+        }
+
+        if (viewsToMakeVisibleWhenDone != null)
+        {
+            for (View viewToMakeVisibleWhenDone : viewsToMakeVisibleWhenDone)
+            {
+                viewToMakeVisibleWhenDone.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public void addPeople(List<Map<String,Object>> peopleToAdd)

@@ -1,12 +1,17 @@
 package com.zero211.moviemaestro;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.AppBarLayout;
+
+import java.util.Map;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +58,8 @@ public class PersonDetailActivity extends AppCompatActivity
         profile_pic.setImageURI(this.profile_img_full_path);
 
         GetPersonDetailsAsyncTask getPersonDetailsAsyncTask = new GetPersonDetailsAsyncTask(this);
+        ProgressBar pgLoading = findViewById(R.id.pgLoading);
+        pgLoading.setVisibility(View.GONE);
         getPersonDetailsAsyncTask.execute();
     }
 
@@ -69,6 +76,22 @@ public class PersonDetailActivity extends AppCompatActivity
     public String getProfile_img_full_path()
     {
         return profile_img_full_path;
+    }
+
+    public void movieDetails(View view)
+    {
+        Map<String,Object> itemData = (Map<String, Object>) view.getTag();
+        //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("title") + "' with movie id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
+
+        Context context = view.getContext();
+
+        Intent intent = new Intent(context, MovieDetailActivity.class);
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, (Integer)(itemData.get("id")));
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE, (String) itemData.get("release_date"));
+
+        context.startActivity(intent);
     }
 
     @Override

@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.common.logging.FLog;
@@ -95,22 +96,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        Configuration deviceConfig = getResources().getConfiguration();
 
+
+        TextView lblUpcomingMovies = findViewById(R.id.lblUpcomingMovies);
         RecyclerView upcomingMovieCardList = findViewById(R.id.rvUpcomingMovieCardList);
         upcomingMovieCardList.setHasFixedSize(true);
         LinearLayoutManager upcomingLLM = new LinearLayoutManager(this);
         upcomingLLM.setOrientation(RecyclerView.HORIZONTAL);
         upcomingMovieCardList.setLayoutManager(upcomingLLM);
-        upcomingMovieListAdapter = new MovieListAdapter(deviceConfig, null, true);
+        upcomingMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.COMING_SOON, null, lblUpcomingMovies);
         upcomingMovieCardList.setAdapter(upcomingMovieListAdapter);
 
+        TextView lblInTheatres = findViewById(R.id.lblInTheatresNow);
         RecyclerView inTheatresMovieCardList = findViewById(R.id.rvInTheatresMovieCardList);
         inTheatresMovieCardList.setHasFixedSize(true);
         LinearLayoutManager inTheatresLLM = new LinearLayoutManager(this);
         inTheatresLLM.setOrientation(RecyclerView.HORIZONTAL);
         inTheatresMovieCardList.setLayoutManager(inTheatresLLM);
-        inTheatresMovieAdapter = new MovieListAdapter(deviceConfig, swipeRefreshLayout, false);
+        inTheatresMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.IN_THEATRES, swipeRefreshLayout, lblInTheatres);
         inTheatresMovieCardList.setAdapter(inTheatresMovieAdapter);
 
         swipeRefreshLayout.setRefreshing(true);

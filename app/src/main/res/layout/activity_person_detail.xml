@@ -51,6 +51,32 @@
                 fresco:placeholderImage="@color/colorFrescoPlaceholder"/>
 
             <TextView
+                android:id="@+id/lblAlsoKnownAs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/also_known_as_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/txtAlsoKnownAs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/unknown"
+                android:textColor="@color/colorText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                app:layout_constraintTop_toBottomOf="@id/lblAlsoKnownAs"/>
+
+            <TextView
                 android:id="@+id/lblBorn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -61,7 +87,8 @@
                 android:textColor="@color/colorLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/txtAlsoKnownAs"
+                />
 
             <TextView
                 android:id="@+id/txtBirthDate"
@@ -90,43 +117,18 @@
                 app:layout_constraintTop_toBottomOf="@id/txtBirthDate"/>
 
             <TextView
-                android:id="@+id/lblDeath"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/died_label"
-                android:textColor="@color/colorLabel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                app:layout_constraintTop_toBottomOf="@id/txtBirthPlace"/>
-
-            <TextView
-                android:id="@+id/txtDeathDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/unknown"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                app:layout_constraintTop_toBottomOf="@id/lblDeath"/>
-
-            <TextView
                 android:id="@+id/lblAge"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/age_label"
                 android:textColor="@color/colorLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgPersonPoster"
-                app:layout_constraintTop_toBottomOf="@+id/txtDeathDate"/>
+                app:layout_constraintTop_toBottomOf="@+id/txtBirthPlace"
+                />
 
             <TextView
                 android:id="@+id/txtAge"
@@ -139,13 +141,42 @@
                 android:textColor="@color/colorText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                app:layout_constraintTop_toBottomOf="@id/lblAge"/>
+                app:layout_constraintTop_toBottomOf="@id/lblAge"
+                />
+
+
+            <TextView
+                android:id="@+id/lblDeath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/died_label"
+                android:textColor="@color/colorLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                app:layout_constraintBottom_toTopOf="@id/txtDeathDate"/>
+
+            <TextView
+                android:id="@+id/txtDeathDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/unknown"
+                android:textColor="@color/colorText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                app:layout_constraintBottom_toBottomOf="@id/imgPersonPoster"/>
+
 
 
             <TextView
                 android:id="@+id/lblBiography"
                 android:layout_width="0dp"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
@@ -172,142 +203,85 @@
                 app:layout_constraintTop_toBottomOf="@id/lblBiography"/>
 
             <TextView
-                android:id="@+id/lblHomepage"
+                android:id="@+id/lblAsCast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/homepage"
-                android:textColor="@color/colorLabel"
+                android:text="@string/as_cast_label"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtBiography"/>
 
-            <TextView
-                android:id="@+id/txtHomepage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:autoLink="web"
-                android:text="@string/unknown_homepage"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblHomepage"/>
-
-
-            <TextView
-                android:id="@+id/lblFB"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAsCast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/facebook_label"
-                android:textColor="@color/colorLabel"
+                android:background="@color/colorContainerBackground"
+                android:orientation="horizontal"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtHomepage"/>
+                app:layout_constraintTop_toBottomOf="@id/lblAsCast"/>
 
             <TextView
-                android:id="@+id/txtFB"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:autoLink="web"
-                android:text="@string/unknown_facebook_id"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblFB"/>
-
-            <TextView
-                android:id="@+id/lblInsta"
+                android:id="@+id/lblAsCrew"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/instagram_label"
-                android:textColor="@color/colorLabel"
+                android:text="@string/as_crew_label"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtFB"/>
+                app:layout_constraintTop_toBottomOf="@id/rvAsCast"/>
 
-            <TextView
-                android:id="@+id/txtInsta"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:autoLink="web"
-                android:text="@string/unknown_instagram_id"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblInsta"/>
-
-            <TextView
-                android:id="@+id/lblTwitter"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAsCrew"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/twitter_label"
-                android:textColor="@color/colorLabel"
+                android:background="@color/colorContainerBackground"
+                android:orientation="horizontal"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtInsta"/>
+                app:layout_constraintTop_toBottomOf="@id/lblAsCrew"/>
 
-            <TextView
-                android:id="@+id/txtTwitter"
-                android:layout_width="0dp"
+            <include
+                layout="@layout/social_media_links"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:autoLink="web"
-                android:text="@string/unknown_twitter_id"
-                android:textColor="@color/colorText"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblTwitter"/>
+                app:layout_constraintTop_toBottomOf="@+id/rvAsCrew"/>
 
-            <TextView
-                android:id="@+id/lblIMDB"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/imdb_label"
-                android:textColor="@color/colorLabel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtTwitter"/>
-
-            <TextView
-                android:id="@+id/txtIMDB"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="8dp"
-                android:autoLink="web"
-                android:text="@string/unknown_imdb_id"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblIMDB"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/pgLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchorGravity="center"
+        android:visibility="gone"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

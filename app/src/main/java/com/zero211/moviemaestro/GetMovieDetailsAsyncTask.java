@@ -1,7 +1,6 @@
 package com.zero211.moviemaestro;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,6 +16,10 @@ import java.util.Map;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.zero211.moviemaestro.StringUtils.getFBURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getIMDBURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getInstaURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getTwitterURLFromID;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
@@ -81,7 +84,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         TextView txtTagline = fragmentView.findViewById(R.id.txtTagline);
         TextView txtOverview = fragmentView.findViewById(R.id.txtMovieOverview);
-        TextView txtHomepage = fragmentView.findViewById(R.id.txtHomepage);
+
         TextView txtRuntime = fragmentView.findViewById(R.id.txtRuntime);
         TextView txtBudget = fragmentView.findViewById(R.id.txtBudget);
         TextView txtRevenue = fragmentView.findViewById(R.id.txtRevenue);
@@ -92,6 +95,22 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView txtDOPs = fragmentView.findViewById(R.id.txtDOP);
         TextView txtWriters = fragmentView.findViewById(R.id.txtWriters);
 
+        TextView lblHomepage = fragmentView.findViewById(R.id.lblHomepage);
+        TextView txtHomepage = fragmentView.findViewById(R.id.txtHomepage);
+
+        TextView lblFB = fragmentView.findViewById(R.id.lblFB);
+        TextView txtFB = fragmentView.findViewById(R.id.txtFB);
+
+        TextView lblInsta = fragmentView.findViewById(R.id.lblInsta);
+        TextView txtInsta = fragmentView.findViewById(R.id.txtInsta);
+
+        TextView lblTwitter = fragmentView.findViewById(R.id.lblTwitter);
+        TextView txtTwitter = fragmentView.findViewById(R.id.txtTwitter);
+
+        TextView lblIMDB = fragmentView.findViewById(R.id.lblIMDB);
+        TextView txtIMDB = fragmentView.findViewById(R.id.txtIMDB);
+
+
 
         // Set the various views with their values
 
@@ -100,7 +119,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         currencyFormatter.setMaximumFractionDigits(0);
 
         String tagline = mergedDoc.read(TAGLINE_PATH);
-        String homepage = mergedDoc.read(HOMEPAGE_PATH);
+
         String overview = mergedDoc.read(OVERVIEW_PATH);
         Integer runtime = mergedDoc.read(RUNTIME_PATH);
         Integer budget = mergedDoc.read(BUDGET_PATH);
@@ -121,13 +140,21 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         List<Map<String,Object>> editors = mergedDoc.read(EDITORS_PATH);
         List<Map<String,Object>> composers = mergedDoc.read(COMPOSERS_PATH);
         List<Map<String,Object>> music_supers = mergedDoc.read(MUSIC_SUPERS_PATH);
+        List<Map<String,Object>> writers = mergedDoc.read(WRITERS_PATH);
         List<Map<String,Object>> screenplay_writers = mergedDoc.read(SCREENPLAY_WRITERS_PATH);
         List<Map<String,Object>> story_writers = mergedDoc.read(STORY_WRITERS_PATH);
 
-        String imdb_id = mergedDoc.read(IMDB_ID_PATH);
-        String facebook_id = mergedDoc.read(FACEBOOK_ID_PATH);
-        String instagram_id = mergedDoc.read(INSTA_ID_PATH);
+        String homepage = mergedDoc.read(HOMEPAGE_PATH);
+        String fb_id = mergedDoc.read(FACEBOOK_ID_PATH);
+        String insta_id = mergedDoc.read(INSTA_ID_PATH);
         String twitter_id = mergedDoc.read(TWITTER_ID_PATH);
+        String imdb_id = mergedDoc.read(IMDB_ID_PATH);
+
+        setTextIfNotNullAndNotEmpty(lblHomepage, txtHomepage, homepage);
+        setTextIfNotNullAndNotEmpty(lblFB, txtFB, getFBURLFromID(fb_id));
+        setTextIfNotNullAndNotEmpty(lblInsta, txtInsta, getInstaURLFromID(insta_id));
+        setTextIfNotNullAndNotEmpty(lblTwitter, txtTwitter, getTwitterURLFromID(twitter_id));
+        setTextIfNotNullAndNotEmpty(lblIMDB, txtIMDB, getIMDBURLFromID(imdb_id));
 
         txtTagline.setText(tagline);
         txtOverview.setText(overview);
@@ -197,22 +224,23 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         cdlStr = getCDLStringFromListWithNames(screenplay_writers);
         txtWriters.setText(cdlStr);
 
-
+        TextView lblCast = fragmentView.findViewById(R.id.lblAsCast);
         RecyclerView castCardList = fragmentView.findViewById(R.id.rvCastCardList);
         castCardList.setHasFixedSize(true);
         LinearLayoutManager castLLM = new LinearLayoutManager(activity);
         castLLM.setOrientation(RecyclerView.HORIZONTAL);
         castCardList.setLayoutManager(castLLM);
-        PersonListAdapter castListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CAST);
+        PersonListAdapter castListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CAST, null, lblCast);
         castCardList.setAdapter(castListAdapter);
         castListAdapter.clearAndAddPeople(cast);
 
+        TextView lblCrew = fragmentView.findViewById(R.id.lblAsCrew);
         RecyclerView crewCardList = fragmentView.findViewById(R.id.rvCrewCardList);
         crewCardList.setHasFixedSize(true);
         LinearLayoutManager crewLLM = new LinearLayoutManager(activity);
         crewLLM.setOrientation(RecyclerView.HORIZONTAL);
         crewCardList.setLayoutManager(crewLLM);
-        PersonListAdapter crewListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CREW);
+        PersonListAdapter crewListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CREW, null, lblCrew);
         crewCardList.setAdapter(crewListAdapter);
         crewListAdapter.clearAndAddPeople(crew);
 
