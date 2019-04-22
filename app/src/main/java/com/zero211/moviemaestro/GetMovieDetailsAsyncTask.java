@@ -232,7 +232,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         castCardList.setLayoutManager(castLLM);
         PersonListAdapter castListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CAST, null, lblCast);
         castCardList.setAdapter(castListAdapter);
-        castListAdapter.clearAndAddPeople(cast);
+        castListAdapter.clearAndAddList(cast);
 
         TextView lblCrew = fragmentView.findViewById(R.id.lblAsCrew);
         RecyclerView crewCardList = fragmentView.findViewById(R.id.rvCrewCardList);
@@ -242,7 +242,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         crewCardList.setLayoutManager(crewLLM);
         PersonListAdapter crewListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CREW, null, lblCrew);
         crewCardList.setAdapter(crewListAdapter);
-        crewListAdapter.clearAndAddPeople(crew);
+        crewListAdapter.clearAndAddList(crew);
 
         // process trailers looking for: Final Trailer, Official Trailer 5, Official Trailer 4, etc.
         // default to the first trailer found if none match the desired patterns

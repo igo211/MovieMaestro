@@ -12,6 +12,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import androidx.fragment.app.Fragment;
 
+import static com.zero211.moviemaestro.DateFormatUtils.*;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,7 +110,7 @@ public class MovieDetailFragment extends Fragment
 
             if (txtReleaseDate != null)
             {
-                String formattedMovieReleaseDateStr = DateFormatUtils.getShortDateStrFromTMDBDateStr(movieReleaseDateStr);
+                String formattedMovieReleaseDateStr = getLongDateStrFromTMDBDateStr(movieReleaseDateStr);
                 txtReleaseDate.setText(formattedMovieReleaseDateStr);
             }
         }

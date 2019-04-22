@@ -44,11 +44,11 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
 
             if (startPage == 1)
             {
-                movieListAdapter.clearAndAddMovies(moviesList);
+                movieListAdapter.clearAndAddList(moviesList);
             }
             else
             {
-                movieListAdapter.addMovies(moviesList);
+                movieListAdapter.addList(moviesList);
             }
         }
 

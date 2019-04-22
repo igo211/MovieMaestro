@@ -18,9 +18,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static com.zero211.moviemaestro.PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH;
 
+// TODO: Refactor this class and MovieListAdapter to have an abstract parent class (AbstractPosterListAdapter) that contains the object list, the add* methods, the loadingIndicator and the viewsToMakeVisible for all list adapters
 
 public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.PersonViewHolder>
 {
+    private static final String TMDB_IMAGE_PATH_PREFIX = "https://image.tmdb.org/t/p/";
+    private static final String FRESCO_RESOURCES_IMAGE_PATH_PREFIX = "res:///";
+
     private static final String PROFILE_IMAGE_SIZE = "h632";
 
     public enum PERSON_TYPE
@@ -31,7 +35,8 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
 
 
     private PERSON_TYPE personType;
-    private ArrayList<Map<String,Object>> peopleList = new ArrayList<Map<String, Object>>();
+
+    private ArrayList<Map<String,Object>> itemList = new ArrayList<Map<String, Object>>();
     private int total_pages;
     private int total_results;
     private Object loadingIndicator;
@@ -44,10 +49,10 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         this.viewsToMakeVisibleWhenDone = viewsToMakeVisibleWhenDone;
     }
 
-    public void clearAndAddPeople(List<Map<String,Object>> peopleToAdd)
+    public void clearAndAddList(List<Map<String,Object>> newItemList)
     {
-        peopleList.clear();
-        peopleList.addAll(peopleToAdd);
+        this.itemList.clear();
+        this.itemList.addAll(newItemList);
         this.notifyDataSetChanged();
 
         if (loadingIndicator != null)
@@ -73,11 +78,11 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         }
     }
 
-    public void addPeople(List<Map<String,Object>> peopleToAdd)
+    public void addList(List<Map<String,Object>> listToAdd)
     {
-        int insertPos = peopleList.size() - 1;
-        peopleList.addAll(peopleToAdd);
-        this.notifyItemRangeInserted(insertPos, peopleToAdd.size());
+        int insertPos = itemList.size() - 1;
+        itemList.addAll(listToAdd);
+        this.notifyItemRangeInserted(insertPos, listToAdd.size());
     }
 
     @NonNull
@@ -98,7 +103,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
     @Override
     public void onBindViewHolder(@NonNull PersonViewHolder personViewholder, int i)
     {
-        Map<String, Object> itemData = peopleList.get(i);
+        Map<String, Object> itemData = itemList.get(i);
 
         String profileImgRelPath = (String)(itemData.get("profile_path"));
 
@@ -106,7 +111,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
         String profileFullPathImageURI;
         if (profileImgRelPath != null)
         {
-            profileFullPathImageURI = "https://image.tmdb.org/t/p/" + PROFILE_IMAGE_SIZE + profileImgRelPath;
+            profileFullPathImageURI = TMDB_IMAGE_PATH_PREFIX + PROFILE_IMAGE_SIZE + profileImgRelPath;
 
         }
         else
@@ -115,14 +120,14 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
             switch (gender)
             {
                 case 1:
-                    profileFullPathImageURI = "res:///" + R.drawable.unknown_female;
+                    profileFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.unknown_female;
                     break;
                 case 2:
-                    profileFullPathImageURI = "res:///" + R.drawable.unknown_male;
+                    profileFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.unknown_male;
                     break;
                 case 0:
                 default:
-                    profileFullPathImageURI = "res:///" + R.drawable.unknown_person;
+                    profileFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.unknown_person;
             }
 
         }
@@ -171,7 +176,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
     @Override
     public int getItemCount()
     {
-        return peopleList.size();
+        return itemList.size();
     }
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder

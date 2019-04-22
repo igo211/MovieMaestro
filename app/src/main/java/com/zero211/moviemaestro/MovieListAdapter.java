@@ -18,8 +18,12 @@ import java.util.Map;
 
 import static com.zero211.moviemaestro.DateFormatUtils.*;
 
+// TODO: Refactor this class and PersonListAdapter to have an abstract parent class (AbstractPosterListAdapter) that contains the object list, the add* methods, the loadingIndicator and the viewsToMakeVisible for all list adapters
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>
 {
+    private static final String TMDB_IMAGE_PATH_PREFIX = "https://image.tmdb.org/t/p/";
+    private static final String FRESCO_RESOURCES_IMAGE_PATH_PREFIX = "res:///";
+
     private static final String POSTER_IMAGE_SIZE = "w780";
     private static final String BACKDROP_IMAGE_SIZE = "w1280";
 
@@ -32,7 +36,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     private MOVIE_TYPE movieType;
-    private ArrayList<Map<String,Object>> moviesList = new ArrayList<Map<String, Object>>();
+
+    private ArrayList<Map<String,Object>> itemList = new ArrayList<Map<String, Object>>();
     private int total_pages;
     private int total_results;
     private Object loadingIndicator;
@@ -55,10 +60,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         this.total_results = total_results;
     }
 
-    public void clearAndAddMovies(List<Map<String,Object>> moviesToAdd)
+    public void clearAndAddList(List<Map<String,Object>> newItemList)
     {
-        moviesList.clear();
-        moviesList.addAll(moviesToAdd);
+        itemList.clear();
+        itemList.addAll(newItemList);
         this.notifyDataSetChanged();
 
         if (loadingIndicator != null)
@@ -84,11 +89,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
     }
 
-    public void addMovies(List<Map<String,Object>> moviesToAdd)
+    public void addList(List<Map<String,Object>> listToAdd)
     {
-        int insertPos = moviesList.size() - 1;
-        moviesList.addAll(moviesToAdd);
-        this.notifyItemRangeInserted(insertPos, moviesToAdd.size());
+        int insertPos = itemList.size() - 1;
+        itemList.addAll(listToAdd);
+        this.notifyItemRangeInserted(insertPos, listToAdd.size());
     }
 
     @NonNull
@@ -109,19 +114,19 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i)
     {
-        Map<String, Object> itemData = moviesList.get(i);
+        Map<String, Object> itemData = itemList.get(i);
 
         String backDropImgRelPath = (String)(itemData.get("backdrop_path"));
 
         String backdropFullPathImageURI;
         if (backDropImgRelPath != null)
         {
-            backdropFullPathImageURI = "https://image.tmdb.org/t/p/" + BACKDROP_IMAGE_SIZE + backDropImgRelPath;
+            backdropFullPathImageURI = TMDB_IMAGE_PATH_PREFIX + BACKDROP_IMAGE_SIZE + backDropImgRelPath;
 
         }
         else
         {
-            backdropFullPathImageURI = "res:///" + R.drawable.no_image_available;
+            backdropFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.no_image_available;
         }
 
         itemData.put("backdrop_img_full_path", backdropFullPathImageURI);
@@ -131,12 +136,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         String posterFullPathImageURI;
         if (posterImgRelPath != null)
         {
-            posterFullPathImageURI = "https://image.tmdb.org/t/p/" + POSTER_IMAGE_SIZE + posterImgRelPath;
+            posterFullPathImageURI = TMDB_IMAGE_PATH_PREFIX + POSTER_IMAGE_SIZE + posterImgRelPath;
 
         }
         else
         {
-            posterFullPathImageURI = "res:///" + R.drawable.no_image_available;
+            posterFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.no_image_available;
         }
 
         itemData.put("poster_img_full_path", posterFullPathImageURI);
@@ -153,6 +158,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         String releaseDateStr = (String) (itemData.get("release_date"));
         String shortThisYearReleaseDateStr = getShortThisYearDateStrFromTMDBDateStr(releaseDateStr);
+        String longReleaseDateStr = getLongDateStrFromTMDBDateStr(releaseDateStr);
         String justYearReleaseDateStr = getJustYearDateStrFromTMDBDateStr(releaseDateStr);
 
 
@@ -175,9 +181,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
                 break;
             case COMING_SOON:
+                movieViewHolder.txtCharacterOrJob.setVisibility(View.GONE);
+
                 movieViewHolder.txtMovieReleaseDate.setText(shortThisYearReleaseDateStr);
                 movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
-                movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
                 break;
             case IN_THEATRES:
             default:
@@ -189,7 +196,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public int getItemCount()
     {
-        return moviesList.size();
+        return itemList.size();
     }
 
 

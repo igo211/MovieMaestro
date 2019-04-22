@@ -6,12 +6,10 @@ import android.widget.TextView;
 
 import com.jayway.jsonpath.DocumentContext;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -84,13 +82,13 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         String birthDateStr = mergedDoc.read(BIRTHDAY_PATH);
         Date birthDate = getDateFromTMDBDateStr(birthDateStr);
-        String formattedBirthDateStr = getShortDateStrFromDate(birthDate);
+        String formattedBirthDateStr = getLongDateStrFromDate(birthDate);
 
         String birthplace = mergedDoc.read(BIRTHPLACE_PATH);
 
         String deathDateStr = mergedDoc.read(DEATHDAY_PATH);
         Date deathDate = getDateFromTMDBDateStr(deathDateStr);
-        String formattedDeathDate = getShortDateStrFromDate(deathDate);
+        String formattedDeathDate = getLongDateStrFromDate(deathDate);
 
         String ageStr = null;
         if (birthDate != null)
@@ -164,31 +162,46 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         setTextIfNotNullAndNotEmpty(lblBiography, txtBiography, biography);
 
+        TextView lblAsCast = personDetailActivity.findViewById(R.id.lblAsCast);
+        RecyclerView rvAsCast = personDetailActivity.findViewById(R.id.rvAsCast);
 
         if ((asMovieCast != null) && (asMovieCast.size() > 0))
         {
-            TextView lblAsCast = personDetailActivity.findViewById(R.id.lblAsCast);
-            RecyclerView rvAsCast = personDetailActivity.findViewById(R.id.rvAsCast);
+            lblAsCast.setVisibility(View.VISIBLE);
+            rvAsCast.setVisibility(View.VISIBLE);
             rvAsCast.setHasFixedSize(true);
             LinearLayoutManager asCastLLM = new LinearLayoutManager(personDetailActivity);
             asCastLLM.setOrientation(RecyclerView.HORIZONTAL);
             rvAsCast.setLayoutManager(asCastLLM);
             MovieListAdapter asCastMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CAST, null, lblAsCast);
             rvAsCast.setAdapter(asCastMovieListAdapter);
-            asCastMovieListAdapter.clearAndAddMovies(asMovieCast);
+            asCastMovieListAdapter.clearAndAddList(asMovieCast);
         }
+        else
+        {
+            lblAsCast.setVisibility(View.GONE);
+            rvAsCast.setVisibility(View.GONE);
+        }
+
+        TextView lblAsCrew = personDetailActivity.findViewById(R.id.lblAsCrew);
+        RecyclerView rvAsCrew = personDetailActivity.findViewById(R.id.rvAsCrew);
 
         if ((asMovieCrew != null) && (asMovieCrew.size() > 0))
         {
-            TextView lblAsCrew = personDetailActivity.findViewById(R.id.lblAsCrew);
-            RecyclerView rvAsCrew = personDetailActivity.findViewById(R.id.rvAsCrew);
+            lblAsCrew.setVisibility(View.VISIBLE);
+            rvAsCrew.setVisibility(View.VISIBLE);
             rvAsCrew.setHasFixedSize(true);
             LinearLayoutManager asCrewLLM = new LinearLayoutManager(personDetailActivity);
             asCrewLLM.setOrientation(RecyclerView.HORIZONTAL);
             rvAsCrew.setLayoutManager(asCrewLLM);
             MovieListAdapter asCrewMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CREW, null, lblAsCrew);
             rvAsCrew.setAdapter(asCrewMovieAdapter);
-            asCrewMovieAdapter.clearAndAddMovies(asMovieCrew);
+            asCrewMovieAdapter.clearAndAddList(asMovieCrew);
+        }
+        else
+        {
+            lblAsCrew.setVisibility(View.GONE);
+            rvAsCrew.setVisibility(View.GONE);
         }
 
         ProgressBar pgLoading = personDetailActivity.findViewById(R.id.pgLoading);

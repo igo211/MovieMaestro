@@ -65,4 +65,12 @@
         app:layout_anchorGravity="top|end"
         app:srcCompat="@android:drawable/ic_media_play"/>
 
+    <ProgressBar
+        android:id="@+id/pgLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_anchorGravity="center"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
