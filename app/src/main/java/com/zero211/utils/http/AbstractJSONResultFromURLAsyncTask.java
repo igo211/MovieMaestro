@@ -4,12 +4,12 @@ import android.os.AsyncTask;
 
 import com.jayway.jsonpath.DocumentContext;
 
-public abstract class AbstractJSONResultFromURLAsyncTask extends AsyncTask<String, Void, DocumentContext>
+public abstract class AbstractJSONResultFromURLAsyncTask extends AsyncTask<String, Void, HttpStringResponse>
 {
     private static final String LOGTAG = AbstractJSONResultFromURLAsyncTask.class.getSimpleName();
 
     @Override
-    protected DocumentContext doInBackground(String... params)
+    protected HttpStringResponse doInBackground(String... params)
     {
         String urlStr = null;
 
@@ -18,7 +18,7 @@ public abstract class AbstractJSONResultFromURLAsyncTask extends AsyncTask<Strin
             urlStr = params[0];
         }
 
-        DocumentContext result = HttpUtils.getJSONDocumentContextFromURL(urlStr);
+        HttpStringResponse result = HttpUtils.getHttpResponseFromURL(urlStr);
 
         return result;
     }

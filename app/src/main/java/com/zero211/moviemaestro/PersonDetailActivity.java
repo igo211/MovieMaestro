@@ -2,6 +2,7 @@ package com.zero211.moviemaestro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,7 @@ public class PersonDetailActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_detail);
+        ProgressBar pgLoading = findViewById(R.id.pgLoading);
 
         this.personID = getIntent().getIntExtra(ARG_PERSON_ID, 0);
         this.name = getIntent().getStringExtra(ARG_NAME);
@@ -57,10 +59,9 @@ public class PersonDetailActivity extends AppCompatActivity
         SimpleDraweeView profile_pic = findViewById(R.id.imgPersonPoster);
         profile_pic.setImageURI(this.profile_img_full_path);
 
+        pgLoading.setVisibility(View.VISIBLE);
         GetPersonDetailsAsyncTask getPersonDetailsAsyncTask = new GetPersonDetailsAsyncTask(this);
-        ProgressBar pgLoading = findViewById(R.id.pgLoading);
-        pgLoading.setVisibility(View.GONE);
-        getPersonDetailsAsyncTask.execute();
+        getPersonDetailsAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public int getPersonID()

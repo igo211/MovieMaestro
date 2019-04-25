@@ -1,6 +1,7 @@
 package com.zero211.moviemaestro;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,7 +92,7 @@ public class MovieDetailFragment extends Fragment
         }
 
         GetMovieDetailsAsyncTask getMovieDetailsAsyncTask = new GetMovieDetailsAsyncTask(this);
-        getMovieDetailsAsyncTask.execute();
+        getMovieDetailsAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

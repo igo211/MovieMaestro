@@ -10,6 +10,8 @@ import androidx.core.os.ConfigurationCompat;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.zero211.utils.http.AbstractJSONResultFromURLAsyncTask;
+import com.zero211.utils.http.HttpStringResponse;
+import com.zero211.utils.http.HttpUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +33,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
     protected static final String START_DATE_PLACEHOLDER = "<START_DATE>";
     protected static final String END_DATE_PLACEHOLDER = "<END_DATE>";
     protected static final String PAGE_PLACEHOLDER = "<PAGE>";
+    protected static final String QUERY_PLACEHOLDER = "<QUERY>";
     protected static final String MOVIE_ID_PLACEHOLDER = "<MOVIE_ID>";
     protected static final String PERSON_ID_PLACEHOLDER = "<PERSON_ID>";
 
@@ -61,7 +64,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
     }
 
     @Override
-    protected DocumentContext doInBackground(String... params)
+    protected HttpStringResponse doInBackground(String... params)
     {
         int currentPage = startPage - 1;
 
@@ -74,6 +77,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         String TMDB_status_msg = null;
 
         DocumentContext mergedDoc = null;
+        HttpStringResponse mergedResponse = null;
 
         do
         {
@@ -83,7 +87,10 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
 
             pageURLStr = urlWithAPIKeyTemplateStr.replace(PAGE_PLACEHOLDER, String.valueOf(currentPage));
 
-            DocumentContext pageDoc = super.doInBackground(pageURLStr);
+            HttpStringResponse pageResponse = super.doInBackground(pageURLStr);
+            mergedResponse = pageResponse;
+
+            DocumentContext pageDoc = HttpUtils.getJSONDocumentContext(pageResponse.getResponseString());
 
             internal_err_msg = pageDoc.read(INTERNAL_ERROR_PATH);
             TMDB_err_msgs = pageDoc.read(ERRORS_PATH);
@@ -96,7 +103,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
             if ((internal_err_msg != null) || (TMDB_err_msgs != null) || (TMDB_status_msg != null))
             {
                 // TODO: return partial results merged with the err/errmsgs/statuscode/statusmsg instead?
-                return pageDoc;
+                return mergedResponse;
             }
             else
             {
@@ -126,7 +133,8 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
 
         } while (currentPage < endPage);
 
-        return mergedDoc;
+        mergedResponse.setDocumentContext(mergedDoc);
+        return mergedResponse;
     }
 
     protected String getStartPageFromParams(int expectedPos, String... params)

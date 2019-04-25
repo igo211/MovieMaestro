@@ -89,4 +89,9 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="as_crew_label">As Crew</string>
     <string name="also_known_as_label">Also Known As:</string>
     <string name="unknown_character_or_job">Unknown Character or Job</string>
+    <string name="movies_label">Movies</string>
+    <string name="people_label">People</string>
+    <string name="search_hint">Search movies or people</string>
+    <string name="search">Search</string>
+    <string name="search_results">Search Results</string>
 </resources>

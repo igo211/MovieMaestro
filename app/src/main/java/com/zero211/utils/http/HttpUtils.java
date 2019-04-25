@@ -12,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -22,28 +24,22 @@ public class HttpUtils
     public static final String INTERNAL_ERROR_LABEL = "internal_error";
     public static final String INTERNAL_ERROR_PATH = "$." + INTERNAL_ERROR_LABEL;
 
-    public static DocumentContext getJSONDocumentContextFromURL(String urlStr)
+    public static DocumentContext getJSONDocumentContext(String jsonResponseString)
     {
-        DocumentContext result = null;
-
-        HttpStringResponse response = getHttpResponseFromURL(urlStr);
-
-        String responseStr = response.getResponseString();
-
-        if (!(responseStr.trim().startsWith("{")))
+        if (!(jsonResponseString.trim().startsWith("{")))
         {
-            responseStr = "{\"" + INTERNAL_ERROR_LABEL + "\" : \"" + responseStr + "\"";
+            jsonResponseString = "{\"" + INTERNAL_ERROR_LABEL + "\" : \"" + jsonResponseString + "\"";
         }
 
-        if (!(responseStr.trim().endsWith("}")))
+        if (!(jsonResponseString.trim().endsWith("}")))
         {
-            responseStr = responseStr + "}";
+            jsonResponseString = jsonResponseString + "}";
         }
 
         Configuration conf = Configuration.defaultConfiguration();
         conf = conf.addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
 
-        result = JsonPath.using(conf).parse(responseStr);
+        DocumentContext result = JsonPath.using(conf).parse(jsonResponseString);
 
         return result;
     }
@@ -58,6 +54,10 @@ public class HttpUtils
         {
             URL url = new URL(urlStr);
             HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+
+            Map<String, List<String>> response_headers = con.getHeaderFields();
+            result.setResponseHeaders(response_headers);
+
             int responseCode = con.getResponseCode();
             result.setResponseCode(responseCode);
 

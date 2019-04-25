@@ -3,6 +3,7 @@ package com.zero211.moviemaestro;
 import android.content.Context;
 
 import com.jayway.jsonpath.DocumentContext;
+import com.zero211.utils.http.HttpStringResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,9 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
     }
 
     @Override
-    protected void onPostExecute(DocumentContext mergedDoc)
+    protected void onPostExecute(HttpStringResponse mergedResponse)
     {
+        DocumentContext mergedDoc = mergedResponse.getDocumentContext();
         String internal_err_msg = mergedDoc.read(INTERNAL_ERROR_PATH);
         List<String> TMDB_err_msgs = mergedDoc.read(ERRORS_PATH);
         Integer TMDB_status_code = mergedDoc.read(STATUS_CODE_PATH);
@@ -37,19 +39,13 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
 
         List<Map<String,Object>> moviesList = mergedDoc.read(RESULTS_PATH);
 
-        if ((moviesList != null) && (moviesList.size() > 0))
+        if (startPage == 1)
         {
-            movieListAdapter.setTotal_pages(TMDB_total_pages);
-            movieListAdapter.setTotal_results(TMDB_total_results);
-
-            if (startPage == 1)
-            {
-                movieListAdapter.clearAndAddList(moviesList);
-            }
-            else
-            {
-                movieListAdapter.addList(moviesList);
-            }
+            movieListAdapter.clearAndAddList(moviesList);
+        }
+        else
+        {
+            movieListAdapter.addList(moviesList);
         }
 
     }

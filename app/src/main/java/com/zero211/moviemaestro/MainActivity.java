@@ -1,6 +1,7 @@
 package com.zero211.moviemaestro;
 
 import android.app.ActionBar;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -9,11 +10,15 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -96,25 +101,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-
-
-        TextView lblUpcomingMovies = findViewById(R.id.lblUpcomingMovies);
-        RecyclerView upcomingMovieCardList = findViewById(R.id.rvUpcomingMovieCardList);
-        upcomingMovieCardList.setHasFixedSize(true);
-        LinearLayoutManager upcomingLLM = new LinearLayoutManager(this);
-        upcomingLLM.setOrientation(RecyclerView.HORIZONTAL);
-        upcomingMovieCardList.setLayoutManager(upcomingLLM);
-        upcomingMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.COMING_SOON, null, lblUpcomingMovies);
-        upcomingMovieCardList.setAdapter(upcomingMovieListAdapter);
-
-        TextView lblInTheatres = findViewById(R.id.lblInTheatresNow);
-        RecyclerView inTheatresMovieCardList = findViewById(R.id.rvInTheatresMovieCardList);
-        inTheatresMovieCardList.setHasFixedSize(true);
-        LinearLayoutManager inTheatresLLM = new LinearLayoutManager(this);
-        inTheatresLLM.setOrientation(RecyclerView.HORIZONTAL);
-        inTheatresMovieCardList.setLayoutManager(inTheatresLLM);
-        inTheatresMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.IN_THEATRES, swipeRefreshLayout, lblInTheatres);
-        inTheatresMovieCardList.setAdapter(inTheatresMovieAdapter);
+        inTheatresMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.IN_THEATRES, this, R.id.rvInTheatresMovieCardList, R.id.lblInTheatresNow, null);
+        upcomingMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.COMING_SOON, this, R.id.rvUpcomingMovieCardList, R.id.lblUpcomingMovies, R.id.swiperefresh);
 
         swipeRefreshLayout.setRefreshing(true);
         this.onRefresh();
@@ -191,10 +179,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         String upcomingEndDateStr = TMDB_API_DATE_FORMAT.format(cal.getTime());
 
         GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(this, 1, Integer.MAX_VALUE, upcomingMovieListAdapter, upcomingStartDateStr, upcomingEndDateStr);
-        getUpcomingMoviesAsyncTask.execute();
+        getUpcomingMoviesAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         GetInTheatresMoviesAsyncTask getInTheatresMoviesAsyncTask = new GetInTheatresMoviesAsyncTask(this, 1, Integer.MAX_VALUE, inTheatresMovieAdapter);
-        getInTheatresMoviesAsyncTask.execute();
+        getInTheatresMoviesAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -202,6 +190,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.activity_main_actionbar, menu);
         mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(), menu, R.id.media_route_menu_item);
+
+        // Get the SearchView and set the searchable configuration
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        // Assumes current activity is the searchable activity
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setGravity(GravityCompat.START);
         return true;
     }
 

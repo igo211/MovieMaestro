@@ -1,29 +1,25 @@
 package com.zero211.moviemaestro;
 
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import static com.zero211.moviemaestro.DateFormatUtils.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.zero211.moviemaestro.DateFormatUtils.getJustYearDateStrFromTMDBDateStr;
+import static com.zero211.moviemaestro.DateFormatUtils.getLongDateStrFromTMDBDateStr;
+import static com.zero211.moviemaestro.DateFormatUtils.getShortThisYearDateStrFromTMDBDateStr;
 
 // TODO: Refactor this class and PersonListAdapter to have an abstract parent class (AbstractPosterListAdapter) that contains the object list, the add* methods, the loadingIndicator and the viewsToMakeVisible for all list adapters
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>
+public class MovieListAdapter extends AbstractTMDBCardListAdapter<MovieListAdapter.MovieViewHolder>
 {
-    private static final String TMDB_IMAGE_PATH_PREFIX = "https://image.tmdb.org/t/p/";
-    private static final String FRESCO_RESOURCES_IMAGE_PATH_PREFIX = "res:///";
-
     private static final String POSTER_IMAGE_SIZE = "w780";
     private static final String BACKDROP_IMAGE_SIZE = "w1280";
 
@@ -32,89 +28,30 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         IN_THEATRES,
         COMING_SOON,
         AS_CAST,
-        AS_CREW
+        AS_CREW,
+        SEARCH_RESULT
     }
 
     private MOVIE_TYPE movieType;
 
-    private ArrayList<Map<String,Object>> itemList = new ArrayList<Map<String, Object>>();
-    private int total_pages;
-    private int total_results;
-    private Object loadingIndicator;
-    private View[] viewsToMakeVisibleWhenDone;
-
-    public MovieListAdapter(MOVIE_TYPE movieType, Object loadingIndicator, View... viewsToMakeVisibleWhenDone)
+    public MovieListAdapter(@NonNull MOVIE_TYPE movieType, @NonNull Activity activity, @NonNull Integer recyclerViewID, @Nullable Integer labelID, @Nullable Integer loadingIndicatorID)
     {
+        super(activity, R.layout.movie_card, recyclerViewID, labelID, loadingIndicatorID);
         this.movieType = movieType;
-        this.loadingIndicator = loadingIndicator;
-        this.viewsToMakeVisibleWhenDone = viewsToMakeVisibleWhenDone;
-    }
-
-    public void setTotal_pages(int total_pages)
-    {
-        this.total_pages = total_pages;
-    }
-
-    public void setTotal_results(int total_results)
-    {
-        this.total_results = total_results;
-    }
-
-    public void clearAndAddList(List<Map<String,Object>> newItemList)
-    {
-        itemList.clear();
-        itemList.addAll(newItemList);
-        this.notifyDataSetChanged();
-
-        if (loadingIndicator != null)
-        {
-            if (loadingIndicator instanceof SwipeRefreshLayout)
-            {
-                SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) loadingIndicator;
-                swipeRefreshLayout.setRefreshing(false);
-            }
-            else if (loadingIndicator instanceof ProgressBar)
-            {
-                ProgressBar progressBar = (ProgressBar)loadingIndicator;
-                progressBar.setVisibility(View.GONE);
-            }
-        }
-
-        if (viewsToMakeVisibleWhenDone != null)
-        {
-            for (View viewToMakeVisibleWhenDone : viewsToMakeVisibleWhenDone)
-            {
-                viewToMakeVisibleWhenDone.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    public void addList(List<Map<String,Object>> listToAdd)
-    {
-        int insertPos = itemList.size() - 1;
-        itemList.addAll(listToAdd);
-        this.notifyItemRangeInserted(insertPos, listToAdd.size());
     }
 
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
     {
-        View itemView = LayoutInflater
-                .from(viewGroup.getContext())
-                .inflate(R.layout.movie_card, viewGroup, false);
-
-        ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
-        layoutParams.width = (int) (viewGroup.getWidth() * 0.4);
-        itemView.setLayoutParams(layoutParams);
-
+        View itemView = this.getItemView(viewGroup);
         return new MovieViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i)
     {
-        Map<String, Object> itemData = itemList.get(i);
+        Map<String, Object> itemData = this.getItem(i);
 
         String backDropImgRelPath = (String)(itemData.get("backdrop_path"));
 
@@ -186,19 +123,25 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 movieViewHolder.txtMovieReleaseDate.setText(shortThisYearReleaseDateStr);
                 movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
                 break;
+            case SEARCH_RESULT:
+                movieViewHolder.txtCharacterOrJob.setVisibility(View.GONE);
+
+                if (StringUtils.isNullOrEmpty(releaseDateStr))
+                {
+                    movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
+                }
+                else
+                {
+                    movieViewHolder.txtMovieReleaseDate.setText(justYearReleaseDateStr);
+                    movieViewHolder.txtMovieReleaseDate.setVisibility(View.VISIBLE);
+                }
+                break;
             case IN_THEATRES:
             default:
                 movieViewHolder.txtMovieReleaseDate.setVisibility(View.GONE);
                 movieViewHolder.txtCharacterOrJob.setVisibility(View.GONE);
         }
     }
-
-    @Override
-    public int getItemCount()
-    {
-        return itemList.size();
-    }
-
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder
     {

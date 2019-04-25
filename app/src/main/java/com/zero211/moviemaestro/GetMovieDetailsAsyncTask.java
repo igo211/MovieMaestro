@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jayway.jsonpath.DocumentContext;
+import com.zero211.utils.http.HttpStringResponse;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -65,8 +66,10 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     }
 
     @Override
-    protected void onPostExecute(DocumentContext mergedDoc)
+    protected void onPostExecute(HttpStringResponse mergedResponse)
     {
+        DocumentContext mergedDoc = mergedResponse.getDocumentContext();
+
         String internal_err_msg = mergedDoc.read(INTERNAL_ERROR_PATH);
         List<String> TMDB_err_msgs = mergedDoc.read(ERRORS_PATH);
         Integer TMDB_status_code = mergedDoc.read(STATUS_CODE_PATH);
@@ -224,24 +227,10 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         cdlStr = getCDLStringFromListWithNames(screenplay_writers);
         txtWriters.setText(cdlStr);
 
-        TextView lblCast = fragmentView.findViewById(R.id.lblAsCast);
-        RecyclerView castCardList = fragmentView.findViewById(R.id.rvCastCardList);
-        castCardList.setHasFixedSize(true);
-        LinearLayoutManager castLLM = new LinearLayoutManager(activity);
-        castLLM.setOrientation(RecyclerView.HORIZONTAL);
-        castCardList.setLayoutManager(castLLM);
-        PersonListAdapter castListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CAST, null, lblCast);
-        castCardList.setAdapter(castListAdapter);
+        PersonListAdapter castListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CAST, activity, R.id.rvCastCardList, R.id.lblAsCast, null);
         castListAdapter.clearAndAddList(cast);
 
-        TextView lblCrew = fragmentView.findViewById(R.id.lblAsCrew);
-        RecyclerView crewCardList = fragmentView.findViewById(R.id.rvCrewCardList);
-        crewCardList.setHasFixedSize(true);
-        LinearLayoutManager crewLLM = new LinearLayoutManager(activity);
-        crewLLM.setOrientation(RecyclerView.HORIZONTAL);
-        crewCardList.setLayoutManager(crewLLM);
-        PersonListAdapter crewListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CREW, null, lblCrew);
-        crewCardList.setAdapter(crewListAdapter);
+        PersonListAdapter crewListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CREW, activity, R.id.rvCrewCardList, R.id.lblAsCrew, null);
         crewListAdapter.clearAndAddList(crew);
 
         // process trailers looking for: Final Trailer, Official Trailer 5, Official Trailer 4, etc.

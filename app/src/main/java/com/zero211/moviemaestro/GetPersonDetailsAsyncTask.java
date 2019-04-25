@@ -1,10 +1,10 @@
 package com.zero211.moviemaestro;
 
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jayway.jsonpath.DocumentContext;
+import com.zero211.utils.http.HttpStringResponse;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -12,13 +12,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.zero211.moviemaestro.DateFormatUtils.*;
-import static com.zero211.moviemaestro.StringUtils.*;
-
-import static com.zero211.utils.http.HttpUtils.*;
+import static com.zero211.moviemaestro.DateFormatUtils.getAge;
+import static com.zero211.moviemaestro.DateFormatUtils.getDateFromTMDBDateStr;
+import static com.zero211.moviemaestro.DateFormatUtils.getLongDateStrFromDate;
+import static com.zero211.moviemaestro.StringUtils.getFBURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getIMDBURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getInstaURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getTwitterURLFromID;
+import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
@@ -52,8 +53,9 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     }
 
     @Override
-    protected void onPostExecute(DocumentContext mergedDoc)
+    protected void onPostExecute(HttpStringResponse mergedResponse)
     {
+        DocumentContext mergedDoc = mergedResponse.getDocumentContext();
 
         String internal_err_msg = mergedDoc.read(INTERNAL_ERROR_PATH);
         List<String> TMDB_err_msgs = mergedDoc.read(ERRORS_PATH);
@@ -162,49 +164,10 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         setTextIfNotNullAndNotEmpty(lblBiography, txtBiography, biography);
 
-        TextView lblAsCast = personDetailActivity.findViewById(R.id.lblAsCast);
-        RecyclerView rvAsCast = personDetailActivity.findViewById(R.id.rvAsCast);
+        MovieListAdapter asCastMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CAST, personDetailActivity, R.id.rvAsCast, R.id.lblAsCast, null);
+        asCastMovieListAdapter.clearAndAddList(asMovieCast);
 
-        if ((asMovieCast != null) && (asMovieCast.size() > 0))
-        {
-            lblAsCast.setVisibility(View.VISIBLE);
-            rvAsCast.setVisibility(View.VISIBLE);
-            rvAsCast.setHasFixedSize(true);
-            LinearLayoutManager asCastLLM = new LinearLayoutManager(personDetailActivity);
-            asCastLLM.setOrientation(RecyclerView.HORIZONTAL);
-            rvAsCast.setLayoutManager(asCastLLM);
-            MovieListAdapter asCastMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CAST, null, lblAsCast);
-            rvAsCast.setAdapter(asCastMovieListAdapter);
-            asCastMovieListAdapter.clearAndAddList(asMovieCast);
-        }
-        else
-        {
-            lblAsCast.setVisibility(View.GONE);
-            rvAsCast.setVisibility(View.GONE);
-        }
-
-        TextView lblAsCrew = personDetailActivity.findViewById(R.id.lblAsCrew);
-        RecyclerView rvAsCrew = personDetailActivity.findViewById(R.id.rvAsCrew);
-
-        if ((asMovieCrew != null) && (asMovieCrew.size() > 0))
-        {
-            lblAsCrew.setVisibility(View.VISIBLE);
-            rvAsCrew.setVisibility(View.VISIBLE);
-            rvAsCrew.setHasFixedSize(true);
-            LinearLayoutManager asCrewLLM = new LinearLayoutManager(personDetailActivity);
-            asCrewLLM.setOrientation(RecyclerView.HORIZONTAL);
-            rvAsCrew.setLayoutManager(asCrewLLM);
-            MovieListAdapter asCrewMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CREW, null, lblAsCrew);
-            rvAsCrew.setAdapter(asCrewMovieAdapter);
-            asCrewMovieAdapter.clearAndAddList(asMovieCrew);
-        }
-        else
-        {
-            lblAsCrew.setVisibility(View.GONE);
-            rvAsCrew.setVisibility(View.GONE);
-        }
-
-        ProgressBar pgLoading = personDetailActivity.findViewById(R.id.pgLoading);
-        pgLoading.setVisibility(View.GONE);
+        MovieListAdapter asCrewMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CREW, personDetailActivity, R.id.rvAsCrew, R.id.lblAsCrew, R.id.pgLoading);
+        asCrewMovieAdapter.clearAndAddList(asMovieCrew);
     }
 }
