@@ -80,15 +80,15 @@ public class PersonUtils
         private static final String[] ORDERED_DEPTS = {
                 DEFAULT_DEPT,
                 "Actors",
+                "Visual Effects",
+                "Editing",
                 "Costume & Make-Up",
+                "Sound",
                 "Art",
                 "Lighting",
-                "Sound",
-                "Editing",
-                "Visual Effects",
                 "Camera",
-                "Writing",
                 "Production",
+                "Writing",
                 "Directing"
         };
 
@@ -98,16 +98,20 @@ public class PersonUtils
         // Note, these specific jobs come before all others, after that, we fall back to department order
         // Also note, these are in reverse order.
         private static final String[] ORDERED_JOBS = {
-                "Casting",
                 "Casting Director",
                 "Original Music Composer",
+                "Music Composer",
+                "Costume Designer",
+                "Associate Producer",
+                "Editor",
+                "Production Designer",
+                "Director of Photography",
+                "Executive Producer",
+                "Co-Producer",
+                "Producer",
                 "Author",
                 "Original Story",
                 "Screenplay",
-                "Producer",
-                "Executive Producer",
-                "Assistant Director",
-                "Director of Photography",
                 "Director"
         };
 
