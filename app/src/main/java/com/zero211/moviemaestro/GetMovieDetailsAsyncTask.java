@@ -2,6 +2,7 @@ package com.zero211.moviemaestro;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +10,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.zero211.utils.http.HttpStringResponse;
 
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -231,7 +233,10 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         castListAdapter.clearAndAddList(cast);
 
         PersonListAdapter crewListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CREW, activity, R.id.rvCrewCardList, R.id.lblAsCrew, null);
-        crewListAdapter.clearAndAddList(crew);
+
+        Collections.sort(crew, new PersonUtils.CrewDeptAndJobComparator());
+        List<Map<String,Object>> mergedCrew = PersonUtils.CrewListMerge(crew);
+        crewListAdapter.clearAndAddList(mergedCrew);
 
         // process trailers looking for: Final Trailer, Official Trailer 5, Official Trailer 4, etc.
         // default to the first trailer found if none match the desired patterns
@@ -298,7 +303,8 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
             fab.hide();
         }
 
-
+        ProgressBar pgLoading = activity.findViewById(R.id.pgLoading);
+        pgLoading.setVisibility(View.GONE);
 
     }
 

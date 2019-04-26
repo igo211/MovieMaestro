@@ -114,7 +114,7 @@ public class DateFormatUtils
 
 
     // Returns age given the date of birth
-    public static int getAge(@NonNull Date dobDate) throws Exception
+    public static int getAge(@NonNull Date dobDate)
     {
         return getAge(dobDate, null);
     }

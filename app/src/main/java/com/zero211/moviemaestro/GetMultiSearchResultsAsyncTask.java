@@ -7,6 +7,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.zero211.utils.http.HttpStringResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +81,8 @@ public class GetMultiSearchResultsAsyncTask extends AbstractTMDBJSONResultFromUR
         {
             Toast.makeText(context, "Unhandled media_types in search results: '" + sb.toString() + "'", Toast.LENGTH_LONG).show();
         }
+
+        Collections.sort(movieList, new MovieUtils.MovieReleaseDateComparator(true));
 
         if (startPage == 1)
         {

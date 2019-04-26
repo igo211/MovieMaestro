@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -28,14 +30,32 @@ public class PersonListAdapter extends AbstractTMDBCardListAdapter<PersonListAda
         SEARCH_RESULT
     }
 
-
     private PERSON_TYPE personType;
+
 
     public PersonListAdapter(@NonNull PERSON_TYPE personType, @NonNull Activity activity, @NonNull Integer recyclerViewID, @Nullable Integer labelID, @Nullable Integer loadingIndicatorID)
     {
         super(activity, R.layout.person_card, recyclerViewID, labelID, loadingIndicatorID);
 
         this.personType = personType;
+    }
+
+
+    public void clearAndAddList(List<Map<String,Object>> newItemList)
+    {
+        ArrayList<Map<String,Object>> processedNewItemList = new ArrayList<>();
+
+        switch (this.personType)
+        {
+
+        }
+
+        super.clearAndAddList(newItemList);
+    }
+
+    public void addList(List<Map<String,Object>> listToAdd)
+    {
+        super.addList(listToAdd);
     }
 
     @NonNull
@@ -104,17 +124,17 @@ public class PersonListAdapter extends AbstractTMDBCardListAdapter<PersonListAda
                 String dept = (String) (itemData.get("department"));
                 switch (dept)
                 {
-                    case "Writing":
-                        if (job.equals("Writer"))
-                        {
-                            secondLineStr = job;
-                        }
-                        else
-                        {
-                            secondLineStr = "Writer (" + job + ")";
-                        }
-
-                        break;
+//                    case "Writing":
+//                        if (job.equals("Writer"))
+//                        {
+//                            secondLineStr = job;
+//                        }
+//                        else
+//                        {
+//                            secondLineStr = "Writer (" + job + ")";
+//                        }
+//
+//                        break;
                     default:
                         secondLineStr = job;
                 }

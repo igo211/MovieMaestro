@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.jayway.jsonpath.DocumentContext;
 
-public abstract class AbstractJSONResultFromURLAsyncTask extends AsyncTask<String, Void, HttpStringResponse>
+public abstract class AbstractJSONResultFromURLAsyncTask extends AsyncTask<String, Object, HttpStringResponse>
 {
     private static final String LOGTAG = AbstractJSONResultFromURLAsyncTask.class.getSimpleName();
 

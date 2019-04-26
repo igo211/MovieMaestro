@@ -2,11 +2,13 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                     android:id="@+id/rootCoordinator"
                                                      android:layout_width="match_parent"
                                                      android:layout_height="match_parent"
                                                      android:fitsSystemWindows="true"
                                                      tools:context=".MovieDetailActivity"
                                                      tools:ignore="MergeRootFrame">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/movie_detail_app_bar"
@@ -48,29 +50,33 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/movie_detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/movie_detail_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/run_trailer_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:layout_margin="@dimen/fab_margin"
-        android:visibility="invisible"
-        app:layout_anchor="@+id/movie_detail_container"
-        app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_media_play"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/run_trailer_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_margin="@dimen/fab_margin"
+            android:visibility="invisible"
+            app:layout_anchor="@+id/movie_detail_container"
+            app:layout_anchorGravity="top|end"
+            app:srcCompat="@android:drawable/ic_media_play"/>
 
     <ProgressBar
         android:id="@+id/pgLoading"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_anchorGravity="center"/>
+        android:fitsSystemWindows="true"
+        android:visibility="visible"
+        app:layout_anchor="@id/movie_detail_toolbar_layout"
+        app:layout_anchorGravity="bottom|center"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

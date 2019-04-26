@@ -8,6 +8,8 @@ import com.zero211.utils.http.HttpStringResponse;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -95,8 +97,18 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         String ageStr = null;
         if (birthDate != null)
         {
+
             int age = getAge(birthDate, deathDate);
-            ageStr = String.valueOf(age);
+            int notDeadAge = getAge(birthDate);
+
+            if (deathDate != null)
+            {
+                ageStr = String.valueOf(age) + " (would have been " + String.valueOf(notDeadAge) + " if still alive)";
+            }
+            else
+            {
+                ageStr = String.valueOf(age);
+            }
         }
 
         String biography = mergedDoc.read(BIOGRAPHY_PATH);
@@ -152,9 +164,11 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         if (lblDeath.getVisibility() == View.VISIBLE)
         {
             lblAge.setText(R.string.age_at_death_label);
+
         }
 
         setTextIfNotNullAndNotEmpty(lblAge, txtAge, ageStr);
+
 
         setTextIfNotNullAndNotEmpty(lblHomepage, txtHomepage, homepage);
         setTextIfNotNullAndNotEmpty(lblFB, txtFB, getFBURLFromID(fb_id));
@@ -164,10 +178,17 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         setTextIfNotNullAndNotEmpty(lblBiography, txtBiography, biography);
 
+
         MovieListAdapter asCastMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CAST, personDetailActivity, R.id.rvAsCast, R.id.lblAsCast, null);
+        Collections.sort(asMovieCast, new MovieUtils.MovieReleaseDateComparator(true));
         asCastMovieListAdapter.clearAndAddList(asMovieCast);
 
         MovieListAdapter asCrewMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CREW, personDetailActivity, R.id.rvAsCrew, R.id.lblAsCrew, R.id.pgLoading);
-        asCrewMovieAdapter.clearAndAddList(asMovieCrew);
+
+        Collections.sort(asMovieCrew, new PersonUtils.CrewDeptAndJobComparator());
+        List<Map<String,Object>> mergedAsMovieCrew = PersonUtils.CrewListMerge(asMovieCrew);
+        Collections.sort(asMovieCast, new MovieUtils.MovieReleaseDateComparator(true));
+        asCrewMovieAdapter.clearAndAddList(mergedAsMovieCrew);
     }
+
 }

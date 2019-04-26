@@ -77,9 +77,6 @@ public class MovieDetailActivity extends AppCompatActivity
         intent.putExtra(PersonDetailActivity.ARG_PERSON_ID, (Integer)(itemData.get("id")));
         intent.putExtra(PersonDetailActivity.ARG_NAME, (String) itemData.get("name"));
         intent.putExtra(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH, (String) itemData.get(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH));
-//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
-//        intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
-
         context.startActivity(intent);
     }
 

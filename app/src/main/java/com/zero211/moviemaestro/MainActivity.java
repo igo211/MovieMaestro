@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .setRequestListeners(requestListeners)
                 .build();
         Fresco.initialize(this, imagePipelineConfig);
-        FLog.setMinimumLoggingLevel(FLog.VERBOSE);
+        FLog.setMinimumLoggingLevel(FLog.ERROR);
 
         setContentView(R.layout.activity_main);
 
@@ -189,16 +189,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.activity_main_actionbar, menu);
+
         mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(), menu, R.id.media_route_menu_item);
 
         // Get the SearchView and set the searchable configuration
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView)(searchMenuItem.getActionView());
         // Assumes current activity is the searchable activity
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
         searchView.setGravity(GravityCompat.START);
+
         return true;
     }
 

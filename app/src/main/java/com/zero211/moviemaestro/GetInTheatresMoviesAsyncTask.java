@@ -5,6 +5,7 @@ import android.content.Context;
 import com.jayway.jsonpath.DocumentContext;
 import com.zero211.utils.http.HttpStringResponse;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,8 @@ public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLT
         // TODO: Handle the various error cases... push error handling code up to parent class?
 
         List<Map<String,Object>> moviesList = mergedDoc.read(RESULTS_PATH);
+
+        Collections.sort(moviesList, new MovieUtils.MovieReleaseDateComparator(true));
 
         if (startPage == 1)
         {

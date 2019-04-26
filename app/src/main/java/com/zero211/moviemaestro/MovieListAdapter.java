@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,17 @@ public class MovieListAdapter extends AbstractTMDBCardListAdapter<MovieListAdapt
     {
         super(activity, R.layout.movie_card, recyclerViewID, labelID, loadingIndicatorID);
         this.movieType = movieType;
+    }
+
+
+    public void clearAndAddList(List<Map<String,Object>> newItemList)
+    {
+        super.clearAndAddList(newItemList);
+    }
+
+    public void addList(List<Map<String,Object>> listToAdd)
+    {
+        super.addList(listToAdd);
     }
 
     @NonNull
