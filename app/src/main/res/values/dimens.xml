@@ -6,4 +6,9 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
+    <dimen name="social_icon_size">32dp</dimen>
+    <dimen name="social_icon_inner_margin">8dp</dimen>
+    <dimen name="social_icon_outer_margin">16dp</dimen>
+    <dimen name="social_icon_top_margin">8dp</dimen>
+    <dimen name="social_icon_bottom_margin">8dp</dimen>
 </resources>

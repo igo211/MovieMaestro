@@ -2,11 +2,13 @@ package com.zero211.moviemaestro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -77,6 +79,15 @@ public class PersonDetailActivity extends AppCompatActivity
     public String getProfile_img_full_path()
     {
         return profile_img_full_path;
+    }
+
+    public void launchURI(View view)
+    {
+        Button btn = (Button)view;
+        String uriStr = (String)(btn.getTag());
+        Uri uri = Uri.parse(uriStr);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(launchBrowser);
     }
 
     public void movieDetails(View view)

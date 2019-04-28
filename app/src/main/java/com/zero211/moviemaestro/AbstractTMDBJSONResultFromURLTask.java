@@ -3,6 +3,8 @@ package com.zero211.moviemaestro;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.zero211.moviemaestro.StringUtils.getFBURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getIMDBURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getInstaURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getTwitterURIFromID;
 import static com.zero211.moviemaestro.StringUtils.isNullOrEmpty;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
@@ -53,6 +59,12 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
     protected static final String TOTAL_RESULTS_PATH = "$.total_results";
     protected static final String TOTAL_PAGES_PATH = "$.total_pages";
     protected static final String RESULTS_PATH = "$.results";
+
+    protected static final String HOMEPAGE_PATH = "$.homepage";
+    protected static final String IMDB_ID_PATH = "$.external_ids.imdb_id";
+    protected static final String FACEBOOK_ID_PATH = "$.external_ids.facebook_id";
+    protected static final String INSTA_ID_PATH = "$.external_ids.instagram_id";
+    protected static final String TWITTER_ID_PATH = "$.external_ids.twitter_id";
 
 
     private static final Long MILLIS_PER_SECOND = 1000L;
@@ -325,6 +337,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         return result;
     }
 
+
     public static void setTextIfNotNullAndNotEmpty(@NonNull TextView textView, String str)
     {
         setTextIfNotNullAndNotEmpty(textView, true, str);
@@ -340,7 +353,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         setTextIfNotNullAndNotEmpty(labelView, true, textView, str);
     }
 
-    public static void setTextIfNotNullAndNotEmpty(TextView labelView, boolean collapseIfNullorEmpty, @NonNull TextView textView, String str)
+    public static void setTextIfNotNullAndNotEmpty(@NonNull TextView labelView, boolean collapseIfNullorEmpty, @NonNull TextView textView, String str)
     {
         int collapseIfNullorEmptyVal;
 
@@ -373,10 +386,40 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
         }
     }
 
+    public static void setButtonURIIfNotNullAndNotEmpty(@NonNull Button btn, String uriStr)
+    {
+        setButtonURIIfNotNullAndNotEmpty(btn, true, uriStr);
+    }
+
+    public static void setButtonURIIfNotNullAndNotEmpty(@NonNull Button btn, boolean collapseIfNullorEmpty, String uriStr)
+    {
+        int collapseIfNullorEmptyVal;
+
+        if (collapseIfNullorEmpty)
+        {
+            collapseIfNullorEmptyVal = View.GONE;
+        }
+        else
+        {
+            collapseIfNullorEmptyVal = View.INVISIBLE;
+        }
+
+        if (isNullOrEmpty(uriStr))
+        {
+            btn.setVisibility(collapseIfNullorEmptyVal);
+        }
+        else
+        {
+            btn.setTag(uriStr);
+            btn.setVisibility(View.VISIBLE);
+        }
+    }
+
     public static void setLabelVisibilityBasedOnStringValues(TextView labelView, String... strs)
     {
         setLabelVisibilityBasedOnStringValues(labelView, true, strs);
     }
+
 
     public static void setLabelVisibilityBasedOnStringValues(TextView labelView, boolean collapseIfNullorEmpty, String... strs)
     {
@@ -413,5 +456,30 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
 
         }
 
+    }
+
+    public static void setSocialButtons(DocumentContext mergedDoc, View parentView)
+    {
+        String homepage_uri = mergedDoc.read(HOMEPAGE_PATH);
+        String fb_id = mergedDoc.read(FACEBOOK_ID_PATH);
+        String fb_uri = getFBURIFromID(fb_id);
+        String insta_id = mergedDoc.read(INSTA_ID_PATH);
+        String insta_uri = getInstaURIFromID(insta_id);
+        String twitter_id = mergedDoc.read(TWITTER_ID_PATH);
+        String twitter_uri = getTwitterURIFromID(twitter_id);
+        String imdb_id = mergedDoc.read(IMDB_ID_PATH);
+        String imdb_uri = getIMDBURIFromID(imdb_id);
+
+        Button btnHomePage = parentView.findViewById(R.id.btnHomePage);
+        Button btnFB = parentView.findViewById(R.id.btnFB);
+        Button btnInsta = parentView.findViewById(R.id.btnInsta);
+        Button btnTwitter = parentView.findViewById(R.id.btnTwitter);
+        Button btnIMDB = parentView.findViewById(R.id.btnIMDB);
+
+        setButtonURIIfNotNullAndNotEmpty(btnHomePage, homepage_uri);
+        setButtonURIIfNotNullAndNotEmpty(btnFB, fb_uri);
+        setButtonURIIfNotNullAndNotEmpty(btnInsta, insta_uri);
+        setButtonURIIfNotNullAndNotEmpty(btnTwitter, twitter_uri);
+        setButtonURIIfNotNullAndNotEmpty(btnIMDB, imdb_uri);
     }
 }

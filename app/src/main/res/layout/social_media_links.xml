@@ -62,6 +62,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblFB"/>
 
+
     <TextView
         android:id="@+id/lblInsta"
         android:layout_width="0dp"
@@ -73,7 +74,8 @@
         android:textColor="@color/colorLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtFB"/>
+        app:layout_constraintTop_toBottomOf="@id/txtFB"
+        />
 
     <TextView
         android:id="@+id/txtInsta"
@@ -142,6 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblIMDB"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

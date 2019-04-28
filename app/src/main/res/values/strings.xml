@@ -94,4 +94,6 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="search_hint">Search movies or people</string>
     <string name="search">Search</string>
     <string name="search_results">Search Results</string>
+    <string name="goto_instagram_account">Goto Instagram account</string>
+    <string name="go_to_facebook_account">Go to Facebook account</string>
 </resources>

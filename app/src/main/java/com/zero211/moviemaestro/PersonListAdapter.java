@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.zero211.moviemaestro.PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH;
 
-// TODO: Refactor this class and MovieListAdapter to have an abstract parent class (AbstractPosterListAdapter) that contains the object list, the add* methods, the loadingIndicator and the viewsToMakeVisible for all list adapters
-
 public class PersonListAdapter extends AbstractTMDBCardListAdapter<PersonListAdapter.PersonViewHolder>
 {
     private static final String PROFILE_IMAGE_SIZE = "h632";
@@ -38,24 +36,6 @@ public class PersonListAdapter extends AbstractTMDBCardListAdapter<PersonListAda
         super(activity, R.layout.person_card, recyclerViewID, labelID, loadingIndicatorID);
 
         this.personType = personType;
-    }
-
-
-    public void clearAndAddList(List<Map<String,Object>> newItemList)
-    {
-        ArrayList<Map<String,Object>> processedNewItemList = new ArrayList<>();
-
-        switch (this.personType)
-        {
-
-        }
-
-        super.clearAndAddList(newItemList);
-    }
-
-    public void addList(List<Map<String,Object>> listToAdd)
-    {
-        super.addList(listToAdd);
     }
 
     @NonNull

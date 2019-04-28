@@ -2,6 +2,7 @@ package com.zero211.moviemaestro;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,13 +17,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.zero211.moviemaestro.StringUtils.getFBURLFromID;
-import static com.zero211.moviemaestro.StringUtils.getIMDBURLFromID;
-import static com.zero211.moviemaestro.StringUtils.getInstaURLFromID;
-import static com.zero211.moviemaestro.StringUtils.getTwitterURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getFBURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getIMDBURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getInstaURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getTwitterURIFromID;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
@@ -33,7 +31,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String BUDGET_PATH = "$.budget";
     private static final String REVENUE_PATH = "$.revenue";
     private static final String RUNTIME_PATH = "$.runtime";
-    private static final String HOMEPAGE_PATH = "$.homepage";
     private static final String TAGLINE_PATH = "$.tagline";
 
     private static final String PRODUCTION_COMPANIES_PATH = "$.production_companies";
@@ -54,10 +51,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String SCREENPLAY_WRITERS_PATH = "$.credits.crew[?(@.job == 'Screenplay')]";
     private static final String STORY_WRITERS_PATH = "$.credits.crew[?(@.job == 'Story')]";
 
-    private static final String IMDB_ID_PATH = "$.external_ids.imdb_id";
-    private static final String FACEBOOK_ID_PATH = "$.external_ids.facebook_id";
-    private static final String INSTA_ID_PATH = "$.external_ids.instagram_id";
-    private static final String TWITTER_ID_PATH = "$.external_ids.twitter_id";
+
 
     private MovieDetailFragment movieDetailFragment;
 
@@ -100,21 +94,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView txtDOPs = fragmentView.findViewById(R.id.txtDOP);
         TextView txtWriters = fragmentView.findViewById(R.id.txtWriters);
 
-        TextView lblHomepage = fragmentView.findViewById(R.id.lblHomepage);
-        TextView txtHomepage = fragmentView.findViewById(R.id.txtHomepage);
-
-        TextView lblFB = fragmentView.findViewById(R.id.lblFB);
-        TextView txtFB = fragmentView.findViewById(R.id.txtFB);
-
-        TextView lblInsta = fragmentView.findViewById(R.id.lblInsta);
-        TextView txtInsta = fragmentView.findViewById(R.id.txtInsta);
-
-        TextView lblTwitter = fragmentView.findViewById(R.id.lblTwitter);
-        TextView txtTwitter = fragmentView.findViewById(R.id.txtTwitter);
-
-        TextView lblIMDB = fragmentView.findViewById(R.id.lblIMDB);
-        TextView txtIMDB = fragmentView.findViewById(R.id.txtIMDB);
-
 
 
         // Set the various views with their values
@@ -149,21 +128,10 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         List<Map<String,Object>> screenplay_writers = mergedDoc.read(SCREENPLAY_WRITERS_PATH);
         List<Map<String,Object>> story_writers = mergedDoc.read(STORY_WRITERS_PATH);
 
-        String homepage = mergedDoc.read(HOMEPAGE_PATH);
-        String fb_id = mergedDoc.read(FACEBOOK_ID_PATH);
-        String insta_id = mergedDoc.read(INSTA_ID_PATH);
-        String twitter_id = mergedDoc.read(TWITTER_ID_PATH);
-        String imdb_id = mergedDoc.read(IMDB_ID_PATH);
-
-        setTextIfNotNullAndNotEmpty(lblHomepage, txtHomepage, homepage);
-        setTextIfNotNullAndNotEmpty(lblFB, txtFB, getFBURLFromID(fb_id));
-        setTextIfNotNullAndNotEmpty(lblInsta, txtInsta, getInstaURLFromID(insta_id));
-        setTextIfNotNullAndNotEmpty(lblTwitter, txtTwitter, getTwitterURLFromID(twitter_id));
-        setTextIfNotNullAndNotEmpty(lblIMDB, txtIMDB, getIMDBURLFromID(imdb_id));
+        setSocialButtons(mergedDoc, fragmentView);
 
         txtTagline.setText(tagline);
         txtOverview.setText(overview);
-        txtHomepage.setText(homepage);
 
         if ((runtime != null) && (runtime >0))
         {

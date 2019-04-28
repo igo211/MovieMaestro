@@ -2,10 +2,12 @@ package com.zero211.moviemaestro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.cast.framework.CastContext;
@@ -63,6 +65,15 @@ public class MovieDetailActivity extends AppCompatActivity
         }
 
 
+    }
+
+    public void launchURI(View view)
+    {
+        Button btn = (Button)view;
+        String uriStr = (String)(btn.getTag());
+        Uri uri = Uri.parse(uriStr);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(launchBrowser);
     }
 
 

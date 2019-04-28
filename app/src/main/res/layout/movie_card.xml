@@ -25,6 +25,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:background="@drawable/image_border_rectangle"
             android:contentDescription="@string/movie_backdrop_label"
             android:onClick="movieDetails"
             android:scaleType="fitXY"

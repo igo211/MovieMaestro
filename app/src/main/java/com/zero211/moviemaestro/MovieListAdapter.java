@@ -18,7 +18,6 @@ import static com.zero211.moviemaestro.DateFormatUtils.getJustYearDateStrFromTMD
 import static com.zero211.moviemaestro.DateFormatUtils.getLongDateStrFromTMDBDateStr;
 import static com.zero211.moviemaestro.DateFormatUtils.getShortThisYearDateStrFromTMDBDateStr;
 
-// TODO: Refactor this class and PersonListAdapter to have an abstract parent class (AbstractPosterListAdapter) that contains the object list, the add* methods, the loadingIndicator and the viewsToMakeVisible for all list adapters
 public class MovieListAdapter extends AbstractTMDBCardListAdapter<MovieListAdapter.MovieViewHolder>
 {
     private static final String POSTER_IMAGE_SIZE = "w780";
@@ -39,17 +38,6 @@ public class MovieListAdapter extends AbstractTMDBCardListAdapter<MovieListAdapt
     {
         super(activity, R.layout.movie_card, recyclerViewID, labelID, loadingIndicatorID);
         this.movieType = movieType;
-    }
-
-
-    public void clearAndAddList(List<Map<String,Object>> newItemList)
-    {
-        super.clearAndAddList(newItemList);
-    }
-
-    public void addList(List<Map<String,Object>> listToAdd)
-    {
-        super.addList(listToAdd);
     }
 
     @NonNull
@@ -75,7 +63,7 @@ public class MovieListAdapter extends AbstractTMDBCardListAdapter<MovieListAdapt
         }
         else
         {
-            backdropFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.no_image_available;
+            backdropFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.no_movie_backdrop;
         }
 
         itemData.put("backdrop_img_full_path", backdropFullPathImageURI);
@@ -90,7 +78,7 @@ public class MovieListAdapter extends AbstractTMDBCardListAdapter<MovieListAdapt
         }
         else
         {
-            posterFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.no_image_available;
+            posterFullPathImageURI = FRESCO_RESOURCES_IMAGE_PATH_PREFIX + R.drawable.no_movie_poster;
         }
 
         itemData.put("poster_img_full_path", posterFullPathImageURI);

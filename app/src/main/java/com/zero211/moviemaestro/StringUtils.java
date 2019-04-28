@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import androidx.annotation.NonNull;
@@ -53,34 +52,34 @@ public class StringUtils
         return sb.toString();
     }
 
-    private static String getURLFromID(@NonNull String urlPatternStr,@NonNull String id)
+    private static String getURIFromID(@NonNull String uriPatternStr, @NonNull String id)
     {
         if (isNullOrEmpty(id))
         {
             return null;
         }
 
-        String url = urlPatternStr.replace(ID_PLACEHOLDER, id);
-        return url;
+        String uri = uriPatternStr.replace(ID_PLACEHOLDER, id);
+        return uri;
     }
 
-    public static String getIMDBURLFromID(@NonNull String id)
+    public static String getIMDBURIFromID(@NonNull String id)
     {
-        return getURLFromID("https://www.imdb.com/name/<ID>/", id);
+        return getURIFromID("https://www.imdb.com/name/<ID>/", id);
     }
 
-    public static String getFBURLFromID(@NonNull String id)
+    public static String getFBURIFromID(@NonNull String id)
     {
-        return getURLFromID("https://www.facebook.com/<ID>", id);
+        return getURIFromID("https://www.facebook.com/<ID>", id);
     }
 
-    public static String getInstaURLFromID(@NonNull String id)
+    public static String getInstaURIFromID(@NonNull String id)
     {
-        return getURLFromID("https://www.instagram.com/<ID>/", id);
+        return getURIFromID("https://www.instagram.com/<ID>/", id);
     }
 
-    public static String getTwitterURLFromID(@NonNull String id)
+    public static String getTwitterURIFromID(@NonNull String id)
     {
-        return getURLFromID("https://twitter.com/<ID>", id);
+        return getURIFromID("https://twitter.com/<ID>", id);
     }
 }

@@ -1,6 +1,7 @@
 package com.zero211.moviemaestro;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -8,7 +9,6 @@ import com.zero211.utils.http.HttpStringResponse;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +17,10 @@ import java.util.Map;
 import static com.zero211.moviemaestro.DateFormatUtils.getAge;
 import static com.zero211.moviemaestro.DateFormatUtils.getDateFromTMDBDateStr;
 import static com.zero211.moviemaestro.DateFormatUtils.getLongDateStrFromDate;
-import static com.zero211.moviemaestro.StringUtils.getFBURLFromID;
-import static com.zero211.moviemaestro.StringUtils.getIMDBURLFromID;
-import static com.zero211.moviemaestro.StringUtils.getInstaURLFromID;
-import static com.zero211.moviemaestro.StringUtils.getTwitterURLFromID;
+import static com.zero211.moviemaestro.StringUtils.getFBURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getIMDBURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getInstaURIFromID;
+import static com.zero211.moviemaestro.StringUtils.getTwitterURIFromID;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
@@ -36,12 +36,6 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
     private static final String DEATHDAY_PATH = "$.deathday";
 
     private static final String BIOGRAPHY_PATH = "$.biography";
-
-    private static final String HOMEPAGE_PATH = "$.homepage";
-    private static final String IMDB_ID_PATH = "$.external_ids.imdb_id";
-    private static final String FACEBOOK_ID_PATH = "$.external_ids.facebook_id";
-    private static final String INSTA_ID_PATH = "$.external_ids.instagram_id";
-    private static final String TWITTER_ID_PATH = "$.external_ids.twitter_id";
 
     private static final String AS_MOVIE_CAST_PATH = "$.movie_credits.cast";
     private static final String AS_MOVIE_CREW_PATH = "$.movie_credits.crew";
@@ -116,12 +110,6 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         List<Map<String,Object>> asMovieCast = mergedDoc.read(AS_MOVIE_CAST_PATH);
         List<Map<String,Object>> asMovieCrew = mergedDoc.read(AS_MOVIE_CREW_PATH);
 
-        String homepage = mergedDoc.read(HOMEPAGE_PATH);
-        String fb_id = mergedDoc.read(FACEBOOK_ID_PATH);
-        String insta_id = mergedDoc.read(INSTA_ID_PATH);
-        String twitter_id = mergedDoc.read(TWITTER_ID_PATH);
-        String imdb_id = mergedDoc.read(IMDB_ID_PATH);
-
         TextView lblAlsoKnownAs = personDetailActivity.findViewById(R.id.lblAlsoKnownAs);
         TextView txtAlsoKnownAs = personDetailActivity.findViewById(R.id.txtAlsoKnownAs);
 
@@ -135,21 +123,6 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView lblDeath = personDetailActivity.findViewById(R.id.lblDeath);
         TextView txtDeathdate = personDetailActivity.findViewById(R.id.txtDeathDate);
 
-        TextView lblHomepage = personDetailActivity.findViewById(R.id.lblHomepage);
-        TextView txtHomepage = personDetailActivity.findViewById(R.id.txtHomepage);
-
-        TextView lblFB = personDetailActivity.findViewById(R.id.lblFB);
-        TextView txtFB = personDetailActivity.findViewById(R.id.txtFB);
-
-        TextView lblInsta = personDetailActivity.findViewById(R.id.lblInsta);
-        TextView txtInsta = personDetailActivity.findViewById(R.id.txtInsta);
-
-        TextView lblTwitter = personDetailActivity.findViewById(R.id.lblTwitter);
-        TextView txtTwitter = personDetailActivity.findViewById(R.id.txtTwitter);
-
-        TextView lblIMDB = personDetailActivity.findViewById(R.id.lblIMDB);
-        TextView txtIMDB = personDetailActivity.findViewById(R.id.txtIMDB);
-
         TextView lblBiography = personDetailActivity.findViewById(R.id.lblBiography);
         TextView txtBiography = personDetailActivity.findViewById(R.id.txtBiography);
 
@@ -161,6 +134,9 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         setTextIfNotNullAndNotEmpty(lblDeath, txtDeathdate, formattedDeathDate);
 
+        ViewGroup rootView = (ViewGroup) ((ViewGroup) personDetailActivity.findViewById(android.R.id.content)).getChildAt(0);
+        setSocialButtons(mergedDoc, rootView);
+
         if (lblDeath.getVisibility() == View.VISIBLE)
         {
             lblAge.setText(R.string.age_at_death_label);
@@ -168,14 +144,6 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         }
 
         setTextIfNotNullAndNotEmpty(lblAge, txtAge, ageStr);
-
-
-        setTextIfNotNullAndNotEmpty(lblHomepage, txtHomepage, homepage);
-        setTextIfNotNullAndNotEmpty(lblFB, txtFB, getFBURLFromID(fb_id));
-        setTextIfNotNullAndNotEmpty(lblInsta, txtInsta, getInstaURLFromID(insta_id));
-        setTextIfNotNullAndNotEmpty(lblTwitter, txtTwitter, getTwitterURLFromID(twitter_id));
-        setTextIfNotNullAndNotEmpty(lblIMDB, txtIMDB, getIMDBURLFromID(imdb_id));
-
         setTextIfNotNullAndNotEmpty(lblBiography, txtBiography, biography);
 
 
@@ -187,7 +155,7 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         Collections.sort(asMovieCrew, new PersonUtils.CrewDeptAndJobComparator());
         List<Map<String,Object>> mergedAsMovieCrew = PersonUtils.CrewListMerge(asMovieCrew);
-        Collections.sort(asMovieCast, new MovieUtils.MovieReleaseDateComparator(true));
+        Collections.sort(mergedAsMovieCrew, new MovieUtils.MovieReleaseDateComparator(true));
         asCrewMovieAdapter.clearAndAddList(mergedAsMovieCrew);
     }
 

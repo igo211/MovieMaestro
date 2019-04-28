@@ -49,6 +49,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:background="@drawable/image_border_rectangle"
                     android:contentDescription="@string/person_backdrop_label"
                     android:scaleType="fitXY"
                     app:layout_constraintDimensionRatio="H,2:3"
@@ -271,10 +272,12 @@
                     app:layout_constraintTop_toBottomOf="@id/lblAsCrew"/>
 
                 <include
-                    layout="@layout/social_media_links"
+                    layout="@layout/social_media_button_panel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

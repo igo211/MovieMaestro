@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btnHomePage"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="@dimen/social_icon_size"
+        android:layout_height="@dimen/social_icon_size"
+        android:layout_marginStart="@dimen/social_icon_outer_margin"
+        android:layout_marginTop="@dimen/social_icon_top_margin"
+        android:layout_marginEnd="@dimen/social_icon_inner_margin"
+        android:layout_marginBottom="@dimen/social_icon_bottom_margin"
+        android:background="@drawable/about_icon_link"
+        android:onClick="launchURI"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btnFB"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="@dimen/social_icon_size"
+        android:layout_height="@dimen/social_icon_size"
+        android:layout_marginStart="@dimen/social_icon_inner_margin"
+        android:layout_marginTop="@dimen/social_icon_top_margin"
+        android:layout_marginEnd="@dimen/social_icon_inner_margin"
+        android:layout_marginBottom="@dimen/social_icon_bottom_margin"
+        android:background="@drawable/about_icon_facebook"
+        android:onClick="launchURI"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnInsta"
+        app:layout_constraintStart_toEndOf="@id/btnHomePage"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btnInsta"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="@dimen/social_icon_size"
+        android:layout_height="@dimen/social_icon_size"
+        android:layout_marginStart="@dimen/social_icon_inner_margin"
+        android:layout_marginTop="@dimen/social_icon_top_margin"
+        android:layout_marginEnd="@dimen/social_icon_inner_margin"
+        android:layout_marginBottom="@dimen/social_icon_bottom_margin"
+        android:background="@drawable/about_icon_instagram"
+        android:onClick="launchURI"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnTwitter"
+        app:layout_constraintStart_toEndOf="@id/btnFB"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <Button
+        android:id="@+id/btnTwitter"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="@dimen/social_icon_size"
+        android:layout_height="@dimen/social_icon_size"
+        android:layout_marginStart="@dimen/social_icon_inner_margin"
+        android:layout_marginTop="@dimen/social_icon_top_margin"
+        android:layout_marginEnd="@dimen/social_icon_inner_margin"
+        android:layout_marginBottom="@dimen/social_icon_bottom_margin"
+        android:background="@drawable/about_icon_twitter"
+        android:onClick="launchURI"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnIMDB"
+        app:layout_constraintStart_toEndOf="@id/btnInsta"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btnIMDB"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="@dimen/social_icon_size"
+        android:layout_height="@dimen/social_icon_size"
+        android:layout_marginStart="@dimen/social_icon_inner_margin"
+        android:layout_marginTop="@dimen/social_icon_top_margin"
+        android:layout_marginEnd="@dimen/social_icon_outer_margin"
+        android:layout_marginBottom="@dimen/social_icon_bottom_margin"
+        android:background="@drawable/imdb"
+        android:onClick="launchURI"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnTwitter"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
