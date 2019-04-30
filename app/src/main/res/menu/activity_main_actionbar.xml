@@ -8,13 +8,26 @@
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        />
 
     <item
         android:id="@+id/media_route_menu_item"
         android:title="@string/media_route_menu_title"
         app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
         app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/settings"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/about"
+        app:showAsAction="never"
         />
 
 </menu>

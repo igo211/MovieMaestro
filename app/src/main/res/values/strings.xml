@@ -96,4 +96,15 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="search_results">Search Results</string>
     <string name="goto_instagram_account">Goto Instagram account</string>
     <string name="go_to_facebook_account">Go to Facebook account</string>
+    <string name="revenue_budget_label">Revenue/Budget:</string>
+    <string name="unknown_revenue_budget">Unknown Revenue/Budget</string>
+    <string name="minutes_short">min</string>
+    <string name="hours_short">hr</string>
+    <string name="minutes">minutes</string>
+    <string name="currently">currently</string>
+    <string name="currently_an_x_loss">currently a %s loss</string>
+    <string name="currently_an_x_profit">currently a %s profit</string>
+    <string name="currently_break_even">currently break-even</string>
+    <string name="runtime_in_hours_minutes_total_minutes">%d hr %d min ( %d minutes )</string>
+    <string name="runtime_in_total_minutes">%d minutes</string>
 </resources>

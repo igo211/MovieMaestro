@@ -215,7 +215,7 @@ public abstract class AbstractTMDBJSONResultFromURLTask extends AbstractJSONResu
                 currentPage++;
             }
 
-        } while (currentPage < endPage);
+        } while (currentPage <= endPage);
 
         mergedResponse.setDocumentContext(mergedDoc);
         return mergedResponse;

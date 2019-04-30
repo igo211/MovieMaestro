@@ -46,12 +46,12 @@ import at.blogc.android.views.ExpandableTextView;
 
 import static com.zero211.moviemaestro.DateFormatUtils.TMDB_API_DATE_FORMAT;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener//, NavigationView.OnNavigationItemSelectedListener
 {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private NavigationView navigationView;
+    //private NavigationView navigationView;
 
     private MovieListAdapter upcomingMovieListAdapter;
     private MovieListAdapter inTheatresMovieAdapter;
@@ -80,23 +80,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Fresco.initialize(this, imagePipelineConfig);
         FLog.setMinimumLoggingLevel(FLog.ERROR);
 
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main;
+        setContentView(R.layout.activity_main_content);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = this.getActionBar();
 
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -150,19 +149,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         context.startActivity(intent);
     }
 
-    @Override
-    public void onBackPressed()
-    {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START))
-        {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        else
-        {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed()
+//    {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START))
+//        {
+//            drawer.closeDrawer(GravityCompat.START);
+//        }
+//        else
+//        {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public void onRefresh()
@@ -179,10 +178,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         String upcomingEndDateStr = TMDB_API_DATE_FORMAT.format(cal.getTime());
 
         GetMoviesByReleaseDateRangeAsyncTask getUpcomingMoviesAsyncTask = new GetMoviesByReleaseDateRangeAsyncTask(this, 1, Integer.MAX_VALUE, upcomingMovieListAdapter, upcomingStartDateStr, upcomingEndDateStr);
+//        getUpcomingMoviesAsyncTask.execute();
         getUpcomingMoviesAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+
         GetInTheatresMoviesAsyncTask getInTheatresMoviesAsyncTask = new GetInTheatresMoviesAsyncTask(this, 1, Integer.MAX_VALUE, inTheatresMovieAdapter);
+//        getInTheatresMoviesAsyncTask.execute();
         getInTheatresMoviesAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -205,16 +208,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean onOptionsItemSelected(MenuItem menuItem)
     {
-        super.onOptionsItemSelected(item);
-        return true;
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
-    {
-        switch(menuItem.getItemId())
+        switch (menuItem.getItemId())
         {
             case R.id.nav_about:
                 Context context = this.getApplicationContext();
@@ -226,9 +222,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 Toast.makeText(this, "Unhandled menu item: " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
         return true;
     }
+
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+//    {
+//        switch(menuItem.getItemId())
+//        {
+//            case R.id.nav_about:
+//                Context context = this.getApplicationContext();
+//                Intent aboutIntent = new Intent(context, AboutActivity.class);
+//                context.startActivity(aboutIntent);
+//                break;
+//            case R.id.nav_settings:
+//            default:
+//                Toast.makeText(this, "Unhandled menu item: " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//
+//        return true;
+//    }
 }

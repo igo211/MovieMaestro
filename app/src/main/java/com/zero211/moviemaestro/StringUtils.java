@@ -65,6 +65,15 @@ public class StringUtils
 
     public static String getIMDBURIFromID(@NonNull String id)
     {
+        if (id.startsWith("nm"))
+        {
+            return getURIFromID("https://www.imdb.com/name/<ID>/", id);
+        }
+        else if (id.startsWith("tt"))
+        {
+            return getURIFromID("https://www.imdb.com/title/<ID>/", id);
+        }
+
         return getURIFromID("https://www.imdb.com/name/<ID>/", id);
     }
 

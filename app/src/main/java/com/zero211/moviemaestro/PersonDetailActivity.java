@@ -63,7 +63,9 @@ public class PersonDetailActivity extends AppCompatActivity
 
         pgLoading.setVisibility(View.VISIBLE);
         GetPersonDetailsAsyncTask getPersonDetailsAsyncTask = new GetPersonDetailsAsyncTask(this);
+//        getPersonDetailsAsyncTask.execute();
         getPersonDetailsAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
     }
 
     public int getPersonID()

@@ -25,7 +25,7 @@ import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
-    private static final String MOVIE_DETAILS_URL_PATT_STR = "movie/" + MOVIE_ID_PLACEHOLDER + "?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&append_to_response=videos%2Ccredits%2Cexternal_ids";
+    private static final String MOVIE_DETAILS_URL_PATT_STR = "movie/" + MOVIE_ID_PLACEHOLDER + "?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&append_to_response=images%2Cvideos%2Ccredits%2Cexternal_ids";
 
     private static final String OVERVIEW_PATH = "$.overview";
     private static final String BUDGET_PATH = "$.budget";
@@ -85,16 +85,9 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView txtOverview = fragmentView.findViewById(R.id.txtMovieOverview);
 
         TextView txtRuntime = fragmentView.findViewById(R.id.txtRuntime);
-        TextView txtBudget = fragmentView.findViewById(R.id.txtBudget);
-        TextView txtRevenue = fragmentView.findViewById(R.id.txtRevenue);
+        TextView txtRevenueSlashBudget = fragmentView.findViewById(R.id.txtRevenueSlashBudget);
 
         TextView txtProductionCos = fragmentView.findViewById(R.id.txtProductionCos);
-        TextView txtDirectors = fragmentView.findViewById(R.id.txtDirector);
-        TextView txtProducers = fragmentView.findViewById(R.id.txtProducers);
-        TextView txtDOPs = fragmentView.findViewById(R.id.txtDOP);
-        TextView txtWriters = fragmentView.findViewById(R.id.txtWriters);
-
-
 
         // Set the various views with their values
 
@@ -116,86 +109,86 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         List<Map<String,Object>> cast = mergedDoc.read(CAST_PATH);
         List<Map<String,Object>> crew = mergedDoc.read(CREW_PATH);
 
-        List<Map<String,Object>> exec_producers = mergedDoc.read(EXEC_PRODUCERS_PATH);
-        List<Map<String,Object>> producers = mergedDoc.read(PRODUCERS_PATH);
-        List<Map<String,Object>> castings = mergedDoc.read(CASTINGS_PATH);
-        List<Map<String,Object>> directors = mergedDoc.read(DIRECTORS_PATH);
-        List<Map<String,Object>> dops = mergedDoc.read(DOPS_PATH);
-        List<Map<String,Object>> editors = mergedDoc.read(EDITORS_PATH);
-        List<Map<String,Object>> composers = mergedDoc.read(COMPOSERS_PATH);
-        List<Map<String,Object>> music_supers = mergedDoc.read(MUSIC_SUPERS_PATH);
-        List<Map<String,Object>> writers = mergedDoc.read(WRITERS_PATH);
-        List<Map<String,Object>> screenplay_writers = mergedDoc.read(SCREENPLAY_WRITERS_PATH);
-        List<Map<String,Object>> story_writers = mergedDoc.read(STORY_WRITERS_PATH);
+//        List<Map<String,Object>> exec_producers = mergedDoc.read(EXEC_PRODUCERS_PATH);
+//        List<Map<String,Object>> producers = mergedDoc.read(PRODUCERS_PATH);
+//        List<Map<String,Object>> castings = mergedDoc.read(CASTINGS_PATH);
+//        List<Map<String,Object>> directors = mergedDoc.read(DIRECTORS_PATH);
+//        List<Map<String,Object>> dops = mergedDoc.read(DOPS_PATH);
+//        List<Map<String,Object>> editors = mergedDoc.read(EDITORS_PATH);
+//        List<Map<String,Object>> composers = mergedDoc.read(COMPOSERS_PATH);
+//        List<Map<String,Object>> music_supers = mergedDoc.read(MUSIC_SUPERS_PATH);
+//        List<Map<String,Object>> writers = mergedDoc.read(WRITERS_PATH);
+//        List<Map<String,Object>> screenplay_writers = mergedDoc.read(SCREENPLAY_WRITERS_PATH);
+//        List<Map<String,Object>> story_writers = mergedDoc.read(STORY_WRITERS_PATH);
 
-        setSocialButtons(mergedDoc, fragmentView);
 
         txtTagline.setText(tagline);
         txtOverview.setText(overview);
 
         if ((runtime != null) && (runtime >0))
         {
-            StringBuffer sb = new StringBuffer();
-
             int hours = runtime / 60;
             int minutes = runtime % 60;
 
+            String runtimeStr;
             if (hours > 0)
             {
-                sb.append(hours);
-                sb.append(" ");
-                sb.append("hr");
+                runtimeStr = activity.getString(R.string.runtime_in_hours_minutes_total_minutes, hours, minutes, runtime);
             }
-
-            if (minutes > 0)
+            else
             {
-                if (sb.length() > 0)
-                {
-                    sb.append(" ");
-                }
-
-                sb.append(minutes);
-                sb.append(" ");
-                sb.append("min");
+                runtimeStr = activity.getString(R.string.runtime_in_total_minutes, runtime);
             }
 
-            sb.append(" (");
-            sb.append(runtime);
-            sb.append(" minutes)");
-
-            txtRuntime.setText(sb.toString());
+            txtRuntime.setText(runtimeStr);
         }
 
-        if ((budget != null) && (budget > 0))
+        String revenueStr = activity.getString(R.string.unknown);
+        if (revenue != 0)
         {
-            String budgetStr = currencyFormatter.format(budget);
-
-            txtBudget.setText(budgetStr);
+            revenueStr = currencyFormatter.format(revenue);
         }
 
-        if ((revenue != null) && (revenue > 0))
+        String budgetStr = activity.getString(R.string.unknown);
+        if (budget != 0)
         {
-            String revenueStr = currencyFormatter.format(revenue);
-
-            txtRevenue.setText(revenueStr);
+            budgetStr = currencyFormatter.format(budget);
         }
+
+        String revenueSlashBudgetStr = revenueStr + "/" + budgetStr;
+
+        if ((revenue != 0) && (budget != 0))
+        {
+
+            int profitOrLoss = revenue - budget;
+            int profitOrLossAbs = Math.abs(profitOrLoss);
+            String profitOrLossAbsStr = currencyFormatter.format(profitOrLossAbs);
+
+
+            revenueSlashBudgetStr = revenueSlashBudgetStr + " ( ";
+
+            switch (Integer.signum(profitOrLoss))
+            {
+                case -1:
+                    revenueSlashBudgetStr = revenueSlashBudgetStr + activity.getString(R.string.currently_an_x_loss, profitOrLossAbsStr);
+                    break;
+                case 1:
+                    revenueSlashBudgetStr = revenueSlashBudgetStr + activity.getString(R.string.currently_an_x_profit, profitOrLossAbsStr);
+                    break;
+                case 0:
+                default:
+                    revenueSlashBudgetStr = revenueSlashBudgetStr + activity.getString(R.string.currently_break_even);
+            }
+
+            revenueSlashBudgetStr = revenueSlashBudgetStr + " )";
+        }
+
+        txtRevenueSlashBudget.setText(revenueSlashBudgetStr);
 
         String cdlStr;
 
         cdlStr = getCDLStringFromListWithNames(production_companies);
         txtProductionCos.setText(cdlStr);
-
-        cdlStr = getCDLStringFromListWithNames(directors);
-        txtDirectors.setText(cdlStr);
-
-        cdlStr = getCDLStringFromListWithNames(producers);
-        txtProducers.setText(cdlStr);
-
-        cdlStr = getCDLStringFromListWithNames(dops);
-        txtDOPs.setText(cdlStr);
-
-        cdlStr = getCDLStringFromListWithNames(screenplay_writers);
-        txtWriters.setText(cdlStr);
 
         PersonListAdapter castListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.CAST, activity, R.id.rvCastCardList, R.id.lblAsCast, null);
         castListAdapter.clearAndAddList(cast);
@@ -270,6 +263,8 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         {
             fab.hide();
         }
+
+        setSocialButtons(mergedDoc, fragmentView);
 
         ProgressBar pgLoading = activity.findViewById(R.id.pgLoading);
         pgLoading.setVisibility(View.GONE);

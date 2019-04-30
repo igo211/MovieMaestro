@@ -25,7 +25,7 @@ import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
-    private static final String PERSON_DETAILS_URL_PATT_STR = "person/" + PERSON_ID_PLACEHOLDER + "?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&append_to_response=images%2Cmovie_credits%2Cexternal_ids%2Ctagged_images";
+    private static final String PERSON_DETAILS_URL_PATT_STR = "person/" + PERSON_ID_PLACEHOLDER + "?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&append_to_response=images%2Ctagged_images%2Cmovie_credits%2Cexternal_ids";
 
     private static final String NAME_PATH = "$.name";
     private static final String ALSO_KNOWN_AS_PATH = "$.also_known_as";
@@ -134,8 +134,6 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         setTextIfNotNullAndNotEmpty(lblDeath, txtDeathdate, formattedDeathDate);
 
-        ViewGroup rootView = (ViewGroup) ((ViewGroup) personDetailActivity.findViewById(android.R.id.content)).getChildAt(0);
-        setSocialButtons(mergedDoc, rootView);
 
         if (lblDeath.getVisibility() == View.VISIBLE)
         {
@@ -157,6 +155,9 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         List<Map<String,Object>> mergedAsMovieCrew = PersonUtils.CrewListMerge(asMovieCrew);
         Collections.sort(mergedAsMovieCrew, new MovieUtils.MovieReleaseDateComparator(true));
         asCrewMovieAdapter.clearAndAddList(mergedAsMovieCrew);
-    }
 
+        ViewGroup rootView = (ViewGroup) ((ViewGroup) personDetailActivity.findViewById(android.R.id.content)).getChildAt(0);
+        setSocialButtons(mergedDoc, rootView);
+
+    }
 }

@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.cast.framework.CastContext;
 
@@ -57,6 +56,7 @@ public class MovieDetailActivity extends AppCompatActivity
                     getIntent().getStringExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL));
             MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(arguments);
+
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movie_detail_container, fragment)
                     .commit();

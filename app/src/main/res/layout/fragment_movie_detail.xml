@@ -8,11 +8,13 @@
 
     <TextView
         android:id="@+id/lblTagline"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/textLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/tagline"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -21,281 +23,187 @@
         android:id="@+id/txtTagline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/text_top_margin"
         android:text="@string/unknown_tagline"
         android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lblTagline"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblTagline"
+        />
 
     <TextView
         android:id="@+id/lblOverview"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/textLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:labelFor="@id/txtMovieOverview"
         android:onClick="overviewToggle"
         android:text="@string/overview"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTagline"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtTagline"
+        />
 
     <at.blogc.android.views.ExpandableTextView
         android:id="@+id/txtMovieOverview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/text_top_margin"
         android:ellipsize="end"
         android:maxLines="3"
         android:onClick="overviewToggle"
         android:text="@string/unknown_overview"
         android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lblOverview"
-        app:layout_constraintTop_toBottomOf="@+id/txtTagline"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblOverview"
+        />
 
     <TextView
         android:id="@+id/lblReleaseDate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/textLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/release_date"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtMovieOverview"
+        app:layout_constraintTop_toBottomOf="@+id/txtMovieOverview"
         />
 
     <TextView
         android:id="@+id/txtReleaseDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/text_top_margin"
         android:text="@string/unknown_release_date"
         android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblReleaseDate"
-        app:layout_constraintTop_toBottomOf="@id/txtMovieOverview"/>
-
-
-    <TextView
-        android:id="@+id/lblBudget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/budget"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblReleaseDate"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblReleaseDate"
+        />
+
 
     <TextView
-        android:id="@+id/txtBudget"
+        android:id="@+id/lblRevenueSlashBudget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/unknown_budget"
-        android:textColor="@color/colorText"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/textLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:text="@string/revenue_budget_label"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtReleaseDate"
+        />
+
+    <TextView
+        android:id="@+id/txtRevenueSlashBudget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/text_top_margin"
+        android:text="@string/unknown_revenue_budget"
+        android:textColor="@color/colorText"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/lblBudget"
-        app:layout_constraintTop_toBottomOf="@+id/txtReleaseDate"/>
-
-    <TextView
-        android:id="@+id/lblRevenue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/revenue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtBudget"/>
-
-    <TextView
-        android:id="@+id/txtRevenue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/unknown_revenue"
-        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/lblRevenue"
-        app:layout_constraintTop_toBottomOf="@+id/txtBudget"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblRevenueSlashBudget"
+        />
 
     <TextView
         android:id="@+id/lblRuntime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/textLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/runtime"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRevenue"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtRevenueSlashBudget"
+        />
 
     <TextView
         android:id="@+id/txtRuntime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/text_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/unknown_runtime"
         android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/lblRuntime"
-        app:layout_constraintTop_toBottomOf="@+id/txtRevenue"/>
-
-    <TextView
-        android:id="@+id/lblDirectors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/directors"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblRuntime"/>
-
-    <TextView
-        android:id="@+id/txtDirector"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/unknown_directors"
-        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblDirectors"
-        app:layout_constraintTop_toBottomOf="@+id/txtRuntime"/>
-
-    <TextView
-        android:id="@+id/txtProducers"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/unknown_producers"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblProducers"
-        app:layout_constraintTop_toBottomOf="@+id/txtDirector"/>
-
-    <TextView
-        android:id="@+id/lblProducers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/producers"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDirectors"/>
-
-    <TextView
-        android:id="@+id/lblDOP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtProducers"/>
-
-    <TextView
-        android:id="@+id/txtDOP"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/unknown_dp"
-        android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblDOP"
-        app:layout_constraintTop_toBottomOf="@+id/txtProducers"/>
-
-    <TextView
-        android:id="@+id/lblWriters"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/screenplay_writers"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDOP"/>
-
-    <TextView
-        android:id="@+id/txtWriters"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/unknown_screenplay_writers"
-        android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblWriters"
-        app:layout_constraintTop_toBottomOf="@+id/txtDOP"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblRuntime"
+        />
 
     <TextView
         android:id="@+id/lblProductionCos"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/textLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/production_companies"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtWriters"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtRuntime"
+        />
 
     <TextView
         android:id="@+id/txtProductionCos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/text_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/unknown_production_companies"
         android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lblProductionCos"
-        app:layout_constraintTop_toBottomOf="@+id/txtWriters"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblProductionCos"
+        />
 
 
     <TextView
         android:id="@+id/lblAsCast"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHorizLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/cast"
-        android:textSize="24sp"
+        android:textSize="@dimen/rvHorizLabel_textSize"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtProductionCos"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtProductionCos"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCastCardList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHoriz_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:background="@color/colorContainerBackground"
         android:orientation="horizontal"
         android:scrollbars="horizontal"
+        android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -306,47 +214,47 @@
         android:id="@+id/lblAsCrew"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHorizLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/crew"
-        android:textSize="24sp"
+        android:textSize="@dimen/rvHorizLabel_textSize"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvCastCardList"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCastCardList"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCrewCardList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHoriz_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:background="@color/colorContainerBackground"
         android:orientation="horizontal"
         android:scrollbars="horizontal"
+        android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblAsCrew">
-
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/lblAsCrew"/>
 
     <include
         layout="@layout/social_media_button_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/social_panel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/social_panel_bottom_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvCrewCardList"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCrewCardList"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

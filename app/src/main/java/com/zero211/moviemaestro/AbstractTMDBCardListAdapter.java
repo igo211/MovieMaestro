@@ -34,6 +34,7 @@ public abstract class AbstractTMDBCardListAdapter<VH extends ViewHolder> extends
 
     private Object loadingIndicator;
     private TextView label;
+    private String labelBaseStr;
     private RecyclerView recyclerView;
 
     public AbstractTMDBCardListAdapter(@NonNull Activity activity, @NonNull Integer cardLayoutID, @NonNull Integer recyclerViewID, @Nullable Integer labelID, @Nullable Integer loadingIndicatorID)
@@ -43,9 +44,11 @@ public abstract class AbstractTMDBCardListAdapter<VH extends ViewHolder> extends
 
     public AbstractTMDBCardListAdapter(@NonNull Activity activity, @NonNull Integer cardLayoutID, @NonNull Float cardsPerViewPort, @NonNull Integer recyclerViewID, @Nullable Integer labelID, @Nullable Integer loadingIndicatorID)
     {
+        Activity activity1 = activity;
         if (labelID != null)
         {
             this.label = activity.findViewById(labelID);
+            this.labelBaseStr = this.label.getText().toString();
         }
 
         if (loadingIndicatorID != null)
@@ -54,7 +57,7 @@ public abstract class AbstractTMDBCardListAdapter<VH extends ViewHolder> extends
         }
 
         this.recyclerView = activity.findViewById(recyclerViewID);
-        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         this.recyclerView.setLayoutManager(linearLayoutManager);
@@ -97,14 +100,15 @@ public abstract class AbstractTMDBCardListAdapter<VH extends ViewHolder> extends
         if ((newItemList != null) && (newItemList.size() > 0))
         {
             this.itemList.addAll(newItemList);
-            this.notifyDataSetChanged();
 
             if (this.label != null)
             {
                 this.label.setVisibility(View.VISIBLE);
+                this.label.setText(this.labelBaseStr + " (" + this.itemList.size() + ")");
             }
 
             this.recyclerView.setVisibility(View.VISIBLE);
+
         }
         else
         {
@@ -114,6 +118,7 @@ public abstract class AbstractTMDBCardListAdapter<VH extends ViewHolder> extends
             }
             this.recyclerView.setVisibility(View.GONE);
         }
+
 
         if (this.loadingIndicator != null)
         {
@@ -129,15 +134,19 @@ public abstract class AbstractTMDBCardListAdapter<VH extends ViewHolder> extends
             }
         }
 
+        this.notifyDataSetChanged();
     }
 
     public void addList(List<Map<String,Object>> listToAdd)
     {
         if ((listToAdd != null) && (listToAdd.size() > 0))
         {
+            int newItemsSize = listToAdd.size();
             int insertPos = itemList.size() - 1;
             itemList.addAll(listToAdd);
-            this.notifyItemRangeInserted(insertPos, listToAdd.size());
+            this.label.setText(this.labelBaseStr + " (" + this.itemList.size() + ")");
+
+            this.notifyItemRangeInserted(insertPos, newItemsSize);
         }
     }
 
