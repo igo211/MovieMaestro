@@ -15,10 +15,10 @@ public class GetInTheatresMoviesAsyncTask extends AbstractTMDBJSONResultFromURLT
 {
     private static final String MOVIES_URL_PATT_STR = "movie/now_playing?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&region=" + REGION_STR  + "&page=" + PAGE_PLACEHOLDER;
 
-    private MovieListAdapter movieListAdapter;
+    private TMDBCardListAdapter movieListAdapter;
     private int startPage;
 
-    public GetInTheatresMoviesAsyncTask(Context context, int startPage, int endPage, MovieListAdapter movieListAdapter)
+    public GetInTheatresMoviesAsyncTask(Context context, int startPage, int endPage, TMDBCardListAdapter movieListAdapter)
     {
         super(context, startPage, endPage, MOVIES_URL_PATT_STR);
         this.movieListAdapter = movieListAdapter;

@@ -16,15 +16,19 @@ import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 public class GetMultiSearchResultsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
     private static final String MULT_SEARCH_URL_PATT_STR = "search/multi?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&region=" + REGION_STR + "&sort_by=popularity.desc&include_adult=false&include_video=false&query=" + QUERY_PLACEHOLDER + "&page=" + PAGE_PLACEHOLDER;
+    public static final String MEDIA_TYPE_KEY = "media_type";
+    public static final String MOVIE = "movie";
+    public static final String PERSON = "person";
+    public static final String TV = "tv";
 
-    private MovieListAdapter movieListAdapter;
-    private PersonListAdapter personListAdapter;
+    private TMDBCardListAdapter movieListAdapter;
+    private TMDBCardListAdapter personListAdapter;
 
     private Context context;
 
     private int startPage;
 
-    public GetMultiSearchResultsAsyncTask(Context context, int startPage, int endPage, String query, MovieListAdapter movieListAdapter, PersonListAdapter personListAdapter)
+    public GetMultiSearchResultsAsyncTask(Context context, int startPage, int endPage, String query, TMDBCardListAdapter movieListAdapter, TMDBCardListAdapter personListAdapter)
     {
         super(context, startPage, endPage, MULT_SEARCH_URL_PATT_STR.replace(QUERY_PLACEHOLDER, query));
         this.context = context;
@@ -56,16 +60,16 @@ public class GetMultiSearchResultsAsyncTask extends AbstractTMDBJSONResultFromUR
 
         for (Map<String,Object> result : resultList)
         {
-            String media_type = (String) result.get("media_type");
+            String media_type = (String) result.get(MEDIA_TYPE_KEY);
             switch (media_type)
             {
-                case "movie":
+                case MOVIE:
                     movieList.add(result);
                     break;
-                case "person":
+                case PERSON:
                     personList.add(result);
                     break;
-                case "tv":
+                case TV:
                     // do nothing for now... TV search results are not yet supported
                     break;
                 default:
@@ -79,7 +83,7 @@ public class GetMultiSearchResultsAsyncTask extends AbstractTMDBJSONResultFromUR
 
         if (sb.length() > 0)
         {
-            Toast.makeText(context, "Unhandled media_types in search results: '" + sb.toString() + "'", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getResources().getString(R.string.unhandled_media_type_in_search_results) + sb.toString() + "'", Toast.LENGTH_LONG).show();
         }
 
         Collections.sort(movieList, new MovieUtils.MovieReleaseDateComparator(true));

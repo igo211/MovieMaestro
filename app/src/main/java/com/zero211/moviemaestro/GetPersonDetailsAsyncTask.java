@@ -14,14 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.zero211.moviemaestro.DateFormatUtils.getAge;
-import static com.zero211.moviemaestro.DateFormatUtils.getDateFromTMDBDateStr;
-import static com.zero211.moviemaestro.DateFormatUtils.getLongDateStrFromDate;
-import static com.zero211.moviemaestro.StringUtils.getFBURIFromID;
-import static com.zero211.moviemaestro.StringUtils.getIMDBURIFromID;
-import static com.zero211.moviemaestro.StringUtils.getInstaURIFromID;
-import static com.zero211.moviemaestro.StringUtils.getTwitterURIFromID;
+import static com.zero211.moviemaestro.DateFormatUtils.*;
+import static com.zero211.moviemaestro.UIUtils.*;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
+
 
 public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 {
@@ -39,6 +35,10 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
     private static final String AS_MOVIE_CAST_PATH = "$.movie_credits.cast";
     private static final String AS_MOVIE_CREW_PATH = "$.movie_credits.crew";
+
+    private static final String IMAGES_PROFILES_PATH = "$.images.profiles[?(@.aspect_ratio == 0.66666666666667)]";
+    private static final String IMAGES_TAGGED_MOVIE_PATH = "$.tagged_images.results[?((@.media_type == 'movie') && (@.aspect_ratio == 1.7777777777778))]";
+
 
     private PersonDetailActivity personDetailActivity;
 
@@ -97,7 +97,7 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
             if (deathDate != null)
             {
-                ageStr = String.valueOf(age) + " (would have been " + String.valueOf(notDeadAge) + " if still alive)";
+                ageStr = String.valueOf(age) + " (" + personDetailActivity.getString(R.string.would_have_been_age, notDeadAge) + ")";
             }
             else
             {
@@ -109,6 +109,9 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         List<Map<String,Object>> asMovieCast = mergedDoc.read(AS_MOVIE_CAST_PATH);
         List<Map<String,Object>> asMovieCrew = mergedDoc.read(AS_MOVIE_CREW_PATH);
+
+        List<Map<String,Object>> profileImages = mergedDoc.read(IMAGES_PROFILES_PATH);
+        List<Map<String,Object>> taggedMovieImages = mergedDoc.read(IMAGES_TAGGED_MOVIE_PATH);
 
         TextView lblAlsoKnownAs = personDetailActivity.findViewById(R.id.lblAlsoKnownAs);
         TextView txtAlsoKnownAs = personDetailActivity.findViewById(R.id.txtAlsoKnownAs);
@@ -126,7 +129,7 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         TextView lblBiography = personDetailActivity.findViewById(R.id.lblBiography);
         TextView txtBiography = personDetailActivity.findViewById(R.id.txtBiography);
 
-        setTextIfNotNullAndNotEmpty(lblAlsoKnownAs, txtAlsoKnownAs, firstAKAForLocale);
+        UIUtils.setTextIfNotNullAndNotEmpty(lblAlsoKnownAs, txtAlsoKnownAs, firstAKAForLocale);
 
         setTextIfNotNullAndNotEmpty(txtBirthdate, formattedBirthDateStr);
         setTextIfNotNullAndNotEmpty(txtPlaceOfBirth, birthplace);
@@ -145,16 +148,21 @@ public class GetPersonDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
         setTextIfNotNullAndNotEmpty(lblBiography, txtBiography, biography);
 
 
-        MovieListAdapter asCastMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CAST, personDetailActivity, R.id.rvAsCast, R.id.lblAsCast, null);
+        TMDBCardListAdapter asCastMovieListAdapter = new TMDBCardListAdapter(personDetailActivity, TMDBCardListAdapter.CARDTYPE.AS_CAST,  R.id.rvAsCast, R.id.lblAsCast, null);
         Collections.sort(asMovieCast, new MovieUtils.MovieReleaseDateComparator(true));
         asCastMovieListAdapter.clearAndAddList(asMovieCast);
 
-        MovieListAdapter asCrewMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.AS_CREW, personDetailActivity, R.id.rvAsCrew, R.id.lblAsCrew, R.id.pgLoading);
-
+        TMDBCardListAdapter asCrewMovieAdapter = new TMDBCardListAdapter(personDetailActivity, TMDBCardListAdapter.CARDTYPE.AS_CREW,  R.id.rvAsCrew, R.id.lblAsCrew, null);
         Collections.sort(asMovieCrew, new PersonUtils.CrewDeptAndJobComparator());
         List<Map<String,Object>> mergedAsMovieCrew = PersonUtils.CrewListMerge(asMovieCrew);
         Collections.sort(mergedAsMovieCrew, new MovieUtils.MovieReleaseDateComparator(true));
         asCrewMovieAdapter.clearAndAddList(mergedAsMovieCrew);
+
+        TMDBCardListAdapter profilesListAdapter = new TMDBCardListAdapter(personDetailActivity, TMDBCardListAdapter.CARDTYPE.DATED_PERSON_PROFILE,  R.id.rvProfiles, R.id.lblProfiles, null);
+        profilesListAdapter.clearAndAddList(profileImages);
+
+        TMDBCardListAdapter movieStillsListAdapter = new TMDBCardListAdapter(personDetailActivity, TMDBCardListAdapter.CARDTYPE.DATED_MOVIE_BACKDROP,  R.id.rvMovieStills, R.id.lblMovieStills, R.id.pgLoading);
+        movieStillsListAdapter.clearAndAddList(taggedMovieImages);
 
         ViewGroup rootView = (ViewGroup) ((ViewGroup) personDetailActivity.findViewById(android.R.id.content)).getChildAt(0);
         setSocialButtons(mergedDoc, rootView);

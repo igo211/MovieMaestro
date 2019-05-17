@@ -72,7 +72,7 @@
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginTop="@dimen/textLabel_top_margin"
         android:layout_marginEnd="@dimen/default_margin"
-        android:text="@string/release_date"
+        android:text="@string/release_dates_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMovieOverview"
@@ -243,6 +243,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblAsCrew"/>
 
+    <TextView
+        android:id="@+id/lblPosters"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHorizLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:text="@string/posters_label"
+        android:textSize="@dimen/rvHorizLabel_textSize"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCrewCardList"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPostersCardList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHoriz_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@color/colorContainerBackground"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        android:visibility="invisible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblPosters"/>
+
+    <TextView
+        android:id="@+id/lblBackdrops"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHorizLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:text="@string/backdrops_label"
+        android:textSize="@dimen/rvHorizLabel_textSize"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvPostersCardList"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBackdropsCardList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHoriz_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@color/colorContainerBackground"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        android:visibility="invisible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblBackdrops"/>
+
     <include
         layout="@layout/social_media_button_panel"
         android:layout_width="match_parent"
@@ -253,7 +319,7 @@
         android:layout_marginBottom="@dimen/social_panel_bottom_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvCrewCardList"
+        app:layout_constraintTop_toBottomOf="@+id/rvBackdropsCardList"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

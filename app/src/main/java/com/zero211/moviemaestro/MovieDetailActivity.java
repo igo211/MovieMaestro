@@ -18,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import at.blogc.android.views.ExpandableTextView;
 
+import static com.zero211.moviemaestro.DateFormatUtils.*;
+import static com.zero211.moviemaestro.UIUtils.*;
+
 public class MovieDetailActivity extends AppCompatActivity
 {
     private CastContext mCastContext;
@@ -77,7 +80,7 @@ public class MovieDetailActivity extends AppCompatActivity
     }
 
 
-    public void personDetails(View view)
+    public void orig_personDetails(View view)
     {
         Map<String,Object> itemData = (Map<String, Object>) view.getTag();
         //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("name") + "' with id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();

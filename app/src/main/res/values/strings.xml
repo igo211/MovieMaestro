@@ -96,8 +96,8 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="search_results">Search Results</string>
     <string name="goto_instagram_account">Goto Instagram account</string>
     <string name="go_to_facebook_account">Go to Facebook account</string>
-    <string name="revenue_budget_label">Revenue/Budget:</string>
-    <string name="unknown_revenue_budget">Unknown Revenue/Budget</string>
+    <string name="revenue_budget_label">Revenue / Budget:</string>
+    <string name="unknown_revenue_budget">Unknown Revenue / Budget</string>
     <string name="minutes_short">min</string>
     <string name="hours_short">hr</string>
     <string name="minutes">minutes</string>
@@ -107,4 +107,21 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="currently_break_even">currently break-even</string>
     <string name="runtime_in_hours_minutes_total_minutes">%d hr %d min ( %d minutes )</string>
     <string name="runtime_in_total_minutes">%d minutes</string>
+    <string name="runtime_in_hours_total_minutes">%d hr (%d minutes)</string>
+    <string name="images_label">Images</string>
+    <string name="profiles_label">Profiles</string>
+    <string name="movie_stills_label">Movie Stills</string>
+    <string name="would_have_been_age">would have been %d if still alive</string>
+    <string name="unknown_person_name">Unknown Person Name</string>
+    <string name="unhandled_media_type_in_search_results">Unhandled media_types in search results: \'</string>
+    <string name="unknown_cardlist_type">Unhandled card type in TMDBCardListAdapter: %s</string>
+    <string name="backdrops_label">Backdrops</string>
+    <string name="posters_label">Posters</string>
+    <string name="release_dates_label">Release Dates:</string>
+    <string name="premiere">Premiere</string>
+    <string name="limited_theatrical">Limited Theatrical</string>
+    <string name="theatrical">Theatrical</string>
+    <string name="digital">Digital</string>
+    <string name="physical">Physical</string>
+    <string name="tv">TV</string>
 </resources>

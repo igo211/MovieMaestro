@@ -41,8 +41,8 @@ public class SearchResultsActivity extends AppCompatActivity
         {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            MovieListAdapter movieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.SEARCH_RESULT, this, R.id.rvMovieSearchResultsCardList, R.id.lblMovieSearchResults, null);
-            PersonListAdapter personListAdapter = new PersonListAdapter(PersonListAdapter.PERSON_TYPE.SEARCH_RESULT, this, R.id.rvPeopleSearchResultsCardList, R.id.lblPeopleSearchResults, R.id.pgLoading);
+            TMDBCardListAdapter movieListAdapter = new TMDBCardListAdapter(this, TMDBCardListAdapter.CARDTYPE.MOVIE_SEARCH_RESULT, R.id.rvMovieSearchResultsCardList, R.id.lblMovieSearchResults, null);
+            TMDBCardListAdapter personListAdapter = new TMDBCardListAdapter(this, TMDBCardListAdapter.CARDTYPE.PERSON_SEARCH_RESULT, R.id.rvPeopleSearchResultsCardList, R.id.lblPeopleSearchResults, R.id.pgLoading);
 
             GetMultiSearchResultsAsyncTask getMultiSearchResultsAsyncTask = new GetMultiSearchResultsAsyncTask(this, 1, Integer.MAX_VALUE, query, movieListAdapter, personListAdapter);
 

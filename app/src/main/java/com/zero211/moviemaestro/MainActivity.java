@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     //private NavigationView navigationView;
 
-    private MovieListAdapter upcomingMovieListAdapter;
-    private MovieListAdapter inTheatresMovieAdapter;
+    private TMDBCardListAdapter upcomingMovieListAdapter;
+    private TMDBCardListAdapter inTheatresMovieAdapter;
 
     private CastContext mCastContext;
     private MenuItem mediaRouteMenuItem;
@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        inTheatresMovieAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.IN_THEATRES, this, R.id.rvInTheatresMovieCardList, R.id.lblInTheatresNow, null);
-        upcomingMovieListAdapter = new MovieListAdapter(MovieListAdapter.MOVIE_TYPE.COMING_SOON, this, R.id.rvUpcomingMovieCardList, R.id.lblUpcomingMovies, R.id.swiperefresh);
+        inTheatresMovieAdapter = new TMDBCardListAdapter(this, TMDBCardListAdapter.CARDTYPE.IN_THEATRES,  R.id.rvInTheatresMovieCardList, R.id.lblInTheatresNow, null);
+        upcomingMovieListAdapter = new TMDBCardListAdapter(this, TMDBCardListAdapter.CARDTYPE.COMING_SOON,  R.id.rvUpcomingMovieCardList, R.id.lblUpcomingMovies, R.id.swiperefresh);
 
         swipeRefreshLayout.setRefreshing(true);
         this.onRefresh();

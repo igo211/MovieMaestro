@@ -20,6 +20,11 @@ public class StringUtils
         return ((str == null) || (str.trim().length() == 0));
     }
 
+    public static boolean isNotNullOrEmpty(@Nullable String str)
+    {
+        return !isNullOrEmpty(str);
+    }
+
     public static boolean isPureAscii(String v)
     {
         return StandardCharsets.US_ASCII.newEncoder().canEncode(v);
@@ -65,6 +70,11 @@ public class StringUtils
 
     public static String getIMDBURIFromID(@NonNull String id)
     {
+        if (isNullOrEmpty(id))
+        {
+            return null;
+        }
+
         if (id.startsWith("nm"))
         {
             return getURIFromID("https://www.imdb.com/name/<ID>/", id);

@@ -16,6 +16,7 @@ public class DateFormatUtils
     private static final DateFormat SHORT_THIS_YEAR_DATE_FORMAT = new SimpleDateFormat("MMM d");
     private static final DateFormat LONG_DATE_FORMAT = new SimpleDateFormat("MMMM d, yyyy");
     private static final DateFormat JUST_YEAR_FORMAT = new SimpleDateFormat("yyyy");
+    private static final DateFormat EXIF_DATETIME_ORIGINAL_FORMAT = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
     private static String getFormattedDateStrFromTMDBDateStr(DateFormat formater, String tmdb_date_str)
     {
@@ -110,6 +111,20 @@ public class DateFormatUtils
     public static String getJustYearDateStrFromTMDBDateStr(String tmdb_date_str)
     {
         return getFormattedDateStrFromTMDBDateStr(JUST_YEAR_FORMAT, tmdb_date_str);
+    }
+
+    public static Date getDateFromExifDateTimeOriginal(String exifDateTimeOrigStr)
+    {
+        try
+        {
+            Date date = EXIF_DATETIME_ORIGINAL_FORMAT.parse(exifDateTimeOrigStr);
+            return date;
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

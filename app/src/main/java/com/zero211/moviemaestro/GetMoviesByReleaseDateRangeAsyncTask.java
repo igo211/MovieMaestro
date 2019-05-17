@@ -15,10 +15,10 @@ public class GetMoviesByReleaseDateRangeAsyncTask extends AbstractTMDBJSONResult
 {
     private static final String MOVIES_URL_PATT_STR = "discover/movie?api_key=" + API_KEY_PLACEHOLDER + "&language=" + LOCALE_STR + "&region=" + REGION_STR + "&sort_by=release_date.asc&include_adult=false&include_video=false&release_date.gte=" + START_DATE_PLACEHOLDER + "&release_date.lte=" + END_DATE_PLACEHOLDER + "&with_release_type=2%7C3&page=" + PAGE_PLACEHOLDER;
 
-    private MovieListAdapter movieListAdapter;
+    private TMDBCardListAdapter movieListAdapter;
     private int startPage;
 
-    public GetMoviesByReleaseDateRangeAsyncTask(Context context, int startPage, int endPage, MovieListAdapter movieListAdapter, String startDateStr, String endDateStr)
+    public GetMoviesByReleaseDateRangeAsyncTask(Context context, int startPage, int endPage, TMDBCardListAdapter movieListAdapter, String startDateStr, String endDateStr)
     {
         super(context, startPage, endPage, MOVIES_URL_PATT_STR.replace(START_DATE_PLACEHOLDER, startDateStr).replace(END_DATE_PLACEHOLDER, endDateStr));
         this.movieListAdapter = movieListAdapter;

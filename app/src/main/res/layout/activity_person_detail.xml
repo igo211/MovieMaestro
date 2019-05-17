@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content">
 
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/imgPersonPoster"
+                    android:id="@+id/img"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="8dp"
@@ -61,31 +61,7 @@
                     fresco:failureImage="@drawable/error_during_download"
                     fresco:placeholderImage="@color/colorFrescoPlaceholder"/>
 
-                <TextView
-                    android:id="@+id/lblAlsoKnownAs"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/also_known_as_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
 
-                <TextView
-                    android:id="@+id/txtAlsoKnownAs"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/unknown"
-                    android:textColor="@color/colorText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                    app:layout_constraintTop_toBottomOf="@id/lblAlsoKnownAs"/>
 
                 <TextView
                     android:id="@+id/lblBorn"
@@ -97,8 +73,8 @@
                     android:text="@string/born_label"
                     android:textColor="@color/colorLabel"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                    app:layout_constraintTop_toBottomOf="@id/txtAlsoKnownAs"
+                    app:layout_constraintStart_toEndOf="@id/img"
+                    app:layout_constraintTop_toTopOf="parent"
                     />
 
                 <TextView
@@ -111,7 +87,7 @@
                     android:text="@string/unknown"
                     android:textColor="@color/colorText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                    app:layout_constraintStart_toEndOf="@id/img"
                     app:layout_constraintTop_toBottomOf="@id/lblBorn"/>
 
                 <TextView
@@ -124,7 +100,7 @@
                     android:text="@string/unknown"
                     android:textColor="@color/colorText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                    app:layout_constraintStart_toEndOf="@id/img"
                     app:layout_constraintTop_toBottomOf="@id/txtBirthDate"/>
 
                 <TextView
@@ -137,7 +113,7 @@
                     android:text="@string/age_label"
                     android:textColor="@color/colorLabel"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imgPersonPoster"
+                    app:layout_constraintStart_toEndOf="@+id/img"
                     app:layout_constraintTop_toBottomOf="@+id/txtBirthPlace"
                     />
 
@@ -151,7 +127,7 @@
                     android:text="@string/unknown"
                     android:textColor="@color/colorText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                    app:layout_constraintStart_toEndOf="@id/img"
                     app:layout_constraintTop_toBottomOf="@id/lblAge"
                     />
 
@@ -166,7 +142,7 @@
                     android:text="@string/died_label"
                     android:textColor="@color/colorLabel"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
+                    app:layout_constraintStart_toEndOf="@id/img"
                     app:layout_constraintBottom_toTopOf="@id/txtDeathDate"/>
 
                 <TextView
@@ -179,10 +155,34 @@
                     android:text="@string/unknown"
                     android:textColor="@color/colorText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imgPersonPoster"
-                    app:layout_constraintBottom_toBottomOf="@id/imgPersonPoster"/>
+                    app:layout_constraintStart_toEndOf="@id/img"
+                    app:layout_constraintBottom_toBottomOf="@id/img"/>
 
+                <TextView
+                    android:id="@+id/lblAlsoKnownAs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/also_known_as_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img"
+                    />
 
+                <TextView
+                    android:id="@+id/txtAlsoKnownAs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/unknown"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblAlsoKnownAs"/>
 
                 <TextView
                     android:id="@+id/lblBiography"
@@ -195,7 +195,7 @@
                     android:textColor="@color/colorLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imgPersonPoster"/>
+                    app:layout_constraintTop_toBottomOf="@id/txtAlsoKnownAs"/>
 
                 <at.blogc.android.views.ExpandableTextView
                     android:id="@+id/txtBiography"
@@ -271,6 +271,64 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblAsCrew"/>
 
+                <TextView
+                    android:id="@+id/lblProfiles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/profiles_label"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvAsCrew"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvProfiles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/colorContainerBackground"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblProfiles"/>
+
+                <TextView
+                    android:id="@+id/lblMovieStills"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/movie_stills_label"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvProfiles"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMovieStills"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/colorContainerBackground"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblMovieStills"/>
+
                 <include
                     layout="@layout/social_media_button_panel"
                     android:layout_width="match_parent"
@@ -282,7 +340,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvAsCrew"/>
+                    app:layout_constraintTop_toBottomOf="@+id/rvMovieStills"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

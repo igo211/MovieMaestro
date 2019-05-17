@@ -58,7 +58,7 @@ public class PersonDetailActivity extends AppCompatActivity
 
         toolbar.setTitle(this.name);
 
-        SimpleDraweeView profile_pic = findViewById(R.id.imgPersonPoster);
+        SimpleDraweeView profile_pic = findViewById(R.id.img);
         profile_pic.setImageURI(this.profile_img_full_path);
 
         pgLoading.setVisibility(View.VISIBLE);
@@ -92,18 +92,22 @@ public class PersonDetailActivity extends AppCompatActivity
         startActivity(launchBrowser);
     }
 
-    public void movieDetails(View view)
+    public void orig_movieDetails(View view)
     {
         Map<String,Object> itemData = (Map<String, Object>) view.getTag();
         //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("title") + "' with movie id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
 
         Context context = view.getContext();
 
+        Integer id = (Integer)(itemData.get("id"));
+        String title = (String)(itemData.get("title"));
+        String releaseDateStr;
+
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, (Integer)(itemData.get("id")));
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_TITLE, (String) itemData.get("title"));
-        intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
         intent.putExtra(MovieDetailFragment.ARG_MOVIE_RELEASE_DATE, (String) itemData.get("release_date"));
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_BACKDROP_URL, (String) itemData.get("backdrop_img_full_path"));
 
         context.startActivity(intent);
     }

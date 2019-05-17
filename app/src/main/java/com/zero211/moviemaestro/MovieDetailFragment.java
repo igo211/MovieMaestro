@@ -63,7 +63,7 @@ public class MovieDetailFragment extends Fragment
         if (getArguments().containsKey(ARG_MOVIE_BACKDROP_URL))
         {
             movieBackdropUrl = getArguments().getString(ARG_MOVIE_BACKDROP_URL);
-            imgMovieBackdrop = (SimpleDraweeView) activity.findViewById(R.id.imgMoviePoster);
+            imgMovieBackdrop = (SimpleDraweeView) activity.findViewById(R.id.img);
 
         }
 

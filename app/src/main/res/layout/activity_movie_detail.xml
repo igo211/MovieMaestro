@@ -27,7 +27,7 @@
             app:toolbarId="@+id/movie_detail_toolbar">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/imgMoviePoster"
+                android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="0dp"

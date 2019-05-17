@@ -12,27 +12,29 @@
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/personContraintLayout"
+        android:id="@+id/personCardContraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/imgPersonPoster"
+            android:id="@+id/img"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/image_border_rectangle"
             android:contentDescription="@string/person_backdrop_label"
-            android:onClick="personDetails"
             android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/txtPersonName"
             app:layout_constraintDimensionRatio="H,2:3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1.0"
+            app:layout_goneMarginBottom="8dp"
             fresco:fadeDuration="1000"
             fresco:failureImage="@drawable/error_during_download"
             fresco:placeholderImage="@color/colorFrescoPlaceholder"/>
@@ -42,16 +44,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:minLines="2"
+            android:layout_marginBottom="8dp"
+            app:layout_goneMarginBottom="8dp"
             android:maxLines="3"
+            android:minLines="2"
             android:singleLine="false"
-            android:text="@string/unknown"
+            android:text="@string/unknown_person_name"
             android:textColor="@color/colorText"
+            app:layout_constraintBottom_toTopOf="@+id/txtSecondLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgPersonPoster"
+            app:layout_constraintTop_toBottomOf="@+id/img"
             app:layout_constraintVertical_chainStyle="spread_inside"/>
 
         <TextView
