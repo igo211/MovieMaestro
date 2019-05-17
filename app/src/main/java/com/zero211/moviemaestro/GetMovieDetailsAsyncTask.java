@@ -3,15 +3,12 @@ package com.zero211.moviemaestro;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jayway.jsonpath.DocumentContext;
 import com.zero211.utils.http.HttpStringResponse;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.Collections;
@@ -20,8 +17,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.zero211.moviemaestro.DateFormatUtils.*;
-import static com.zero211.moviemaestro.UIUtils.*;
 import static com.zero211.utils.http.HttpUtils.INTERNAL_ERROR_PATH;
 
 public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
@@ -36,8 +31,6 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
     private static final String PRODUCTION_COMPANIES_PATH = "$.production_companies";
     private static final String GENRES_PATH = "$.genres";
-    private static final String IMAGES_BACKDROPS_PATH = "$.images.backdrops";
-    private static final String IMAGES_POSTERS_PATH = "$.images.posters";
     private static final String VIDEOS_PATH = "$.videos.results";
     private static final String CAST_PATH = "$.credits.cast";
     private static final String CREW_PATH = "$.credits.crew";
@@ -212,14 +205,13 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
                 }
 
                 sb.append(typeDisplayName);
-                sb.append(": ");
+                sb.append(":\n    ");
                 sb.append(shortReleaseDateStr);
 
                 if (StringUtils.isNotNullOrEmpty(note))
                 {
-                    sb.append("  ( ");
+                    sb.append(" - ");
                     sb.append(note);
-                    sb.append(" )");
                 }
             }
 
@@ -301,7 +293,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         String cdlStr;
 
-        cdlStr = UIUtils.getCDLStringFromListWithNames(production_companies);
+        cdlStr = UIUtils.getNDLStringFromListWithNames(production_companies);
         UIUtils.setTextIfNotNullAndNotEmpty(lblProductionCos, txtProductionCos, cdlStr);
 
         TMDBCardListAdapter castListAdapter = new TMDBCardListAdapter(activity, TMDBCardListAdapter.CARDTYPE.CAST, R.id.rvCastCardList, R.id.lblAsCast, null);
@@ -317,6 +309,9 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
         TMDBCardListAdapter backdropsListAdapter = new TMDBCardListAdapter(activity, TMDBCardListAdapter.CARDTYPE.DATED_MOVIE_BACKDROP, R.id.rvBackdropsCardList, R.id.lblBackdrops, null);
         backdropsListAdapter.clearAndAddList(backdrops);
+
+        TMDBCardListAdapter videosListAdapter = new TMDBCardListAdapter(activity, TMDBCardListAdapter.CARDTYPE.MOVIE_TRAILER_LAUNCHER, R.id.rvVideosCardList, R.id.lblVideos, null);
+        videosListAdapter.clearAndAddList(videos);
 
         // process trailers looking for: Final Trailer, Official Trailer 5, Official Trailer 4, etc.
         // default to the first trailer found if none match the desired patterns
@@ -364,7 +359,7 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
 
             //int[] orderediTags = {22, 303, 248, 299, 137, 302, 247, 298, 136};
 
-            // TODO: Convert to ITagOrderedYouTubeURLFabSetter.ITag enums
+            // TODO: Convert to ITagOrderedYouTubeURLImageAndButtonSetter.ITag enums
             int[] orderediTags = {
                     46,
                     37,
@@ -374,9 +369,8 @@ public class GetMovieDetailsAsyncTask extends AbstractTMDBJSONResultFromURLTask
                     43
             };
 
-            ITagOrderedYouTubeURLFabSetter iTagOrderedYouTubeURLFabSetter = new ITagOrderedYouTubeURLFabSetter(activity, key, name, orderediTags ,fab);
-            iTagOrderedYouTubeURLFabSetter.setFab();
-
+            ITagOrderedYouTubeURLImageAndButtonSetter iTagOrderedYouTubeURLImageAndButtonSetter = new ITagOrderedYouTubeURLImageAndButtonSetter(activity, key, name, orderediTags ,fab);
+            iTagOrderedYouTubeURLImageAndButtonSetter.setPlayButtonAndStillImage();
         }
         else
         {

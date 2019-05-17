@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import com.google.android.gms.cast.framework.CastContext;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -22,15 +21,11 @@ public class MoviePlayerActivity extends AppCompatActivity
     public static final String ARG_VIDEO_URL = "video_url";
 
     private Toolbar toolbar;
-    private CastContext mCastContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        // Setup the Cast context
-        mCastContext = CastContext.getSharedInstance(this);
 
         String movieTitle = getIntent().getStringExtra(ARG_MOVIE_TITLE);
         String movieUrlStr = getIntent().getStringExtra(ARG_VIDEO_URL);

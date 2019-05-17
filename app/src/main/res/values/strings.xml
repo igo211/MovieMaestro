@@ -124,4 +124,6 @@ Ut placerat orci nulla pellentesque. Adipiscing vitae proin sagittis nisl. Neque
     <string name="digital">Digital</string>
     <string name="physical">Physical</string>
     <string name="tv">TV</string>
+    <string name="play_movie_trailer">Play Movie Trailer</string>
+    <string name="videos_label">Videos</string>
 </resources>

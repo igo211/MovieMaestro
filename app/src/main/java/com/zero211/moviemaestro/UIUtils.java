@@ -26,6 +26,16 @@ public class UIUtils
 {
     public static String getCDLStringFromListWithNames(List<Map<String,Object>> items)
     {
+        return getDLStringFromListWithNames(items, ", ");
+    }
+
+    public static String getNDLStringFromListWithNames(List<Map<String,Object>> items)
+    {
+        return getDLStringFromListWithNames(items, "\n");
+    }
+
+    public static String getDLStringFromListWithNames(List<Map<String,Object>> items, String delimiter)
+    {
         StringBuffer sb = new StringBuffer();
 
         if ((items == null) || (items.size() == 0))
@@ -38,7 +48,7 @@ public class UIUtils
             String name = (String)(item.get("name"));
             if (sb.length() > 0)
             {
-                sb.append(", ");
+                sb.append(delimiter);
             }
             sb.append(name);
         }

@@ -2,17 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-                                   android:id="@+id/personCard"
+                                   xmlns:tools="http://schemas.android.com/tools"
+                                   android:id="@+id/trailerCard"
                                    android:layout_width="match_parent"
                                    android:layout_height="match_parent"
                                    android:background="@color/colorCardBackground"
+                                   android:visibility="visible"
                                    app:cardBackgroundColor="@color/colorCardBackground"
                                    app:cardPreventCornerOverlap="true"
                                    app:cardUseCompatPadding="true"
                                    app:contentPadding="@dimen/card_padding">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/personCardContraintLayout"
+        android:id="@+id/trailerCardConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,53 +26,53 @@
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:background="@drawable/image_border_rectangle"
-            android:contentDescription="@string/person_backdrop_label"
+            android:contentDescription="@string/movie_backdrop_label"
             android:scaleType="fitXY"
-            app:layout_constraintDimensionRatio="H,2:3"
+            app:layout_constraintDimensionRatio="H,16:9"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1.0"
-            app:layout_goneMarginBottom="8dp"
             fresco:fadeDuration="1000"
             fresco:failureImage="@drawable/error_during_download"
             fresco:placeholderImage="@color/colorFrescoPlaceholder"/>
 
+        <ImageView
+            android:id="@+id/playbuttonimg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:contentDescription="@string/play_movie_trailer"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/play_button_16x9_overlay"/>
+
         <TextView
-            android:id="@+id/txtPersonName"
+            android:id="@+id/txtMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
+            android:lineSpacingExtra="-4dp"
             android:maxLines="3"
-            android:minLines="2"
+            android:minLines="3"
             android:singleLine="false"
-            android:text="@string/unknown_person_name"
-            android:textColor="@color/colorText"
-            app:layout_constraintBottom_toTopOf="@+id/txtSecondLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="spread_inside"
-            app:layout_goneMarginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/txtSecondLine"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:text="@string/unknown"
+            android:text="@string/unknown_movie_title"
             android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/img"
+            app:layout_constraintVertical_bias="0.01999998"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.gms.cast.framework.CastContext;
-
 import java.util.Map;
 
 import androidx.appcompat.app.ActionBar;
@@ -23,16 +21,12 @@ import static com.zero211.moviemaestro.UIUtils.*;
 
 public class MovieDetailActivity extends AppCompatActivity
 {
-    private CastContext mCastContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
-        // Setup the Cast context
-        mCastContext = CastContext.getSharedInstance(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
         setSupportActionBar(toolbar);
@@ -77,21 +71,6 @@ public class MovieDetailActivity extends AppCompatActivity
         Uri uri = Uri.parse(uriStr);
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(launchBrowser);
-    }
-
-
-    public void orig_personDetails(View view)
-    {
-        Map<String,Object> itemData = (Map<String, Object>) view.getTag();
-        //Toast.makeText(this, "Would have navigated and shown details for '" + itemData.get("name") + "' with id: " + itemData.get("id") ,Toast.LENGTH_LONG).show();
-
-        Context context = view.getContext();
-
-        Intent intent = new Intent(context, PersonDetailActivity.class);
-        intent.putExtra(PersonDetailActivity.ARG_PERSON_ID, (Integer)(itemData.get("id")));
-        intent.putExtra(PersonDetailActivity.ARG_NAME, (String) itemData.get("name"));
-        intent.putExtra(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH, (String) itemData.get(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH));
-        context.startActivity(intent);
     }
 
     public void overviewToggle(View v)

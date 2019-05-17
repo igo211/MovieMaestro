@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
                                    android:id="@+id/movieCard"
                                    android:layout_width="match_parent"
                                    android:layout_height="match_parent"
@@ -10,7 +11,7 @@
                                    app:cardBackgroundColor="@color/colorCardBackground"
                                    app:cardPreventCornerOverlap="true"
                                    app:cardUseCompatPadding="true"
-    >
+                                   app:contentPadding="@dimen/card_padding">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/movieCardConstraintLayout"
@@ -21,21 +22,17 @@
             android:id="@+id/img"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
             android:background="@drawable/image_border_rectangle"
             android:contentDescription="@string/movie_backdrop_label"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toTopOf="@+id/txtMovieTitle"
             app:layout_constraintDimensionRatio="H,2:3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1.0"
-            app:layout_goneMarginBottom="8dp"
             fresco:fadeDuration="1000"
             fresco:failureImage="@drawable/error_during_download"
             fresco:placeholderImage="@color/colorFrescoPlaceholder"/>
@@ -44,52 +41,51 @@
             android:id="@+id/txtMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:lineSpacingExtra="-4dp"
             android:maxLines="3"
-            android:minLines="2"
             android:singleLine="false"
             android:text="@string/unknown_movie_title"
             android:textColor="@color/colorText"
-            app:layout_goneMarginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtCharacterOrJob"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintVertical_chainStyle="spread_inside"/>
+            />
 
         <TextView
             android:id="@+id/txtCharacterOrJob"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="1dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="1dp"
+
+            android:layout_marginBottom="2dp"
+            android:maxLines="3"
+            android:singleLine="false"
             android:text="@string/unknown_character_or_job"
             android:textColor="@color/colorText"
-            app:layout_goneMarginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/txtMovieReleaseDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"/>
+            app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"
+            app:layout_constraintVertical_bias="0.8"/>
 
         <TextView
             android:id="@+id/txtMovieReleaseDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
             android:text="@string/unknown_movie_release_date"
             android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCharacterOrJob"/>
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

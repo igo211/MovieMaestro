@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    >
 
     <TextView
         android:id="@+id/lblTagline"
@@ -309,6 +311,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblBackdrops"/>
 
+    <TextView
+        android:id="@+id/lblVideos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHorizLabel_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:text="@string/videos_label"
+        android:textSize="@dimen/rvHorizLabel_textSize"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvBackdropsCardList"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvVideosCardList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/rvHoriz_top_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@color/colorContainerBackground"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        android:visibility="invisible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblVideos"/>
+
     <include
         layout="@layout/social_media_button_panel"
         android:layout_width="match_parent"
@@ -319,7 +354,7 @@
         android:layout_marginBottom="@dimen/social_panel_bottom_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvBackdropsCardList"
+        app:layout_constraintTop_toBottomOf="@+id/rvVideosCardList"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

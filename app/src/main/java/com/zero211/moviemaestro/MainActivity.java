@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.cast.framework.CastButtonFactory;
-import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.widget.SearchView;
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private TMDBCardListAdapter upcomingMovieListAdapter;
     private TMDBCardListAdapter inTheatresMovieAdapter;
 
-    private CastContext mCastContext;
     private MenuItem mediaRouteMenuItem;
 
 
@@ -64,11 +61,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        // Setup the Cast context
-        mCastContext = CastContext.getSharedInstance(this);
-
-
 
         // Set up Facebook's Fresco lib for simplified image downloading, processing, and cache management...
         Set<RequestListener> requestListeners = new HashSet<>();
@@ -192,8 +184,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.activity_main_actionbar, menu);
-
-        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(), menu, R.id.media_route_menu_item);
 
         // Get the SearchView and set the searchable configuration
 

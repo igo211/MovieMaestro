@@ -9,7 +9,7 @@
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="social_panel_top_margin">16dp</dimen>
     <dimen name="social_panel_bottom_margin">16dp</dimen>
-    <dimen name="social_icon_size">32dp</dimen>
+    <dimen name="social_icon_size">28dp</dimen>
     <dimen name="social_icon_inner_margin">8dp</dimen>
     <dimen name="social_icon_outer_margin">16dp</dimen>
     <dimen name="social_icon_top_margin">8dp</dimen>
@@ -19,4 +19,5 @@
     <dimen name="rvHorizLabel_textSize">24sp</dimen>
     <dimen name="rvHorizLabel_top_margin">24dp</dimen>
     <dimen name="rvHoriz_top_margin">8dp</dimen>
+    <dimen name="card_padding">4dp</dimen>
 </resources>

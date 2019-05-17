@@ -3,33 +3,17 @@ package com.zero211.moviemaestro;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Animatable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.binaryresource.BinaryResource;
-import com.facebook.binaryresource.FileBinaryResource;
-import com.facebook.cache.common.CacheKey;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.controller.AbstractDraweeController;
-import com.facebook.drawee.controller.BaseControllerListener;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory;
-import com.facebook.imagepipeline.core.ImagePipelineFactory;
-import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.exifinterface.media.ExifInterface;
 
 import static com.zero211.moviemaestro.DateFormatUtils.*;
 
@@ -70,6 +53,9 @@ public class TMDBCardListAdapter extends Adapter
     public static final String CHARACTER_KEY = "character";
     public static final String PROFILE_PATH_KEY = "profile_path";
     public static final String NAME_KEY = "name";
+    public static final String KEY_KEY = "key";
+    public static final String SITE_KEY = "site";
+    public static final String TYPE_KEY = "type";
     public static final String GENDER_KEY = "gender";
     public static final String BACKDROP_IMG_FULL_PATH_KEY = "backdrop_img_full_path";
     public static final String POSTER_IMG_FULL_PATH_KEY = "poster_img_full_path";
@@ -100,7 +86,8 @@ public class TMDBCardListAdapter extends Adapter
         PERSON_SEARCH_RESULT(R.layout.person_card, 2.5f, PersonViewHolder.class),
         DATED_PERSON_PROFILE(R.layout.person_card, 2.5f, PersonViewHolder.class),
         DATED_MOVIE_BACKDROP(R.layout.movie_card, 1.5f, MovieViewHolder.class),
-        DATED_MOVIE_POSTER(R.layout.movie_card, 2.5f, MovieViewHolder.class)
+        DATED_MOVIE_POSTER(R.layout.movie_card, 2.5f, MovieViewHolder.class),
+        MOVIE_TRAILER_LAUNCHER(R.layout.trailer_card, 1.5f, TrailerViewHolder.class);
         ;
 
         private static final CARDTYPE[] CARDTYPESARRAY = CARDTYPE.values();
@@ -205,7 +192,37 @@ public class TMDBCardListAdapter extends Adapter
             case DATED_PERSON_PROFILE:
                 bindPersonViewHolder(viewHolder, cardtype, itemData);
                 return;
+            case MOVIE_TRAILER_LAUNCHER:
+                bindTrailerViewHolder(viewHolder, cardtype, itemData);
+                return;
         }
+    }
+
+
+    private void bindTrailerViewHolder(@NonNull ViewHolder viewHolder, @NonNull CARDTYPE cardType, @NonNull Map<String, Object> itemData)
+    {
+        TrailerViewHolder trailerViewHolder = (TrailerViewHolder) viewHolder;
+        trailerViewHolder.img.setTag(itemData);
+
+        String name = (String)(itemData.get(NAME_KEY));
+        String key = (String)(itemData.get(KEY_KEY));
+        String site = (String)(itemData.get(SITE_KEY));
+        String type = (String)(itemData.get(TYPE_KEY));
+
+        // TODO: Convert to ITagOrderedYouTubeURLImageAndButtonSetter.ITag enums
+        int[] orderediTags = {
+                46,
+                37,
+                45,
+                22,
+                18,
+                43
+        };
+
+        ITagOrderedYouTubeURLImageAndButtonSetter iTagOrderedYouTubeURLImageAndButtonSetter = new ITagOrderedYouTubeURLImageAndButtonSetter(activity, key, name, orderediTags , trailerViewHolder.playButtonImg, trailerViewHolder.img);
+        iTagOrderedYouTubeURLImageAndButtonSetter.setPlayButtonAndStillImage();
+
+        trailerViewHolder.txtMovieTitle.setText(name);
     }
 
     public void personDetails(View v)
@@ -213,8 +230,8 @@ public class TMDBCardListAdapter extends Adapter
         Map<String, Object> itemData = (Map<String, Object>)(v.getTag());
         Context context = v.getContext();
 
-        Integer id = (Integer)(itemData.get("id"));
-        String name = (String)(itemData.get("name"));
+        Integer id = (Integer)(itemData.get(ID_KEY));
+        String name = (String)(itemData.get(NAME_KEY));
         String profile_img_full_path = (String)(itemData.get(PersonDetailActivity.ARG_PROFILE_IMG_FULL_PATH));
 
         if ((id != null) && (!StringUtils.isNullOrEmpty(name)) && (!StringUtils.isNullOrEmpty(profile_img_full_path)))
@@ -227,7 +244,6 @@ public class TMDBCardListAdapter extends Adapter
         }
 
     }
-
 
 
 
@@ -650,6 +666,25 @@ public class TMDBCardListAdapter extends Adapter
         return cardtype.ordinal();
     }
 
+    public static class TrailerViewHolder extends RecyclerView.ViewHolder
+    {
+        protected ConstraintLayout layout;
+        protected SimpleDraweeView img;
+        protected ImageView playButtonImg;
+        protected TextView txtMovieTitle;
+        protected TextView txtMovieReleaseDate;
+
+        public TrailerViewHolder(View v)
+        {
+            super(v);
+            layout = v.findViewById(R.id.movieCardConstraintLayout);
+            img = v.findViewById(R.id.img);
+            playButtonImg = v.findViewById(R.id.playbuttonimg);
+            txtMovieTitle = v.findViewById(R.id.txtMovieTitle);
+            txtMovieReleaseDate = v.findViewById(R.id.txtMovieReleaseDate);
+        }
+    }
+
     public static class MovieViewHolder extends RecyclerView.ViewHolder
     {
         protected SimpleDraweeView img;
@@ -686,67 +721,4 @@ public class TMDBCardListAdapter extends Adapter
         }
     }
 
-    public class ExifDateExtractorControllerListener extends BaseControllerListener<ImageInfo>
-    {
-        private TextView txtDate;
-        private ImageRequest imageRequest;
-
-        public ExifDateExtractorControllerListener(ImageRequest imageRequest, TextView txtDate)
-        {
-            this.imageRequest = imageRequest;
-            this.txtDate = txtDate;
-        }
-
-        @Override
-        public void onFinalImageSet (String id, ImageInfo imageInfo, Animatable animatable)
-        {
-            CacheKey cacheKey = DefaultCacheKeyFactory.getInstance().getEncodedCacheKey(this.imageRequest, null);
-            BinaryResource resource = ImagePipelineFactory.getInstance().getMainFileCache().getResource(cacheKey);
-
-            File file = ((FileBinaryResource)resource).getFile();
-            try
-            {
-                ExifInterface exifInterface = new ExifInterface(file);
-                String dateTimeOrigStr = exifInterface.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL);
-                String dateTimeStr = exifInterface.getAttribute(ExifInterface.TAG_DATETIME);
-                String dateTimeDigitizedStr = exifInterface.getAttribute(ExifInterface.TAG_DATETIME_DIGITIZED);
-                String gpsDateTimeStampStr = exifInterface.getAttribute(ExifInterface.TAG_GPS_DATESTAMP);
-
-                String bestDateTimeStr;
-                if (!StringUtils.isNullOrEmpty(dateTimeOrigStr))
-                {
-                    bestDateTimeStr = dateTimeOrigStr;
-                }
-                else if (!StringUtils.isNullOrEmpty(dateTimeDigitizedStr))
-                {
-                    bestDateTimeStr = dateTimeDigitizedStr;
-                }
-                else if (!StringUtils.isNullOrEmpty(gpsDateTimeStampStr))
-                {
-                    bestDateTimeStr = gpsDateTimeStampStr;
-                }
-                else
-                {
-                    bestDateTimeStr = dateTimeStr;
-                }
-
-                if (!StringUtils.isNullOrEmpty(bestDateTimeStr))
-                {
-                    Date date = DateFormatUtils.getDateFromExifDateTimeOriginal(bestDateTimeStr);
-                    if (date != null)
-                    {
-                        String formattedDateStr = DateFormatUtils.getJustYearDateStrFromTMDBDate(date);
-                        UIUtils.setTextIfNotNullAndNotEmpty(txtDate, formattedDateStr);
-                    }
-                }
-
-
-            }
-            catch (IOException ioe)
-            {
-                // TODO: What todo?
-            }
-
-        }
-    }
 }
